@@ -16,7 +16,7 @@
     <div class="container">
         <h2>Register</h2>
 
-        <form class="col s12" method="POST" action="registered.php">
+        <form class="col s12" method="POST" action="signup.php">
             <div class="row">
                 <div class="input-field col s6">
                     <input placeholder="First Name" id="first_name" type="text" class="validate" name="first_name">
