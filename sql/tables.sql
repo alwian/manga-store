@@ -30,6 +30,14 @@ CREATE TABLE IF NOT EXISTS `books`(
     PRIMARY KEY (`book_id`)
 );
 
+-- Genre Table
+CREATE TABLE IF NOT EXISTS `genres`(
+    `book_id` INT(11) NOT NULL,
+    `genre` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`book_id`, `genre`),
+    FOREIGN KEY (`book_id`) REFERENCES books(`book_id`)
+);
+
 -- Cart Table
 CREATE TABLE IF NOT EXISTS `cart`(
     `user_id` INT (11) NOT NULL,
