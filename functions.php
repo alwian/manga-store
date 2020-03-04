@@ -19,14 +19,14 @@ class Book
         $content = <<<EOD
         <div class="card medium">
         <div class="card-image">
-            <img src="{$this->image}">
+            <img src="{$this->image} ">
             <span class="card-title">{$this->title}</span>
         </div>
         <div class="card-content">
             <p>{$this->id}</p>
         </div>
         <div class="card-action">
-            <a href="#">This is a link {$this->index}</a>
+            <a href="/page.php/{$this->id}">This is a link {$this->index}</a>
         </div>
     </div>
     EOD;
