@@ -4,3 +4,23 @@
   .icon-block .material-icons {
       font-size: inherit;
   }
+
+ul.navbar-nav{
+    width: 20%;
+}
+
+li.nav-item{
+    margin: auto;
+}
+
+.navbar{
+    background-color: #121212;
+}
+
+.navbar a{
+    color: rgba(239, 239, 239, 0.5);;
+}
+
+.navbar a:hover{
+    color: rgba(239, 239, 239, 0.8);
+}

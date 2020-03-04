@@ -1,17 +1,14 @@
-<nav class="blue lighten-1" role="navigation">
-    <div class="nav-wrapper container">
-        <a href="index" id="logo-container" class="brand-logo">Manga Store</a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="login.php">Login</a></li>
-            <li><a href="signup.php">Sign Up</a></li>
-        </ul>
-        <ul id="nav-mobile" class="sidenav">
-            <li><a href="login.php">Login</a></li>
-            <li><a href="signup.php">Sign Up</a></li>
-            <li><a href="#">About Us</a></li>
-        </ul>
-        <a href="#" data-target="nav-mobile" class="sidenav-trigger">
-            <i class="material-icons">menu</i>
-        </a>
+<nav class="navbar navbar-expand-lg" role="navigation">
+    <div class="container">    
+        <a class="navbar-brand js-scroll-trigger" href="index.php">Manga Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="#navbarResponsive" aria-label="Toggle navigation">
+            Menu
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="login.php">Login</a></li>
+                <li class="nav-item"><a href="signup.php">Sign Up</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
