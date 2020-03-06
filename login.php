@@ -9,37 +9,27 @@
     <title>Manga Store - Login</title>
     <!--Import materialize.css-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <?php require "header.php"; ?>
 
-    <div class="container">
-        <h3>Login</h3>
+    <div class="page-container">
+        <h2>Login</h2>
 
-        <form class="col s12" method="POST">
-            <div class="row">
-                <div class="input-field col s12">
-                    <input placeholder="Username" id="username" type="text" class="validate">
-                    <label for="username">Username</label>
-                </div>
+        <form class="forms">
+            <div class="form-group">
+                <label for="InputEmail">Email address</label>
+                <input type="email" class="form-control" id="InputPassword" aria-describedby="emailHelp" placeholder="Email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
-
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="password" type="password" class="validate">
-                    <label for="password">Password</label>
-                </div>
+            <div class="form-group">
+                <label for="InputPassword">Password</label>
+                <input type="password" class="form-control" id="InputPassword" placeholder="Password">
             </div>
-
-            <button class="btn waves-effect waves-light right" type="submit" name="action">
-                Submit
-                <i class="material-icons right">send</i>
-            </button>
-            <span>
-
-            </span>
+            <button type="submit" class="btn btn-primary" id="login-button">Submit</button>
         </form>
     </div>
 
