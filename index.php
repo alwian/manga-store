@@ -20,7 +20,7 @@
         require "header.php";
         require "functions.php";
     ?>
-    <div class="catalogue">
+    <div class="page-container">
         <h2>Catalogue</h2>
         <div class="items">
             <?php populateView();?>
