@@ -17,17 +17,18 @@ class Book
     public function displayCard()
     {
         $content = <<<EOD
-        <div class="card">
-            <img src="{$this->image}" class="card-img-top" alt="{$this->title}" style="width: 100%;">
-            <div class="card-body">
-                <h5 class="card-title">{$this->title}</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <div class="buttons" style="display: flex; flex-direction: row; position:absolute; bottom: 1rem;">
-                    <a href="#{$this->index}page" class="btn btn-primary">View</a>
-                    <a href="#cart" class="btn btn-primary" style="left: 5rem;">Buy Now</a>
-                </div>
-            </div>
+        <div class="card medium">
+        <div class="card-image">
+            <img src="{$this->image} ">
+            <span class="card-title">{$this->title}</span>
         </div>
+        <div class="card-content">
+            <p>{$this->id}</p>
+        </div>
+        <div class="card-action">
+            <a href="/page.php/{$this->id}">This is a link {$this->index}</a>
+        </div>
+    </div>
     EOD;
         echo $content;
     }
