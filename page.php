@@ -33,10 +33,11 @@ $author = $RESPONSE->author;
     <title><?php echo $author ?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="../css/materialize.min.css" media="screen,projection" />
 </head>
 <body>
 <?php
+require ("header.php");
 // Valid Page with JSON
 $categories = $RESPONSE->categories;
 $description = $RESPONSE->description;
@@ -52,9 +53,24 @@ foreach ($categories as $entry) {
     echo $entry . '<br>';
 }
 echo '<br>';
-echo $description . '<br>';?>
+echo $description . '<br>'; ?>
 
 <img src=<?php echo $IMG_CDN_URL ?> referrerpolicy='no-referrer'/></img>
+<?php
+$chapters = $RESPONSE->chapters;
+foreach (array_reverse($chapters) as $chapter) {
+    $chapterNum = $chapter[0];
+    $chapterDate = $chapter[1];
+    $chapterTitle = $chapter[2];
+    $chapterID = $chapter[3];
 
+    echo "<br><button><a href='../chapter.php/{$chapterID}'>Chapter {$chapterTitle}</a></button>";
+}
+
+?>
+
+    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
