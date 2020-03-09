@@ -25,7 +25,8 @@ class User
         $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute(array($this->first_name, $this->last_name, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $this->phone, $this->image, $this->bio, $this->type));
-            return $this->conn->lastInsertId();
+            $this->user_id = $this->conn->lastInsertId();
+            return $this->user_id;
         } catch (PDOException $e) {
             //echo $e->getMessage();
             return null;
