@@ -1,7 +1,12 @@
-DROP TABLE shipping_information; 
-DROP TABLE sold_books;
+DROP TABLE shipping_information;
+DROP TABLE sold_items;
 DROP TABLE orders;
 DROP TABLE genres;
-DROP TABLE books;
-DROP TABLE cart;
-DROP TABLE accounts;
+DROP TABLE cart_items;
+DROP TABLE wishlist_items;
+DROP TABLE subscriptions;
+DROP TABLE subscription_plans;
+DROP TABLE seller_reviews;
+DROP TABLE seller_requests;
+DROP TABLE items;
+DROP TABLE users;
