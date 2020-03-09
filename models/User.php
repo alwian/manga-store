@@ -32,4 +32,16 @@ class User
             return null;
         }
     }
+
+    public function exists() {
+        $query = "SELECT email FROM $this->table WHERE email = ?";
+        $stmt = $this->conn->prepare($query);
+        try {
+            $stmt->execute(array($this->email));
+            return ($stmt->rowCount() > 0);
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
 }
