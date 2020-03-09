@@ -44,4 +44,22 @@ class User
             return null;
         }
     }
+
+    public function checkLogin() {
+        $query = "SELECT email, password FROM $this->table WHERE email = ?";
+        $stmt = $this->conn->prepare($query);
+        try {
+            $stmt->execute(array($this->email));
+            if ($stmt->rowCount() == 1) {
+                $stmt->bindColumn('password', $hashed_password);
+                $stmt->fetch(PDO::FETCH_BOUND);
+                return password_verify($this->password, $hashed_password);
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }
