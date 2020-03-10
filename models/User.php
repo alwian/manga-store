@@ -127,7 +127,7 @@ class User
                 return false;
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
