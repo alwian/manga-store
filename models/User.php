@@ -115,14 +115,20 @@ class User
      * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
     public function checkLogin() {
-        $query = "SELECT email, password FROM $this->table WHERE email = ?";
+        $query = "SELECT user_id, email, password FROM $this->table WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute(array($this->email));
             if ($stmt->rowCount() == 1) {
                 $stmt->bindColumn('password', $hashed_password); // Extract the hashed password of the found user.
+                $stmt->bindColumn('user_id', $user_id);
                 $stmt->fetch(PDO::FETCH_BOUND);
-                return password_verify($this->password, $hashed_password); // Check the given password matches the found password.
+                // Check the given password matches the found password.
+                if (password_verify($this->password, $hashed_password)) {
+                    $this->user_id = $user_id;
+                    return true;
+                }
+                return false;
             } else {
                 return false;
             }

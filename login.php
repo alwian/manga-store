@@ -1,46 +1,45 @@
 <?php
-    include_once 'config/Database.php';
-    include_once 'models/User.php';
-    session_start();
-    $errorMsg = null;
+include_once 'config/Database.php';
+include_once 'models/User.php';
+session_start();
 
+// If the user is already logged in, take them to the homepage.
+if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
+    header("Location: index.php");
+}
 
-    //if user logged then bring user to homepage
-    if($_SESSION['Logged'] == true){
-        header("Location: index.php");
-    }
-    //Login
-    //check if the the form been submitted
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        //check all the required information is been set and not empty
-        if(isset($_POST['email']) && !empty($_POST['email'])
-            && isset($_POST['password']) && !empty($_POST['password'])
-            ){
-            //connect to db
-            $db = new Database();
-            $user = new User($db->connect());
-            //check if the email is exists
-            $user->email = $_POST['email'];
-            if($user->exists()!=null){
-                //check if the password matches the database
-                $user->password = $_POST['password'];
-                //check the password from db
-                if($user->checkLogin()){
-                    $_SESSION['email'] = $user->email;
-                    $_SESSION['Logged'] = true;
-                    header("Location: index.php");
-                }else{
-                    $errorMsg = "Sorry, the login information is incorrect.";
-                }
+$errorMsg = null;
 
+// Check if the the form been submitted.
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // Check all the required information has been set and is not empty.
+    if(isset($_POST['email']) && !empty($_POST['email'])
+        && isset($_POST['password']) && !empty($_POST['password'])
+        ){
+        // Connect to db
+        $db = new Database();
+        $user = new User($db->connect());
+        // Check if the email is exists.
+        $user->email = $_POST['email'];
+        if($user->exists()!=null){
+            // Check if the password matches the database.
+            $user->password = $_POST['password'];
+            // Check the password is correct.
+            if($user->checkLogin()){
+                $_SESSION['id'] = $user->user_id;
+                $_SESSION['Logged'] = true;
+                header("Location: index.php");
             }else{
-                $errorMsg = "Sorry, the login information is incorrect.";
+                $errorMsg = "Login failed, incorrect email or password.";
             }
-        }else{
-            $errorMsg = "Sorry, some of the field is still empty.";
-        }
-    }
 
+        }else{
+            $errorMsg = "Login failed, incorrect email or password.";
+        }
+    }else{
+        $errorMsg = "All fields required.";
+    }
+}
 ?>
 <!DOCTYPE html>
 
@@ -74,7 +73,7 @@
                 <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-primary" id="login-button">Submit</button>
-            <p class="form-text text-muted"><?php echo$errorMsg ?></p>
+            <p class="form-text text-danger"><?php echo$errorMsg ?></p>
         </form>
     </div>
 

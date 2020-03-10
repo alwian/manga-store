@@ -2,50 +2,51 @@
 include_once 'config/Database.php';
 include_once 'models/User.php';
 session_start();
-$errorMsg = null;
 
-
-//if user logged then bring user to homepage
-if($_SESSION['Logged'] == true){
+// If the user is already logged in, take them to the homepage.
+if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
     header("Location: index.php");
 }
-//register
-//check if the the form been submited
+
+$errorMsg = null;
+
+// Check if the the form been submitted.
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    //check all the required information is been set and not empty
+    // Check all the required information has been set and is not empty.
     if(isset($_POST['first_name']) && !empty($_POST['first_name'])
-        && isset($_POST['lastname']) && !empty($_POST['lastname'])
+        && isset($_POST['last_name']) && !empty($_POST['last_name'])
         && isset($_POST['email']) && !empty($_POST['email'])
         && isset($_POST['password']) && !empty($_POST['password'])
         && isset($_POST['verify']) && !empty($_POST['verify'])){
-        //connect to db
+        // Connect to db
         $db = new Database();
         $user = new User($db->connect());
-        //check if the email is already registered
+        // Check if the email is already registered
         $user->email = $_POST['email'];
-        if($user->exists()==null){
-            //check if the password and re-enter are the same
+        if($user->exists() == null){
+            // Check if the password and re-enter are the same.
             if($_POST['password'] == $_POST['verify']){
-                //put the variables
+                // Set the user details.
                 $user->first_name = $_POST['first_name'];
-                $user->last_name = $_POST['lastname'];
+                $user->last_name = $_POST['last_name'];
                 $user->password = $_POST['password'];
                 $user->type = "consumer";
-
-                //create a account
-                $user->create();
-                $_SESSION['Logged'] = true;
-                $_SESSION['email'] = $user->email;
-                header("Location: index.php");
-
+                // Create a new account
+                if ($user->create() != null) {
+                    $_SESSION['Logged'] = true;
+                    $_SESSION['id'] = $user->user_id;
+                    header("Location: index.php");
+                } else {
+                    $errorMsg = "Something went wrong on our end.";
+                }
             }else{
-                $errorMsg = "Sorry, the password and the verify password doesn't match.";
+                $errorMsg = "Password and verify password do not match.";
             }
         }else{
-            $errorMsg = "Sorry, the email address is already exists";
+            $errorMsg = "This email is already in use.";
         }
     }else{
-        $errorMsg = "Sorry, some of the field is still empty.";
+        $errorMsg = "All fields required.";
     }
 }
 
@@ -80,7 +81,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div id="lastname">
                             <label for="InputLastName">Last Name</label>
-                            <input type="text" class="form-control" id="InputLastName" name="lastname" placeholder="Last name">
+                            <input type="text" class="form-control" id="InputLastName" name="last_name" placeholder="Last name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -90,7 +91,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div id="country">
                             <label for="SelectCountry">Country</label>
-                            <select type="dropdown" class="form-control" id="SelectCountry" name="country" placeholder="Country">
+                            <select type="dropdown" class="form-control" id="SelectCountry" name="country">
                                 <option>Canada</option>
                                 <option>England</option>
                             </select>
@@ -124,7 +125,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" id="signup-button">Submit</button>
-            <p class="form-text text-muted"><?php echo $errorMsg;?></p>
+            <p class="form-text text-danger"><?php echo $errorMsg;?></p>
         </form>
     </div>
 
