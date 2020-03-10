@@ -1,9 +1,15 @@
 <?php
 include_once 'config/Database.php';
 include_once 'models/User.php';
-
-//register
+session_start();
 $errorMsg = null;
+
+
+//if user logged then bring user to homepage
+if($_SESSION['Logged'] == true){
+    header("Location: index.php");
+}
+//register
 //check if the the form been submited
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     //check all the required information is been set and not empty
@@ -28,6 +34,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 //create a account
                 $user->create();
+                $_SESSION['Logged'] = true;
+                $_SESSION['email'] = $user->email;
+                header("Location: index.php");
 
             }else{
                 $errorMsg = "Sorry, the password and the verify password doesn't match.";

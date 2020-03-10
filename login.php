@@ -1,8 +1,14 @@
 <?php
     include_once 'config/Database.php';
     include_once 'models/User.php';
+    session_start();
     $errorMsg = null;
 
+
+    //if user logged then bring user to homepage
+    if($_SESSION['Logged'] == true){
+        header("Location: index.php");
+    }
     //Login
     //check if the the form been submitted
     if($_SERVER["REQUEST_METHOD"] == "POST"){
