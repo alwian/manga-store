@@ -3,31 +3,43 @@ include_once 'config/Database.php';
 include_once 'models/User.php';
 
 //register
-if(isset($_POST['first_name']) && isset($_POST['lastname']) && isset($_POST['email'])
-    && isset($_POST['password']) && isset($_POST['verify'])){
-    //connect to db
-    $db = new Database();
-    $user = new User($db->connect());
-    //check if the email is already registered
-    $user->email = $_POST['email'];
-    if($user->exists()==null){
-        //check if the password and re-enter are the same
-        if($_POST['password'] == $_POST['verify']){
-            //put the variables
-            $user->first_name = $_POST['first_name'];
-            $user->last_name = $_POST['lastname'];
-            $user->password = $_POST['password'];
-            $user->type = "consumer";
+$errorMsg = null;
+//check if the the form been submited
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    //check all the required information is been set and not empty
+    if(isset($_POST['first_name']) && !empty($_POST['first_name'])
+        && isset($_POST['lastname']) && !empty($_POST['lastname'])
+        && isset($_POST['email']) && !empty($_POST['email'])
+        && isset($_POST['password']) && !empty($_POST['password'])
+        && isset($_POST['verify']) && !empty($_POST['verify'])){
+        //connect to db
+        $db = new Database();
+        $user = new User($db->connect());
+        //check if the email is already registered
+        $user->email = $_POST['email'];
+        if($user->exists()==null){
+            //check if the password and re-enter are the same
+            if($_POST['password'] == $_POST['verify']){
+                //put the variables
+                $user->first_name = $_POST['first_name'];
+                $user->last_name = $_POST['lastname'];
+                $user->password = $_POST['password'];
+                $user->type = "consumer";
 
-            //create a account
-            $user->create();
+                //create a account
+                $user->create();
 
+            }else{
+                $errorMsg = "Sorry, the password and the verify password doesn't match.";
+            }
+        }else{
+            $errorMsg = "Sorry, the email address is already exists";
         }
-
+    }else{
+        $errorMsg = "Sorry, some of the field is still empty.";
     }
-
-
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -103,6 +115,7 @@ if(isset($_POST['first_name']) && isset($_POST['lastname']) && isset($_POST['ema
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" id="signup-button">Submit</button>
+            <p class="form-text text-muted"><?php echo $errorMsg;?></p>
         </form>
     </div>
 
@@ -114,5 +127,4 @@ if(isset($_POST['first_name']) && isset($_POST['lastname']) && isset($_POST['ema
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
     <script type="text/javascript" src="js/strength.js"></script>
 </body>
-
 </html>
