@@ -100,10 +100,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
                 <div id="right-forms">
                     <div class="form-group">
-                        <!-- <div id="lastname">
-                            <label for="InputLastName">Last Name</label>
-                            <input type="text" class="form-control" id="InputLastName" placeholder="Last named">
-                        </div> -->
                         <div id="email">
                             <label for="InputEmail">Email address</label>
                             <input type="email" class="form-control" id="InputPassword" name="email" aria-describedby="emailHelp" placeholder="Email">
