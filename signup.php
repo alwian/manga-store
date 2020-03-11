@@ -52,7 +52,7 @@
                         </div> -->
                         <div id="email">
                             <label for="InputEmail">Email address</label>
-                            <input type="email" class="form-control" id="InputPassword" aria-describedby="emailHelp" placeholder="Email">
+                            <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Email">
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                     </div>
