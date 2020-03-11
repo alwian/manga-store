@@ -102,7 +102,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="form-group">
                         <div id="email">
                             <label for="InputEmail">Email address</label>
-                            <input type="email" class="form-control" id="InputPassword" name="email" aria-describedby="emailHelp" placeholder="Email">
+                            <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Email">
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                     </div>
