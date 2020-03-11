@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <nav class="navbar navbar-expand-lg" role="navigation">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="index.php">Manga Store</a>
