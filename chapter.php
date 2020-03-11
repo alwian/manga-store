@@ -46,6 +46,6 @@ foreach ($RESPONSE as $data) {
     $height = $data[3];
     $img_link = $IMG_CDN_URL . $img_url;
     // echo $img_link . "<br>";
-    echo "<img src='{$img_link}' referrerpolicy='no-referrer' alt='{$id}' decoding='sync' height='{$height}' width='{$width}'/>";
+    echo "<img src='{$img_link}' referrerpolicy='no-referrer' alt='{$id}' loading='lazy' decoding='sync' height='{$height}' width='{$width}'/>";
 }
 ?>
