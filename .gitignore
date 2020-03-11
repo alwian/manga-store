@@ -1,3 +1,5 @@
 3172.php
 config.php
 .vscode/
+.idea/
+/config/Database.php

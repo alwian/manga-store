@@ -10,27 +10,26 @@
     <title>Manga Store</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    
 </head>
 
 <body>
     <?php
-require "header.php";
-require "functions.php";
-?>
-    <div class="container">
-        <h2>Index</h2>
-        <div class="row">
-            <div class="col s12 m4 l2">
-                <?php populateView();?>
-            </div>
+        require "header.php";
+        require "functions.php";
+    ?>
+    <div class="page-container">
+        <h2>Catalogue</h2>
+        <div class="items">
+            <?php populateView();?>
         </div>
-
     </div>
 
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
 </body>
 
