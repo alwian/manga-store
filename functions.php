@@ -1,6 +1,6 @@
 <?php
-// include ('config.php');
-session_start();
+// this file contains my logic for connecting to the DB.
+include 'config.php';
 class Book
 {
     public $index;
@@ -52,4 +52,26 @@ function populateView()
         $book->displayCard();
     }
     ;
+}
+
+function displayBestBooks()
+{
+    global $mysql;
+    $query = "SELECT * FROM `recomendations`";
+    $result = $mysql->query($query);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // echo $row['title'] . " " . $row['link'] . "  " . $row['image'] . "<br>";
+            $books = new Book();
+            $books->title = $row['title'];
+            $books->id = $row['link'];
+            $books->image = "https://cdn.mangaeden.com/mangasimg/" . $row['image'];
+            $books->displayCard();
+
+        }
+
+    } else {
+        echo "Error: " . $mysql . "<br>" . $mysql->error;
+
+    }
 }

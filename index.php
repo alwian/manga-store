@@ -12,18 +12,23 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
     <link type="text/css" rel="stylesheet" href="css/style.css">
-    
+
 </head>
 
 <body>
-    <?php
-        require "header.php";
-        require "functions.php";
-    ?>
+<?php
+require "header.php";
+require "functions.php";
+?>
     <div class="page-container">
+        <h2>Best Sellers</h2>
+        <div class="items">
+
+        <?php displayBestBooks(); ?>
+</div>
         <h2>Catalogue</h2>
         <div class="items">
-            <?php populateView();?>
+            <?php populateView(); ?>
         </div>
     </div>
 
