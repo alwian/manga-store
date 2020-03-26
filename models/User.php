@@ -1,8 +1,8 @@
 <?php
 class User
 {
-    private $__table = 'users';
-    private $__conn;
+    private $table = 'users';
+    private $conn;
 
     /**
      * The ID of this user in the database.
