@@ -21,6 +21,10 @@
         require "functions.php";
     ?>
     <div class="page-container">
+        <h2>Best Sellers</h2>
+        <div class="items">
+            <?php displayBestBooks(); ?>
+        </div>
         <h2>Catalogue</h2>
         <div class="items">
             <?php populateView();?>
