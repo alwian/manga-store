@@ -14,18 +14,22 @@ class Cart
     }
 
     public function update() {
-        $query = "INSERT INTO $this->table (user_id, item_id, quantity) VALUES (:user_id, :item_id, :quantity) ON DUPLICATE KEY UPDATE quantity = :quantity";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":user_id", $this->user_id);
-        $stmt->bindParam(":item_id", $this->item_id);
-        $stmt->bindParam(":quantity", $this->quantity);
+        if ($this->quantity === 0) {
+            return $this->deleteItem();
+        } else {
+            $query = "INSERT INTO $this->table (user_id, item_id, quantity) VALUES (:user_id, :item_id, :quantity) ON DUPLICATE KEY UPDATE quantity = :quantity";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":user_id", $this->user_id);
+            $stmt->bindParam(":item_id", $this->item_id);
+            $stmt->bindParam(":quantity", $this->quantity);
 
-        try {
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return null;
+            try {
+                $stmt->execute();
+                return true;
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+                return null;
+            }
         }
     }
 
@@ -44,6 +48,17 @@ class Cart
     }
 
     private function deleteItem() {
-        echo 'Not yet implemented.';
+        $query = "DELETE FROM $this->table WHERE user_id = :user_id AND item_id = :item_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+        $stmt->bindParam(":item_id", $this->item_id);
+
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
     }
 }
