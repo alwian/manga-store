@@ -58,6 +58,7 @@ $author = $obj->author;
         <img src=<?php echo $IMG_CDN_URL ?> referrerpolicy='no-referrer'/></img>
         <?php
         $chapters = $obj->chapters;
+
         foreach (array_reverse($chapters) as $chapter) {
             $chapterNum = $chapter[0];
             $chapterDate = $chapter[1];
@@ -66,7 +67,6 @@ $author = $obj->author;
 
             echo "<br><button><a href='../chapter.php/{$chapterID}'>Chapter {$chapterTitle}</a></button>";
         }
-
     ?>
 
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
