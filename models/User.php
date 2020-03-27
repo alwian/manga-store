@@ -60,7 +60,7 @@ class User
 
     /**
      * User constructor.
-     * @param $conn
+     * @param $conn Database connection for the class to utilise.
      */
     public function __construct($conn)
     {
