@@ -1,8 +1,8 @@
 <?php
 class Queries{
 
-    private $__conn;
-    private $__query;
+    private $conn;
+    private $query;
 
     /**
      * Queries constructor.
