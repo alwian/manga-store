@@ -17,7 +17,9 @@
                         echo "<li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>";
                     }else{
                         echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
-                              <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>";
+                              <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>
+                               <li class=\"nav-item\"><a href=\"dashboard.php\">Dashboard</a></li>
+                              ";
                     }
                 ?>
 

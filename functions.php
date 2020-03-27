@@ -24,7 +24,7 @@ class Book
                 <h5 class="card-title">{$this->title}</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 <div class="buttons" style="display: flex; flex-direction: row; position:absolute; bottom: 1rem;">
-                    <a href="page.php/{$this->id}" class="btn btn-primary">View</a>
+                    <a href="page.php/?id={$this->id}" class="btn btn-primary">View</a>
                     <a href="#cart" class="btn btn-primary" style="left: 5rem;">Buy Now</a>
                 </div>
             </div>

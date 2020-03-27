@@ -3,8 +3,8 @@ class Database
 {
     private $dbname = 'csci3172g1';
     private $host = 'db.cs.dal.ca';
-    private $username = '';
-    private $password = '';
+    private $username = 'jiashu';
+    private $password = 'eF3ubPFYPXZgrGV6fnMx7w9gQ';
     private $conn;
 
     public function connect() {
