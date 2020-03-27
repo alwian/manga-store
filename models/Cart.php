@@ -34,7 +34,7 @@ class Cart
     }
 
     public function getItems() {
-        $query = "SELECT item_id, quantity FROM $this->table WHERE user_id = :user_id";
+        $query = "SELECT c.item_id, c.quantity, i.price * c.quantity as price FROM $this->table c, items i WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
 
@@ -46,6 +46,8 @@ class Cart
             return null;
         }
     }
+
+
 
     private function deleteItem() {
         $query = "DELETE FROM $this->table WHERE user_id = :user_id AND item_id = :item_id";
