@@ -66,7 +66,7 @@ class Cart
 
         try {
             $stmt->execute();
-            return json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo $e->getMessage();
             return null;
