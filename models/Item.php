@@ -32,8 +32,12 @@ class Item
             $stmt->bindColumn('image', $this->image);
             $stmt->bindColumn('description', $this->description);
             $stmt->bindColumn('average_rating', $this->average_rating);
-            $stmt->fetch(PDO::FETCH_BOUND);
-            return true;
+            if ($stmt->rowCount() === 1) {
+                $stmt->fetch(PDO::FETCH_BOUND);
+                return true;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             echo $e->getMessage();
             return null;
