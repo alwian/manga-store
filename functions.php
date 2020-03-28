@@ -96,12 +96,32 @@ function displayUsers(){
                 $user->first_name = $row['first_name'];
                 $user->last_name = $row['last_name'];
                 $user->type= $row['type'];
-
                 echo "<tr>
                                 <td>$user->user_id</td>
+                                 <!-- Delete Modal-->
+                                <div class=\"modal fade\" id=\"deleteConfirm$user->user_id\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+                                    <div class=\"modal-dialog\" role=\"document\">
+                                        <div class=\"modal-content\">
+                                            <div class=\"modal-header\">
+                                                <h5 class=\"modal-title\" id=\"exampleModalLabel\">Do you want to delete it?</h5>
+                                                <button class=\"close\" type=\"button\" data-dismiss=\"modal\" aria-label=\"Close\">
+                                                    <span aria-hidden=\"true\">×</span>
+                                                </button>
+                                            </div>
+                                            <div class=\"modal-body\">Select \"Delete\" below if you want to delete this account.</div>
+                                            <div class=\"modal-footer\">
+                                                <button class=\"btn btn-secondary\" type=\"button\" data-dismiss=\"modal\">Cancel</button>
+                                                <a class=\"btn btn-primary\" href=\"deleteConfirm.php?id=$user->user_id\">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
-                                <td>$user->type &nbsp;&nbsp;&nbsp;<a href='userRoleChange.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i></a></td>
+                                <td>$user->type &nbsp;&nbsp;&nbsp;
+                                <a href='userRoleChange.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i>Edit&nbsp;&nbsp&nbsp;&nbsp</a>
+                                <a href='dashboard/accountManage.php?id=$user->user_id' data-toggle='modal' data-target='#deleteConfirm$user->user_id'><i class=\"fas fa-trash text-danger\"></i>Delete</a>
+                                </td>
                       </tr>
                       ";
 
@@ -114,5 +134,7 @@ function displayUsers(){
         return null;
     }
 }
+
+
 
 
