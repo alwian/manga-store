@@ -2,7 +2,6 @@
 <html lang="en">
 
 <?php
-require "header.php";
 $id = $_GET["id"];
 $API_URL = "https://www.mangaeden.com/api/manga/{$id}/";
 

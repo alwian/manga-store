@@ -2,6 +2,7 @@
 // this file contains my logic for connecting to the DB.
 include_once 'config/Database.php';
 include 'models/Queries.php';
+include 'models/User.php';
 class Book
 {
     public $index;
@@ -77,3 +78,41 @@ function displayBestBooks()
         return null;
     }
 }
+
+
+
+function displayUsers(){
+    $db = new Database();
+    $query = "SELECT user_id,email,first_name,last_name,type FROM `users`";
+
+    try{
+        $stmt = new Queries($db->connect(), $query);
+        $result = $stmt->recommendQuery();
+        if ($result->rowCount() > 0) {
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User($db);
+                $user->user_id = $row['user_id'];
+                $user->email = $row['email'];
+                $user->first_name = $row['first_name'];
+                $user->last_name = $row['last_name'];
+                $user->type= $row['type'];
+
+                echo "<tr>
+                                <td>$user->user_id</td>
+                                <td>$user->email</td>
+                                <td>$user->first_name&nbsp;$user->last_name</td>
+                                <td>$user->type &nbsp;&nbsp;&nbsp;<a href='userRoleChange.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i></a></td>
+                      </tr>
+                      ";
+
+
+            }
+        }
+    }
+    catch (PDOException $e) {
+        //echo $e->getMessage();
+        return null;
+    }
+}
+
+
