@@ -7,8 +7,8 @@ $conn = $db->connect();
 
 $cart = new Cart($conn); // Create new cart.
 
-$cart->user_id = 11; // Set the user the cart belongs to.
-$cart->item_id = 1; // Set the Id of the item to modify in the cart.
+$cart->user_id = 11; // Set the user the cart belongs to. (make sure it is in your local db)
+$cart->item_id = 1; // Set the Id of the item to modify in the cart. (make sure it is in your local db)
 $cart->quantity = 7; // Set new quantity of the item.
 $cart->update(); // Update the db with new details.
 
