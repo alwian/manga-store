@@ -78,7 +78,7 @@ class Cart
      * Removes an item from a given user's cart.
      * @return bool|null Whether the item was removed or not, When an error occurs with the database.
      */
-    private function deleteItem() {
+    public function deleteItem() {
         $query = "DELETE FROM $this->table WHERE user_id = :user_id AND item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);

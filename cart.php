@@ -63,9 +63,9 @@ require_once 'header.php';
                               <td><img href = $item->image\"></td>
                               <td>$item->name</td>
                               <td>$item->price</td>
-                              <td>2</td>
-                              <td>$item->price</td>
-                              <td><a href='deleteItemPage?id=$item->item_id'><span class='material-icons'>delete</span></a></td>
+                              <td></td>
+                              <td></td>
+                              <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons'>delete</span></a></td>
                             </tr>";
             } else {
                 echo 'Item unavailable.';
