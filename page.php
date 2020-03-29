@@ -7,7 +7,7 @@
 $actual_link = $_SERVER['REQUEST_URI'];
 // Split the string based on it
 //output= [ "", "page.php", "hashValue"]
-list($x, $src, $doc, $id) = explode('/', $actual_link);
+list($src, $doc, $id) = explode('/', $actual_link);
 $API_URL = "https://www.mangaeden.com/api/manga/{$id}/";
 
 // querying the JSON API for the document
