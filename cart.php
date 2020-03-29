@@ -21,8 +21,29 @@ $cart->user_id = $_SESSION['id'];
     <head>
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
         <link type="text/css" rel="stylesheet" href="css/style.css">
+        <!--Import materialize.css-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+
         <title>Cart</title>
-    </head>
+
+        <div class="container">
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">QTY</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </head>
     <body>
     <?php
         require_once 'header.php';
