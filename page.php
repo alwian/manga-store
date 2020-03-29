@@ -16,11 +16,13 @@ if (!$RESPONSE) {
     // This is an invalid URL.. we will implement a redirect
     // to our 404 page.
     echo "404 This page doesnt exist";
-    header('/404.php', true, 404);
+    header('Location: 404.php', true, 404);
     exit;
 }
 $obj = json_decode($RESPONSE);
 $author = $obj->author;
+$title = $obj->title;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,44 +31,57 @@ $author = $obj->author;
     <meta name="referrer" content="no-referrer" />
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $author ?></title>
+    <title><?php echo $title ?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import bootstrap.css-->
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" media="screen,projection" />
     <link type="text/css" rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <?php
-        require "header.php";
-        // Valid Page with JSON
-        $categories = $obj->categories;
-        $description = $obj->description;
-        $image_bang_chk = $obj->image;
-        $IMG_CDN_URL = "https://cdn.mangaeden.com/mangasimg/{$image_bang_chk}";
 
-        echo 'Document Author: ' . $author . '<br><br>';
-        echo 'Manga Categories: ' . implode(" ", $categories) . '<br><br>';
+<?php
+require "header.php";
+$categories = $obj->categories;
+$description = $obj->description;
+$image_bang_chk = $obj->image;
+$_SESSION['manga_name'] = $title;
+?>
+<div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><?php echo $title; ?> </li>
+            </ol>
+        </nav>
+<?php
+// Valid Page with JSON
 
-        // for loop for one item instancing..
-        foreach ($categories as $entry) {
-            echo $entry . '<br>';
-        }
-        echo '<br>';
-        echo $description . '<br>'; ?>
+$IMG_CDN_URL = "https://cdn.mangaeden.com/mangasimg/{$image_bang_chk}";
+echo "API URL: " . $API_URL . '<br><br>';
+echo 'Document Author: ' . $author . '<br><br>';
+echo 'Manga Categories: ' . implode(" ", $categories) . '<br><br>';
+
+// for loop for one item instancing..
+foreach ($categories as $entry) {
+    echo $entry . '<br>';
+}
+echo '<br>';
+echo $description . '<br>'; ?>
 
         <img src=<?php echo $IMG_CDN_URL ?> referrerpolicy='no-referrer'/></img>
         <?php
-        $chapters = $obj->chapters;
+$chapters = $obj->chapters;
 
-        foreach (array_reverse($chapters) as $chapter) {
-            $chapterNum = $chapter[0];
-            $chapterDate = $chapter[1];
-            $chapterTitle = $chapter[2];
-            $chapterID = $chapter[3];
+foreach (array_reverse($chapters) as $chapter) {
+    $chapterNum = $chapter[0];
+    $chapterDate = $chapter[1];
+    $chapterTitle = $chapter[2];
+    $chapterID = $chapter[3];
 
-            echo "<br><button><a href='../chapter.php/{$chapterID}'>Chapter {$chapterTitle}</a></button>";
-        }
-    ?>
+    echo "<br><button><a href='../chapter.php/{$chapterID}'>Chapter {$chapterTitle}</a></button>";
+}
+?>
+    </div>
 
     <script type="text/javascript" src="/js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>

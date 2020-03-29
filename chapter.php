@@ -11,9 +11,11 @@ if (!$RESPONSE) {
     exit;
 }
 $RESPONSE = json_decode(@$RESPONSE);
+$title = $_SESSION['manga_name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer" />
@@ -26,20 +28,26 @@ $RESPONSE = json_decode(@$RESPONSE);
     <link type="text/css" rel="stylesheet" href="/css/style.css">
 
 </head>
+
 <body>
+<?php require "header.php"; ?>
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="/"><?php echo $title ?></a></li>
+                <li class="breadcrumb-item active" aria-current="chapter">Manga ID</li>
+            </ol>
+        </nav>
+        <h3>This is the document for a specific chapter of the book.</h3>
+        At this point, we would store the name of the book and other information in
+        the session so we dont have to query a DB for it.. we can also use it to check if
+        its not a brute force request so if session exists then load more else unauthorized
+        <br>
 
 <?php
-require "header.php";
 echo $API_URL . "<br>";
 $RESPONSE = array_reverse($RESPONSE->images);
-?>
-<h3>This is the document for a specific chapter of the book.</h3>
-At this point, we would store the name of the book and other information in
-the session so we dont have to query a DB for it.. we can also use it to check if
-its not a brute force request so if session exists then load more else unauthorized
-<br>
-
-<?php
 $IMG_CDN_URL = "https://cdn.mangaeden.com/mangasimg/";
 foreach ($RESPONSE as $data) {
     $id = $data[0];
@@ -51,8 +59,10 @@ foreach ($RESPONSE as $data) {
     echo "<img src='{$img_link}' referrerpolicy='no-referrer' alt='{$id}' decoding='sync' height='{$height}' width='{$width}'/>";
 }
 ?>
+    </div>
     <script type="text/javascript" src="/js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/script.js"></script>
 </body>
+
 </html>
