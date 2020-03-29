@@ -46,7 +46,7 @@ $description = $obj->description;
 $image_bang_chk = $obj->image;
 $_SESSION['manga_name'] = $title;
 ?>
-<div class="container">
+<div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
