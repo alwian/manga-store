@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg" role="navigation">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="index.php">Manga Store</a>
+        <a class="navbar-brand js-scroll-trigger" href="/">Manga Store</a>
         <form class="input-group-append" action="search.php" method="POST">
             <input id="form-control"
                 value="<?php if (isset($value)) {echo $value;} ?>"
@@ -19,8 +19,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <?php
+<?php
 if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
+    echo "<li class=\"nav-item\"><a href=\"profile.php\">Account</a></li>";
     echo "<li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>";
 } else {
     echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>

@@ -33,8 +33,8 @@ $author = $obj->author;
     <title><?php echo $author ?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import bootstrap.css-->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <?php
@@ -69,8 +69,8 @@ $author = $obj->author;
         }
     ?>
 
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
 </body>
 </html>
