@@ -1,7 +1,7 @@
 <?php
+session_start();
 include_once 'config/Database.php';
 include_once 'models/User.php';
-session_start();
 
 // If the user is already logged in, take them to the homepage.
 if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){

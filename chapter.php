@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
+session_start();
 $acutal_link = $_SERVER['REQUEST_URI'];
 list($x, $src, $chap_id) = explode('/', $acutal_link);
 // on dev, we dont even want to query the API, check parameters and authentication
@@ -13,7 +12,8 @@ if (!$RESPONSE) {
 }
 $RESPONSE = json_decode(@$RESPONSE);
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer" />

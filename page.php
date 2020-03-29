@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
+session_start();
 // link of the page
 // /page.php/[somehashValue]
 $actual_link = $_SERVER['REQUEST_URI'];
@@ -24,7 +22,8 @@ if (!$RESPONSE) {
 $obj = json_decode($RESPONSE);
 $author = $obj->author;
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer" />
