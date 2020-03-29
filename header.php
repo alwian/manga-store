@@ -15,7 +15,9 @@
                 <?php
                     if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
                         echo $_SESSION['userType'];
-                        echo "<li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>";
+                        echo "<li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>
+                                <li class=\"nav-item\"><a href=\"cart.php\">Cart</a></li>
+                                ";
                             if(isset($_SESSION['userType']) && $_SESSION['userType']!= "consumer") {
                                 echo "<li class=\"nav - item\"><a href=\"dashboard\index.php\">dashboard</a></li>";
                             }
