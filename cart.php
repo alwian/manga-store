@@ -33,7 +33,7 @@ $cart->user_id = $_SESSION['id'];
 require_once 'header.php';
 ?>
 
-<h1>My Cart</h1>
+<h1 class="text-center">My Cart</h1><br><br>
 
 
 
@@ -65,28 +65,30 @@ require_once 'header.php';
                               <td>$item->price</td>
                               <td></td>
                               <td></td>
-                              <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons'>delete</span></a></td>
+                              <td><a href='deleteItemFromCart.php?id=$item->item_id'>Delete &emsp;<span class='material-icons bg-white text-danger'>delete</span></a></td>
                             </tr>";
             } else {
                 echo 'Item unavailable.';
             }
         }
 
-        echo " </tbody>
+        echo " 
+            
+            <thead class=\"thead-light\">
+                <tr>
+                    <th scope=\"col\">Total: $</th>
+                    <th scope=\"col\"> &emsp; &emsp;</th>
+                    <th scope=\"col\"> &emsp; &emsp;</th>
+                    <th scope=\"col\"> &emsp;</th>
+                    <th scope=\"col\"> &emsp;</th>
+                    <th scope=\"col\"> &emsp;</th>
+                    <th scope=\"col\"><a href=\"checkout.php\"> Checkout</a></th>
+                </tr>
+                </thead>
+                </tbody>
                 </table>";
         ?>
 
-        <div class="container">
-            <table class="table">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Total &emsp; $ Checkout</th>
-                    <th scope="col"></th>
-
-                </tr>
-                </thead>
-                <tbody>
-        </div>
 </body>
 </html>
 
