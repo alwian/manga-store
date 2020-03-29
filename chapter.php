@@ -2,7 +2,7 @@
 <html lang="en">
 <?php
 $acutal_link = $_SERVER['REQUEST_URI'];
-list($x, $src, $chap_id) = explode('/', $acutal_link);
+list($src, $chap_id) = explode('/', $acutal_link);
 // on dev, we dont even want to query the API, check parameters and authentication
 $API_URL = "https://www.mangaeden.com/api/chapter/{$chap_id}";
 $RESPONSE = @file_get_contents($API_URL);
