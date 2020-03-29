@@ -107,14 +107,14 @@ class User
     }
 
     /**
-     * Checks whether a set of credentials is correct.
-     *
-     * Uses the given email and password to check if the provided login details are correct.
-     *
-     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
-     */
+ * Checks whether a set of credentials is correct.
+ *
+ * Uses the given email and password to check if the provided login details are correct.
+ *
+ * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+ */
     public function checkLogin() {
-        $query = "SELECT user_id, email, password FROM $this->table WHERE email = ?";
+        $query = "SELECT user_id, email, password  FROM $this->table WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute(array($this->email));
@@ -138,6 +138,46 @@ class User
     }
 
 
+    /**
+     * This function is for get user object and set for sessions
+     * Can get first_name,last_name,type of user
+     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     */
+    public function getUser() {
+        $query = "SELECT first_name,last_name,type FROM $this->table WHERE user_id = ?";
+        $stmt = $this->conn->prepare($query);
+        try {
+            $stmt->execute(array($this->user_id));
+            if ($stmt->rowCount() == 1) {
+
+                $stmt->bindColumn('first_name', $user_first_name);
+                $stmt->bindColumn('last_name', $user_last_name);
+                $stmt->bindColumn('type', $user_type);
+                $stmt->fetch(PDO::FETCH_BOUND);
+
+                $this->last_name = $user_last_name;
+                $this->first_name = $user_first_name;
+                $this->type = $user_type;
+
+                return false;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+
+
+    /**
+     * This function is for delete user from admin's dashboard
+     *
+     * User can be delete from Account management Table
+     *
+     *
+     */
     public function deleteUser(){
         $query = "DELETE FROM $this->table WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);

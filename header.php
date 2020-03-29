@@ -14,10 +14,11 @@
             <ul class="navbar-nav ml-auto">
                 <?php
                     if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
-                        echo "<li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>
-                              <li class=\"nav-item\"><a href=\"dashboard\index.php\">dashboard</a></li>
-                        ";
-
+                        echo $_SESSION['userType'];
+                        echo "<li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>";
+                            if(isset($_SESSION['userType']) && $_SESSION['userType']!= "consumer") {
+                                echo "<li class=\"nav - item\"><a href=\"dashboard\index.php\">dashboard</a></li>";
+                            }
 
                     }else{
                         echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>

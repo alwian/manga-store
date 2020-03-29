@@ -1,3 +1,8 @@
+
+<?php
+    session_start();
+?>
+
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gray-900 sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -19,27 +24,36 @@
             <span>Dashboard</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Account
-    </div>
+    <?php
+            //side bar menu for admin
+            if(isset($_SESSION['userType']) && $_SESSION['userType']!= "admin"){
+                echo "<!-- Divider -->
+                        <hr class=\"sidebar-divider\">
+                    
+                        <!-- Heading -->
+                        <div class=\"sidebar-heading\">
+                            Account
+                        </div>
+                    
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class=\"nav-item\">
+                            <a class=\"nav-link collapsed\" data-toggle=\"collapse\" data-target=\"#collapseTwo\" aria-expanded=\"true\" aria-controls=\"collapseTwo\">
+                                <i class=\"fas fa-user-cog\"></i>
+                                <span>User Management</span></a>
+                            </a>
+                            <div id=\"collapseTwo\" class=\"collapse\" aria-labelledby=\"headingTwo\" data-parent=\"#accordionSidebar\">
+                                <div class=\"bg-white py-2 collapse-inner rounded\">
+                                    <a class=\"collapse-item\" href=\"accountManage.php\">Account Management</a>
+                                    <a class=\"collapse-item\" href=\"#\">Search User</a>
+                                </div>
+                            </div>
+                        </li>";
+            }
+    ?>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-user-cog"></i>
-            <span>User Management</span></a>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="accountManage.php">Account Management</a>
-                <a class="collapse-item" href="#">Search User</a>
-            </div>
-        </div>
-    </li>
+
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -55,14 +69,32 @@
             <span>Store Management</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Seller:</h6>
-                <a class="collapse-item" href="#">Seller Management</a>
-                <a class="collapse-item" href="#">Seller Apply List</a>
-                <h6 class="collapse-header">Order:</h6>
-                <a class="collapse-item" href="#">Order Display</a>
-                <a class="collapse-item" href="#">Search For Order</a>
-            </div>
+            <?php
+                    //side bar for admin
+                    if(isset($_SESSION['userType']) && $_SESSION['userType']!= "admin"){
+                        echo " <div class=\"bg-white py-2 collapse-inner rounded\">
+                                    <h6 class=\"collapse-header\">Seller:</h6>
+                                    <a class=\"collapse-item\" href=\"#\">Seller Management</a>
+                                    <a class=\"collapse-item\" href=\"#\">Seller Apply List</a>
+                                    <h6 class=\"collapse-header\">Order:</h6>
+                                    <a class=\"collapse-item\" href=\"#\">Order Display</a>
+                                    <a class=\"collapse-item\" href=\"#\">Search For Order</a>
+                                </div>";
+                    }
+
+                    //side bar for seller
+                    if(isset($_SESSION['userType']) && $_SESSION['userType']!= "seller"){
+                        echo " <div class=\"bg-white py-2 collapse-inner rounded\">
+                                            <h6 class=\"collapse-header\">Shop:</h6>
+                                            <a class=\"collapse-item\" href=\"#\">Item Management</a>
+                                            <a class=\"collapse-item\" href=\"#\">Add Item</a>
+                                            <h6 class=\"collapse-header\">Order:</h6>
+                                            <a class=\"collapse-item\" href=\"#\">Order Display</a>
+                                            <a class=\"collapse-item\" href=\"#\">Search For Order</a>
+                                        </div>";
+                    }
+            ?>
+
         </div>
     </li>
 
