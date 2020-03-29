@@ -2,3 +2,5 @@
 config.php
 .idea/
 test.php
+.vscode/
+config/Database.php

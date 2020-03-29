@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
+session_start();
 $acutal_link = $_SERVER['REQUEST_URI'];
-list($src, $chap_id) = explode('/', $acutal_link);
+list($x, $src, $chap_id) = explode('/', $acutal_link);
 // on dev, we dont even want to query the API, check parameters and authentication
 $API_URL = "https://www.mangaeden.com/api/chapter/{$chap_id}";
 $RESPONSE = @file_get_contents($API_URL);
@@ -13,7 +12,8 @@ if (!$RESPONSE) {
 }
 $RESPONSE = json_decode(@$RESPONSE);
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer" />
@@ -22,7 +22,9 @@ $RESPONSE = json_decode(@$RESPONSE);
     <title><?php echo "PlaceHolder" ?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/css/style.css">
+
 </head>
 <body>
 
@@ -49,4 +51,8 @@ foreach ($RESPONSE as $data) {
     echo "<img src='{$img_link}' referrerpolicy='no-referrer' alt='{$id}' decoding='sync' height='{$height}' width='{$width}'/>";
 }
 ?>
+    <script type="text/javascript" src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
 </body>
+</html>

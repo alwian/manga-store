@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
+session_start();
 // link of the page
 // /page.php/[somehashValue]
 $actual_link = $_SERVER['REQUEST_URI'];
@@ -24,7 +22,8 @@ if (!$RESPONSE) {
 $obj = json_decode($RESPONSE);
 $author = $obj->author;
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer" />
@@ -33,8 +32,8 @@ $author = $obj->author;
     <title><?php echo $author ?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import bootstrap.css-->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <?php
@@ -69,8 +68,8 @@ $author = $obj->author;
         }
     ?>
 
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
 </body>
 </html>

@@ -1,1 +1,2 @@
-<!-- Add books, delete users and update price -->
+<?php
+session_start();
