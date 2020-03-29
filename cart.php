@@ -47,7 +47,7 @@ require_once 'header.php';
             <th scope="col">Price</th>
             <th scope="col">QTY</th>
             <th scope="col">Amount</th>
-            
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -65,7 +65,7 @@ require_once 'header.php';
                               <td>$item->price</td>
                               <td>2</td>
                               <td>$item->price</td>
-                            
+                              <td><a href='deleteItemPage?id=$item->item_id'><span class='material-icons'>delete</span></a></td>
                             </tr>";
             } else {
                 echo 'Item unavailable.';
