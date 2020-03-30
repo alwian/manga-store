@@ -72,6 +72,7 @@
         </div>
 
         <div id="paypal-button">
+            <!--Link to thankyou.php, remove when button is resized and used as a link instead-->
             <a href="thankyou.php">Click here</a>
             <form action="thankyou.php" method="post" target="_top">
                 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
