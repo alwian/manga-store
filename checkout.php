@@ -19,7 +19,7 @@
 <div class="page-container">
     <h1 class="text-center">Checkout</h1><br><br>
 
-    <form class="forms" action="checkout.php" method="post">
+    <form class="forms" action="confirm.php" method="post">
         <div id="form-inputs">
             <div id="left-forms">
                 <div class="form-group">
@@ -71,13 +71,9 @@
             </div>
         </div>
 
-        <div id="paypal-button">
+        <div id="pay-button">
             <!--Link to thankyou.php, remove when button is resized and used as a link instead-->
-            <a href="thankyou.php">Click here</a>
-            <form action="thankyou.php" method="post" target="_top">
-                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-            </form>
+            <button type="submit" class="btn" id="paypal-button"></button>
         </div>
 
     </form>
