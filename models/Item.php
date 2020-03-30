@@ -7,7 +7,7 @@ class Item
     public $item_id;
     public $seller_id;
     public $name;
-    public $author_id;
+    public $author;
     public $genres;
     public $price;
     public $stock;
@@ -21,7 +21,7 @@ class Item
     }
 
     public function getItem() {
-        $query = "SELECT item_id, seller_id, name, author_id, price, stock, image, description, total_rating / rating_count as average_rating FROM $this->table WHERE item_id = :item_id";
+        $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, total_rating / rating_count as average_rating FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
 
@@ -29,7 +29,7 @@ class Item
             $stmt->execute();
             $stmt->bindColumn('seller_id', $this->seller_id);
             $stmt->bindColumn('name', $this->name);
-            $stmt->bindColumn('author_id', $this->author_id);
+            $stmt->bindColumn('author', $this->author);
             $stmt->bindColumn('price', $this->price);
             $stmt->bindColumn('stock', $this->stock);
             $stmt->bindColumn('image', $this->image);
@@ -63,9 +63,9 @@ class Item
     }
 
     public function getAuthorName() {
-        $query = "SELECT name FROM authors WHERE author_id = :author_id";
+        $query = "SELECT name FROM authors WHERE author = :author";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":author_id", $this->author_id);
+        $stmt->bindParam(":author", $this->author);
 
         try {
             $stmt->execute();
@@ -113,7 +113,7 @@ class Item
     {
         $content = <<<EOD
         <div class="card">
-            <img src="product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
+            <img src="data/product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
             <div class="card-body">
                 <h5 class="card-title">{$this->name}</h5>
                 <p class="card-text">{$this->description}</p>
