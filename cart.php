@@ -57,7 +57,7 @@ require_once 'header.php';
             $item->item_id = $current_item['item_id'];
 
             if ($item->getItem()) {
-                //under this part
+
                 echo "<tr>
                               <td>$item->item_id</td>
                               <td><img href = $item->image\"></td>
