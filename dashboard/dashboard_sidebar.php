@@ -1,6 +1,8 @@
 
 <?php
     session_start();
+    include_once "../config/Database.php";
+    include_once "../models/User.php";
 ?>
 
 <!-- Sidebar -->
@@ -24,11 +26,16 @@
             <span>Dashboard</span></a>
     </li>
 
-
     <?php
+
             //side bar menu for admin
-            if(isset($_SESSION['userType']) && $_SESSION['userType']!= "admin"){
-                echo "<!-- Divider -->
+            if(isset($_SESSION['id'])){
+                    $db = new Database();
+                    $user = new User($db->connect());
+                    $user->user_id = $_SESSION['id'];
+                    $user->getUser();
+                    if($user->type == "admin"){
+                        echo "<!-- Divider -->
                         <hr class=\"sidebar-divider\">
                     
                         <!-- Heading -->
@@ -49,6 +56,7 @@
                                 </div>
                             </div>
                         </li>";
+                    }
             }
     ?>
 
@@ -71,8 +79,9 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <?php
                     //side bar for admin
-                    if(isset($_SESSION['userType']) && $_SESSION['userType']!= "admin"){
-                        echo " <div class=\"bg-white py-2 collapse-inner rounded\">
+                    if(isset($_SESSION['id'])){
+                        if($user->type == "admin") {
+                            echo " <div class=\"bg-white py-2 collapse-inner rounded\">
                                     <h6 class=\"collapse-header\">Seller:</h6>
                                     <a class=\"collapse-item\" href=\"#\">Seller Management</a>
                                     <a class=\"collapse-item\" href=\"#\">Seller Apply List</a>
@@ -80,18 +89,20 @@
                                     <a class=\"collapse-item\" href=\"#\">Order Display</a>
                                     <a class=\"collapse-item\" href=\"#\">Search For Order</a>
                                 </div>";
-                    }
+                        }
 
-                    //side bar for seller
-                    if(isset($_SESSION['userType']) && $_SESSION['userType']!= "seller"){
-                        echo " <div class=\"bg-white py-2 collapse-inner rounded\">
-                                            <h6 class=\"collapse-header\">Shop:</h6>
-                                            <a class=\"collapse-item\" href=\"#\">Item Management</a>
-                                            <a class=\"collapse-item\" href=\"#\">Add Item</a>
-                                            <h6 class=\"collapse-header\">Order:</h6>
-                                            <a class=\"collapse-item\" href=\"#\">Order Display</a>
-                                            <a class=\"collapse-item\" href=\"#\">Search For Order</a>
-                                        </div>";
+
+                        //side bar for seller
+                        if($user->type == "seller"){
+                            echo " <div class=\"bg-white py-2 collapse-inner rounded\">
+                                                <h6 class=\"collapse-header\">Shop:</h6>
+                                                <a class=\"collapse-item\" href=\"#\">Item Management</a>
+                                                <a class=\"collapse-item\" href=\"#\">Add Item</a>
+                                                <h6 class=\"collapse-header\">Order:</h6>
+                                                <a class=\"collapse-item\" href=\"#\">Order Display</a>
+                                                <a class=\"collapse-item\" href=\"#\">Search For Order</a>
+                                            </div>";
+                        }
                     }
             ?>
 

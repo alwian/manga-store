@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    include_once "../config/Database.php";
+    include_once "../models/User.php";
+?>
+
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-gray-900 topbar mb-4 static-top shadow">
 
@@ -11,10 +17,15 @@
 
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
-                     $user_name = $_SESSION['user_first_name']." ". $_SESSION['user_last_name'];
-                    echo " <span class=\"mr-2 d-none d-lg-inline text-white \">$user_name&nbsp;&nbsp;</span>";
+                        if(isset($_SESSION['id'])) {
+                            $db = new Database();
+                            $user = new User($db->connect());
+                            $user->user_id = $_SESSION['id'];
+                            $user->getUser();
+                            echo " <span class=\"mr-2 d-none d-lg-inline text-white \">$user->first_name $user->last_name&nbsp;&nbsp;</span>";
+                        }
                 ?>
 
                 <i class="fas fa-user-circle text-white fa-3x"></i>
