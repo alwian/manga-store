@@ -52,19 +52,25 @@ require_once 'header.php';
         </thead>
         <tbody>
         <?php
+        $totalSum = 0;
+        $count = 0;
         foreach ($cart->getItems() as $current_item) {
             $item = new Item($conn);
             $item->item_id = $current_item['item_id'];
+            $quantity=$current_item['quantity'];
 
             if ($item->getItem()) {
+                $amount = $quantity*$item->price;
+                $totalSum +=$amount;
+                
 
                 echo "<tr>
                               <td>$item->item_id</td>
                               <td><img href = $item->image\"></td>
                               <td>$item->name</td>
                               <td>$item->price</td>
-                              <td></td>
-                              <td></td>
+                              <td>$quantity</td>
+                              <td>$amount</td>
                               <td><a href='deleteItemFromCart.php?id=$item->item_id'>Delete &emsp;<span class='material-icons bg-white text-danger'>delete</span></a></td>
                             </tr>";
             } else {
@@ -76,7 +82,7 @@ require_once 'header.php';
             
             <thead class=\"thead-light\">
                 <tr>
-                    <th scope=\"col\">Total: $</th>
+                    <th scope=\"col\">Total: $ $totalSum</th>
                     <th scope=\"col\"> &emsp; &emsp;</th>
                     <th scope=\"col\"> &emsp; &emsp;</th>
                     <th scope=\"col\"> &emsp;</th>
