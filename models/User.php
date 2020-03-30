@@ -176,7 +176,7 @@ class User
      *
      * User can be delete from Account management Table
      *
-     *
+     *@return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
     public function deleteUser(){
         $query = "DELETE FROM $this->table WHERE user_id = :user_id";
@@ -192,4 +192,37 @@ class User
         }
 
     }
+
+
+//    /**
+//     * This function is for user to apply to be a seller
+//     *
+//     * After user click on the apply to be a seller it will send the request
+//     * to 'seller_requests' table
+//     *
+//     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+//     */
+//    public function applyToBeSeller(){
+//        $query = "SELECT user_id FROM 'seller_requests' WHERE user_id = :user_id";
+//        $stmt = $this->conn->prepare($query);
+//        $stmt->bindParam(":user_id", $this->user_id);
+//        try {
+//            $stmt->execute(array($this->user_id));
+//            if ($stmt->rowCount() == 0) {
+//                $query = "INSERT INTO 'seller_requests'(user_id) VALUES(?)";
+//                $stmt = $this->conn->prepare($query);
+//                $stmt->bindParam("s", $user_ID);
+//                $user_ID = $this->user_id;
+//                $stmt->execute();
+//
+//                return false;
+//            } else {
+//                return false;
+//            }
+//        } catch (PDOException $e) {
+//            //echo $e->getMessage();
+//            return null;
+//        }
+//
+//    }
 }

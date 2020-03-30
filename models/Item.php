@@ -43,4 +43,9 @@ class Item
             return null;
         }
     }
+
+
+    public function addItem(){
+        $query = "SELECT  FROM $this->table WHERE item_id = :item_id";
+    }
 }
