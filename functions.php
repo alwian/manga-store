@@ -23,11 +23,11 @@ class Book
             <h5 class="card-title">{$this->title}</h5>
             <small class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</small>
             <div class="buttons" style="bottom: 1rem;">
-                    <a href="page.php/{$this->id}" class="btn btn-sm btn-md btn-primary">View</a>
-                    <a href="#cart" class="btn btn-sm btn-md btn-primary" style="left: 5rem;">Buy Now</a>
+                    <a href="page.php?id={$this->id}" class="btn btn-sm btn-md btn-primary">View</a>
+                    <a href="cart.php" class="btn btn-sm btn-md btn-primary" style="left: 5rem;">Buy Now</a>
             </div>
         </div>
-    EOD;
+EOD;
         echo $content;
     }
 
