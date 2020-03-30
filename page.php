@@ -45,7 +45,7 @@ echo '<br>';
 echo $item->description . '<br>';
 ?>
 
-<img src="product-images/<?php echo $item->image?>" referrerpolicy='no-referrer'/>
+<img src="data/product-images/<?php echo $item->image?>" referrerpolicy='no-referrer'/>
 
 <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
