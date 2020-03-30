@@ -46,30 +46,18 @@ $obj = json_decode($RESPONSE);
         $description = $obj->description;
         $image_bang_chk = $obj->image;
         $IMG_CDN_URL = "https://cdn.mangaeden.com/mangasimg/{$image_bang_chk}";
-
-        echo 'Document Author: ' . $obj->author . '<br><br>';
+    
+        echo '<h2>' . $obj->title .'</h2>' . '<br>';
         echo 'Manga Categories: ' . implode(" ", $categories) . '<br><br>';
 
         // for loop for one item instancing..
         foreach ($categories as $entry) {
-            echo $entry . '<br>';
+            echo $entry . ',';
         }
         echo '<br>';
-        echo $description . '<br>'; ?>
-
-        <img src=<?php echo $IMG_CDN_URL ?> referrerpolicy='no-referrer'/></img>
-        <?php
-        $chapters = $obj->chapters;
-
-        foreach (array_reverse($chapters) as $chapter) {
-            $chapterNum = $chapter[0];
-            $chapterDate = $chapter[1];
-            $chapterTitle = $chapter[2];
-            $chapterID = $chapter[3];
-
-            echo "<br><button><a href='chapter.php/{$chapterID}'>Chapter {$chapterTitle}</a></button>";
-        }
+        echo $description . '<br>'; 
     ?>
+    <img src=<?php echo $IMG_CDN_URL ?> referrerpolicy='no-referrer'/></img>
 
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
