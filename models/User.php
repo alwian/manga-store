@@ -114,7 +114,7 @@ class User
      * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
     public function checkLogin() {
-        $query = "SELECT user_id, email, password FROM $this->table WHERE email = ?";
+        $query = "SELECT user_id, email, password  FROM $this->table WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute(array($this->email));
@@ -135,5 +135,75 @@ class User
             //echo $e->getMessage();
             return null;
         }
+    }
+
+
+    /**
+     * This function is for get user object.
+     * @return bool|null Whether the user details were found, an error occurred during database interaction.
+     */
+    public function getUser() {
+        $query = "SELECT first_name, last_name, email, phone, image, bio, type FROM $this->table WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam('user_id', $this->user_id);
+        try {
+            $stmt->execute();
+            if ($stmt->rowCount() == 1) {
+                $stmt->bindColumn('first_name', $this->first_name);
+                $stmt->bindColumn('last_name', $this->last_name);
+                $stmt->bindColumn('email', $this->email);
+                $stmt->bindColumn('phone', $this->phone);
+                $stmt->bindColumn('image', $this->image);
+                $stmt->bindColumn('bio', $this->bio);
+                $stmt->bindColumn('type', $this->type);
+                $stmt->fetch(PDO::FETCH_BOUND);
+                return false;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+    /**
+     * This function gets all users.
+     * @return array|null All userrs, an error occurred during database interaction.
+     */
+    public function getUsers() {
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->conn->prepare($query);
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+
+
+    /**
+     * This function is for delete user from admin's dashboard
+     *
+     * User can be delete from Account management Table
+     *
+     *
+     */
+    public function deleteUser(){
+        $query = "DELETE FROM $this->table WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+
     }
 }
