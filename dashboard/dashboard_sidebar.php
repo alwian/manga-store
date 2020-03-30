@@ -1,10 +1,3 @@
-
-<?php
-    session_start();
-    include_once "../config/Database.php";
-    include_once "../models/User.php";
-?>
-
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gray-900 sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -29,11 +22,6 @@
     <?php
 
             //side bar menu for admin
-            if(isset($_SESSION['id'])){
-                    $db = new Database();
-                    $user = new User($db->connect());
-                    $user->user_id = $_SESSION['id'];
-                    $user->getUser();
                     if($user->type == "admin"){
                         echo "<!-- Divider -->
                         <hr class=\"sidebar-divider\">
@@ -56,8 +44,8 @@
                                 </div>
                             </div>
                         </li>";
+
                     }
-            }
     ?>
 
 
@@ -79,7 +67,7 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <?php
                     //side bar for admin
-                    if(isset($_SESSION['id'])){
+
                         if($user->type == "admin") {
                             echo " <div class=\"bg-white py-2 collapse-inner rounded\">
                                     <h6 class=\"collapse-header\">Seller:</h6>
@@ -103,7 +91,7 @@
                                                 <a class=\"collapse-item\" href=\"#\">Search For Order</a>
                                             </div>";
                         }
-                    }
+
             ?>
 
         </div>

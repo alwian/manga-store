@@ -1,7 +1,6 @@
 <?php
-include "dashboard_header.php";
-include "dashboard_sidebar.php";
-include "../functions.php";
+    include "dashboard_header.php";
+    include "dashboard_sidebar.php";
 ?>
 
 <!-- Content Wrapper -->
@@ -10,7 +9,7 @@ include "../functions.php";
     <!-- Main Content -->
     <div id="content">
         <?php
-        include "dashboard_topbar.php";
+            include "dashboard_topbar.php";
         ?>
 
         <!-- Begin Page Content -->

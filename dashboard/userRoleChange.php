@@ -1,6 +1,6 @@
 <?php
-include "dashboard_header.php";
-include "dashboard_sidebar.php";
+    include "dashboard_header.php";
+    include "dashboard_sidebar.php";
 ?>
 
 <!-- Content Wrapper -->
@@ -9,7 +9,7 @@ include "dashboard_sidebar.php";
     <!-- Main Content -->
     <div id="content">
         <?php
-        include "dashboard_topbar.php";
+            include "dashboard_topbar.php";
         ?>
 
         <!-- Begin Page Content -->
@@ -29,8 +29,8 @@ include "dashboard_sidebar.php";
 </div>
 <!-- End of Page Wrapper -->
 <?php
-include "dashboard_logoutModal.php";
-include "dashboard_footer.php";
+    include "dashboard_logoutModal.php";
+    include "dashboard_footer.php";
 ?>
 
 

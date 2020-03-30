@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    include "../functions.php";
+
+    if(isset($_SESSION['id'])){
+        $db = new Database();
+        $user = new User($db->connect());
+        $user->user_id = $_SESSION['id'];
+        $user->getUser();
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
