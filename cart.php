@@ -2,28 +2,48 @@
 session_start();
 include_once 'config/Database.php';
 include_once 'models/Cart.php';
+include_once 'models/Item.php';
+
+session_start();
+
+// If the user is already logged in, take them to the homepage.
+if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
+    header("Location: index.php");
+}
 
 $db = new Database();
 $conn = $db->connect();
+$cart = new Cart($conn);
+$cart->user_id = $_SESSION['id'];
+?>
 
-$cart = new Cart($conn); // Create new cart.
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <title>Cart</title>
+    </head>
+    <body>
+    <?php
+        require_once 'header.php';
+    ?>
+    <div class="container">
+        <h1>My Cart</h1>
+        <?php
+            foreach ($cart->getItems() as $current_item) {
+                $item = new Item($conn);
+                $item->item_id = $current_item['item_id'];
+                if ($item->getItem()) {
+                    echo $item->average_rating;
+                } else {
+                    echo 'Item unavailable.';
+                }
+            }
+        ?>
+    </div>
+    </body>
+</html>
 
-$cart->user_id = 11; // Set the user the cart belongs to. (make sure it is in your local db)
-$cart->item_id = 1; // Set the Id of the item to modify in the cart. (make sure it is in your local db)
-$cart->quantity = 7; // Set new quantity of the item.
-$cart->update(); // Update the db with new details.
 
-echo $cart->getItems(); // Get items for the user.
-
-$cart->quantity = 4; // Change the item quantity.
-$cart->update(); // Update the db with new details.
-
-echo "<br/>";
-echo $cart->getItems(); // Get items for the user.
-
-$cart->quantity = 0; // Change quantity of the item.
-$cart->update(); // Update the db, quantity is 0 so item is removed from the users cart.
-
-echo "<br/>";
-echo $cart->getItems(); // Get items for the user.
 

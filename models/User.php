@@ -107,12 +107,12 @@ class User
     }
 
     /**
-     * Checks whether a set of credentials is correct.
-     *
-     * Uses the given email and password to check if the provided login details are correct.
-     *
-     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
-     */
+ * Checks whether a set of credentials is correct.
+ *
+ * Uses the given email and password to check if the provided login details are correct.
+ *
+ * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+ */
     public function checkLogin() {
         $query = "SELECT user_id, email, password  FROM $this->table WHERE email = ?";
         $stmt = $this->conn->prepare($query);
