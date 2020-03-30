@@ -35,7 +35,7 @@ class Cart
      * Updates item details for a given user's cart.
      * @return bool|null Whether the cart was updated successfully, When an error occurs with the database.
      */
-    public function update() {
+    public function updateItem() {
         if ($this->quantity === 0) {
             return $this->deleteItem();
         } else {
@@ -52,6 +52,26 @@ class Cart
                 echo $e->getMessage();
                 return null;
             }
+        }
+    }
+
+    /**
+     * Adds an item to the cart, increments the quantity if already exists.
+     * @return bool|null Whether the add was successful, null on database error.
+     */
+    public function addItem() {
+        $query = "INSERT INTO $this->table (user_id, item_id, quantity) VALUES (:user_id, :item_id, :quantity) ON DUPLICATE KEY UPDATE quantity = quantity + 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+        $stmt->bindParam(":item_id", $this->item_id);
+        $stmt->bindParam(":quantity", $this->quantity);
+
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
         }
     }
 
