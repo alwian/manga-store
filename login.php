@@ -65,12 +65,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <form class="forms" action="login.php" method="post">
             <div class="form-group">
                 <label for="InputEmail">Email address</label>
-                <input type="email" class="form-control" id="InputPassword" name="email" aria-describedby="emailHelp" placeholder="Email">
+                <input type="email" class="form-control col-*-1" id="InputPassword" name="email" aria-describedby="emailHelp" placeholder="Email">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="InputPassword">Password</label>
-                <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
+                <input type="password" class="form-control col-*-1" id="InputPassword" name="password" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-primary" id="login-button">Submit</button>
             <p class="form-text text-danger"><?php echo$errorMsg ?></p>

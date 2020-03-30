@@ -39,6 +39,8 @@ $author = $obj->author;
 <body>
     <?php
         require "header.php";
+    ?>
+    <?php
         // Valid Page with JSON
         $categories = $obj->categories;
         $description = $obj->description;
