@@ -28,41 +28,23 @@
                         $user = new User($db->connect());
                         $user->user_id = $_SESSION["id"];
                         $user->getUser();
-
-                        if(isset($_SESSION['userType']) && $_SESSION['userType']!= "consumer") {
-                            echo "<li class=\"nav - item\"><a href=\"dashboard\index.php\">dashboard</a></li>";
-                        }
-                        else{
-                            echo "<li class=\"nav - item\"><a href=\"profile.php\">Hi, $user->first_name</a></li>";
-                        }
-
-                        echo "<li class=\"nav-item\"><a href=\"cart.php\">Cart</a></li>
-                            <li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>";
-
-                    }
-                    else{
-                        echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
-                              <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>";
-                    }
-                ?>
-
-
-                    if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
-
                          echo "
                             <div class=\"btn-group\">
                                   <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                    My Account
+                                    Hi, $user->first_name
                                   </button>
                                   <div class=\"dropdown-menu\">
-                                        <a class=\"dropdown-item text-black-50\" href=\"/profile.php\">Account</a>";
+                                        <a class=\"dropdown-item text-black-50\" href=\"/profile.php\">My Account</a>";
 
-                                        if(isset($_SESSION['type']) && $_SESSION['type'] != "consumer") {
+                                        if($user->type != "consumer") {
+                                            echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
                                             echo "<a  class=\"dropdown-item text-black-50\" href=\"dashboard/index.php\">Dashboard</a>                         
                                                 ";
                                         };
-                                         if(isset($_SESSION['type']) && $_SESSION['type'] == "consumer") {
+                                         if($user->type == "consumer") {
+                                             echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
                                              echo "<a  class=\"dropdown-item text-black-50\" href=\"applyBecomeSeller.php\">Apply To Be Seller</a>";
+
                                          };
 
                                         echo "
