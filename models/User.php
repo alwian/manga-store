@@ -235,4 +235,47 @@ class User
         }
 
     }
+
+
+    /**
+     * This function is display users who applied to be seller
+     *
+     * After user click on the apply to be a seller it will be
+     * displayed in "Apply To Be Seller List" page in dashboard
+     *
+     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     */
+    public function displayAppliedUser(){
+        $query = "SELECT * FROM seller_requests";
+        $stmt = $this->conn->prepare($query);
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+    /**
+     * This function is delete records from seller_requests list
+     *
+     * After click on the delete on the acceptApplying page
+     * Records will be deleted
+     *
+     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     */
+    public function deleteUserFromSellerApllyList(){
+        $query = "DELETE FROM seller_requests WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }
