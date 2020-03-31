@@ -14,9 +14,9 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="../index.php">
             <ion-icon name="list-circle-outline"></ion-icon>
-            <span>Dashboard</span></a>
+            <span>HomePage</span></a>
     </li>
 
     <?php
@@ -74,7 +74,7 @@
                                     <a class=\"collapse-item\" href=\"#\">Seller Management</a>
                                     <a class=\"collapse-item\" href=\"acceptApplying.php\">Seller Apply List</a>
                                     <h6 class=\"collapse-header\">Order:</h6>
-                                    <a class=\"collapse-item\" href=\"#\">Order Display</a>
+                                    <a class=\"collapse-item\" href=\"displayAllOrders.php\">Order Display</a>
                                     <a class=\"collapse-item\" href=\"#\">Search For Order</a>
                                 </div>";
                         }

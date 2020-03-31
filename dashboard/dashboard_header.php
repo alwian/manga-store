@@ -2,6 +2,8 @@
     session_start();
     require_once "../config/Database.php";
     require_once "../models/User.php";
+    require_once "../models/Order.php";
+    require_once "../models/Item.php";
     if(isset($_SESSION['id'])){
         $db = new Database();
         $conn = $db->connect();
