@@ -10,6 +10,7 @@ if(isset($_GET["id"]) && isset($_GET["type"])) {
     $order->deleteOrder();
     header("Location: searchOrder.php");
 }
+
 ?>
 
 <!-- Content Wrapper -->
