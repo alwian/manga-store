@@ -19,15 +19,32 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-<?php
-if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
-    echo "<li class=\"nav-item\"><a href=\"/profile.php\">Account</a></li>";
-    echo "<li class=\"nav-item\"><a href=\"/logout.php\">Logout</a></li>";
-} else {
-    echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
+                <?php
+                    require_once "config/Database.php";
+                    require_once "models/User.php";
+
+                    if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
+                        $db = new Database();
+                        $user = new User($db->connect());
+                        $user->user_id = $_SESSION["id"];
+                        $user->getUser();
+
+                        if(isset($_SESSION['userType']) && $_SESSION['userType']!= "consumer") {
+                            echo "<li class=\"nav - item\"><a href=\"dashboard\index.php\">dashboard</a></li>";
+                        }
+                        else{
+                            echo "<li class=\"nav - item\"><a href=\"profile.php\">Hi, $user->first_name</a></li>";
+                        }
+
+                        echo "<li class=\"nav-item\"><a href=\"cart.php\">Cart</a></li>
+                            <li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>";
+
+                    }
+                    else{
+                        echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
                               <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>";
-}
-?>
+                    }
+                ?>
 
 
                     if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
