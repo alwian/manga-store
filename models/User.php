@@ -203,14 +203,13 @@ class User
      * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
     public function applyToBeSeller(){
-        $query = "SELECT user_id FROM 'seller_requests' WHERE user_id = :user_id";
+        $query = "SELECT user_id FROM seller_requests WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
         try {
-            $stmt->execute(array($this->user_id));
+            $stmt->execute();
             if ($stmt->rowCount() == 0) {
-                $stmt->close();
-                $query = "INSERT INTO 'seller_requests'(user_id) VALUES (:user_id)";
+                $query = "INSERT INTO seller_requests(user_id) VALUES (:user_id)";
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(':user_id', $this->user_id);
                 $stmt->execute();
