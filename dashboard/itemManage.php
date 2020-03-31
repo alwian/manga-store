@@ -2,87 +2,99 @@
 include "dashboard_header.php";
 include "dashboard_sidebar.php";
 require_once "../models/Item.php";
+require_once "../models/User.php";
+
+$db = new Database();
+$conn = $db->connect();
+$user = new User($conn);
+$user->user_id = $_SESSION['id'];
 
 // If the user is already logged in, take them to the homepage.
 if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     header("Location: ../login.php");
 } else {
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if (isset($_GET['itemId']) && !empty($_GET['itemId'])) {
-            $id = $_GET['itemId'];
-        } else {
-            echo 'Item id is required.';
-            exit;
-        }
-    } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['itemId']) && !empty($_POST['itemId'])) {
-            $id = $_POST['itemId'];
-        } else {
-            echo 'Item id is required.';
-            exit;
-        }
-    } else {
-        echo 'Invalid Request method.';
-    }
-
-    $item = new Item($conn);
-    $item->item_id = $id;
-    if ($item->exists()) {
-        $item->getItem();
-        if (!($item->seller_id === $_SESSION['id'])) {
-            echo "You do not own this item.";
-            exit;
-        }
-    } else {
-        echo 'Item does not exist.';
+    $user->getUser();
+    if ($user->type !== 'seller') {
+        echo 'You must be a seller to access this page.';
         exit;
-    }
+    } else {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            if (isset($_GET['itemId']) && !empty($_GET['itemId'])) {
+                $id = $_GET['itemId'];
+            } else {
+                echo 'Item id is required.';
+                exit;
+            }
+        } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['itemId']) && !empty($_POST['itemId'])) {
+                $id = $_POST['itemId'];
+            } else {
+                echo 'Item id is required.';
+                exit;
+            }
+        } else {
+            echo 'Invalid Request method.';
+        }
 
-    $error = '';
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
-            !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
-            $item->name = $_POST['itemName'];
-            $item->author = $_POST['itemAuthor'];
-            $item->price = $_POST['itemPrice'];
-            $item->stock = $_POST['itemStock'];
-            $item->description = $_POST['itemDescription'];
+        $item = new Item($conn);
+        $item->item_id = $id;
+        if ($item->exists()) {
+            $item->getItem();
+            if (!($item->seller_id === $_SESSION['id'])) {
+                echo "You do not own this item.";
+                exit;
+            }
+        } else {
+            echo 'Item does not exist.';
+            exit;
+        }
+
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
+                !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
+                $item->name = $_POST['itemName'];
+                $item->author = $_POST['itemAuthor'];
+                $item->price = $_POST['itemPrice'];
+                $item->stock = $_POST['itemStock'];
+                $item->description = $_POST['itemDescription'];
 
 
-            $upload_successful = true;
-            if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
-                $target_dir = "../data/product-images/";
-                $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
+                $upload_successful = true;
+                if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
+                    $target_dir = "../data/product-images/";
+                    $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
+                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
 
-                if ($check !== false) {
-                    if ($_FILES['itemImage']['size'] > 2500000) {
-                        $error = 'Image is too big';
-                        $upload_successful = false;
-                    } else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                        $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                        $upload_successful = false;
-                    } else if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
-                        unlink($target_dir . $item->image);
-                        $item->image = $_FILES['itemImage']['name'];
+                    if ($check !== false) {
+                        if ($_FILES['itemImage']['size'] > 2500000) {
+                            $error = 'Image is too big';
+                            $upload_successful = false;
+                        } else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                            $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                            $upload_successful = false;
+                        } else if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
+                            unlink($target_dir . $item->image);
+                            $item->image = $_FILES['itemImage']['name'];
+                        } else {
+                            $error = "Sorry, there was an error uploading your file.";
+                            $upload_successful = false;
+                        }
                     } else {
-                        $error = "Sorry, there was an error uploading your file.";
+                        $error = "File is not an image.";
                         $upload_successful = false;
                     }
-                } else {
-                    $error = "File is not an image.";
-                    $upload_successful = false;
                 }
-            }
 
-            if ($upload_successful) {
-                $item_id = $item->addItem();
-                if ($item_id != null) {
-                    header("Location: ../page.php?id=$item_id");
-                    exit;
-                } else {
-                    $error = "There was an error updating the item.";
+                if ($upload_successful) {
+                    $success = $item->update();
+                    if ($success != null) {
+                        header("Location: ../page.php?id=$item->item_id");
+                        exit;
+                    } else {
+                        $error = "There was an error updating the item.";
+                    }
                 }
             }
         }
@@ -103,7 +115,7 @@ if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Add Item</h1>
+                <h1 class="h3 mb-0 text-gray-800">Update Item</h1>
             </div>
 
             <form action="itemManage.php" method="post" enctype="multipart/form-data">
@@ -132,7 +144,7 @@ if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
                     <label for="itemDescription">Description</label>
                     <textarea class="form-control" id="itemDescription" name="itemDescription" required><?php echo $item->description;?></textarea>
                 </div>
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit">Update</button>
                 <?php echo "<p class='text-danger'>$error</p>" ?>
             </form>
 

@@ -20,7 +20,7 @@ class Item
     }
 
     public function addItem() {
-        $query = "INSERT INTO $this->table (seller_id, name, author, price, stock, image, description) VALUES (:seller_id, :name, :author, :price, :stock, :image, :description) ON DUPLICATE KEY UPDATE name = :name, author = :author, price = :price, stock = :stock, image = :image, description = :description";
+        $query = "INSERT INTO $this->table (seller_id, name, author, price, stock, image, description) VALUES (:seller_id, :name, :author, :price, :stock, :image, :description)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':seller_id', $this->seller_id);
         $stmt->bindParam(':name', $this->name);
@@ -38,6 +38,7 @@ class Item
             return null;
         }
     }
+
     public function exists() {
         $query = "SELECT * FROM $this->table WHERE item_id = :item_id OR name = :name";
         $stmt = $this->conn->prepare($query);
@@ -51,6 +52,20 @@ class Item
             } else {
                 return false;
             }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function deleteItem() {
+        $query = "DELETE FROM $this->table WHERE item_id = :item_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":item_id", $this->item_id);
+
+        try {
+            $stmt->execute();
+            return true;
         } catch (PDOException $e) {
             echo $e->getMessage();
             return null;
@@ -84,7 +99,26 @@ class Item
         }
     }
 
+    public function update() {
+        $query = "UPDATE $this->table SET name = :name, author = :author, price = :price, stock = :stock, image = :image, description = :description WHERE item_id = :item_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':author', $this->author);
+        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':stock', $this->stock);
+        $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(":item_id", $this->item_id);
 
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+
+    }
     public function getItems() {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);

@@ -6,46 +6,47 @@ require_once "../models/Item.php";
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
-        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'] &&
-        file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name']))) {
+        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
         $item = new Item($conn);
         $item->seller_id = $_SESSION['id'];
         $item->name = $_POST['itemName'];
 
-        if (!$item->exists()) {
-            $item->author = $_POST['itemAuthor'];
-            $item->price = $_POST['itemPrice'];
-            $item->stock = $_POST['itemStock'];
-            $item->description = $_POST['itemDescription'];
+        if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
+            if (!$item->exists()) {
+                $item->author = $_POST['itemAuthor'];
+                $item->price = $_POST['itemPrice'];
+                $item->stock = $_POST['itemStock'];
+                $item->description = $_POST['itemDescription'];
 
-            $target_dir = "../data/product-images/";
-            $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
-            if ($check !== false) {
-                if ($_FILES['itemImage']['size'] > 2500000) {
+                $target_dir = "../data/product-images/";
+                $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
+                if ($check !== false) {
                     $error = 'Image is too big';
-                } else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                    $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                } else if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
-                    $item->image = $_FILES['itemImage']['name'];
-                    $item_id = $item->addItem();
-                    if ($item_id !== null) {
-                        header("Location: ../page.php?id=$item_id");
+                    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                        $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    } else if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
+                        $item->image = $_FILES['itemImage']['name'];
+                        $item_id = $item->addItem();
+                        if ($item_id !== null) {
+                            header("Location: ../page.php?id=$item_id");
+                        } else {
+                            unlink($target_file);
+                            $error = "There was an error adding the item.";
+                        }
                     } else {
-                        unlink($target_file);
-                        $error =  "There was an error adding the item.";
+                        $error = "Sorry, there was an error uploading your file.";
                     }
                 } else {
-                    $error = "Sorry, there was an error uploading your file.";
+                    $error = "File is not an image.";
                 }
             } else {
-                $error = "File is not an image.";
+                $error = 'Item name already exists.';
             }
         } else {
-            $error = 'Item name already exists.';
+            $error = 'Image is too big';
         }
-
     } else {
         $error = "All fields not filled.";
     }

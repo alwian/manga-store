@@ -1,6 +1,7 @@
 <?php
 include "dashboard_header.php";
 include "dashboard_sidebar.php";
+require_once "../models/User.php";
 require_once "../models/Item.php";
 
 $db = new Database();
@@ -8,6 +9,32 @@ $conn = $db->connect();
 $user = new User($conn);
 $user->user_id = $_SESSION['id'];
 
+if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    header("Location: ../login.php");
+} else {
+    $user->getUser();
+    if ($user->type !== 'seller') {
+        echo 'You must be a seller to access this page.';
+        exit;
+    } else {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_POST['operation']) && $_POST['operation'] === 'Delete' && isset($_POST['itemId']) && !empty($_POST['itemId']))  {
+                $item = new Item($conn);
+                $item->item_id = $_POST['itemId'];
+                $item->getItem();
+                if ($item->seller_id === $_SESSION['id']) {
+                    if ($item->deleteItem() === null) {
+                        echo 'There was a problem deleting the item.';
+                    } else {
+                        unlink("../data/product-images/$item->image");
+                    }
+                } else {
+                    echo 'You do not own this item.';
+                }
+            }
+        }
+    }
+}
 
 ?>
 <div id="content-wrapper" class="d-flex flex-column">
@@ -45,11 +72,14 @@ $user->user_id = $_SESSION['id'];
                         $item = new Item($conn);
                         $item->item_id = $current_item['item_id'];
                         if ($item->getItem()) {
-                            echo "<tr>
+                            echo "<tr xmlns=\"http://www.w3.org/1999/html\">
                               <td>$item->item_id</td>
                               <td>$item->name</td>
-                              <td><a href='ItemManage.php?itemId=$item->item_id'><span class='material-icons bg-white text-info'>Edit</span></a></td>
-                              <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons bg-white text-danger'>delete</span></a></td>
+                              <td><a href='ItemManage.php?itemId=$item->item_id'><span class='material-icons text-info'>Edit</span></a></td>
+                              <form action='myItems.php' method='post'>
+                                <input type='hidden' value='$item->item_id' name='itemId' />
+                                <td><input class='material-icons text-danger' style=\"background:none; border-width:0;\" type='submit' value='Delete' name='operation'/></td>
+                              </form>
                             </tr>";
                         } else {
                             echo 'Item unavailable.';
