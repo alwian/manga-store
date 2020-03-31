@@ -29,6 +29,13 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, `phone`, `image`, `bio`, `type`) VALUES
+(1, 'Amanda', 'N', 'a@hello.com', '$2y$10$KuEuY.1wlHsTvSs9TkAQhuMnqw.bP8ZoPQS0KC4FBBL3pfaSyA5D6', NULL, NULL, NULL, 'seller'),
+(2, 'Amanda', 'N', 'a@hi.co.uk', '$2y$10$DKrJJJxGfwdX7oywrRo4FOwlXQevZg4aIuRBs0hd19ffGPelAkO.K', NULL, NULL, NULL, 'seller'),
+(3, 'John', 'Smith', 'john@smithy.com', 'johnsmith', '90173662', NULL, 'I love comic books!', 'seller'),
+(4, 'Mika', 'South', 'music@lollipop.com', 'mrbrown', '89086392', NULL, NULL, 'seller'),
+(5, 'Joanna', 'Johnson', 'jj@johnson.com', 'joanna90', '70083725234', NULL, NULL, 'seller');
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -55,8 +62,10 @@ CREATE TABLE `items` (
   `description` varchar(1612) DEFAULT NULL,
   `number_pages` int(5) DEFAULT NULL,
   `rating_count` int(10) DEFAULT NULL,
-  `total_rating` decimal(2,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `total_rating` decimal(2,2) DEFAULT NULL,
+  PRIMARY KEY (item_id),
+  FOREIGN KEY (seller_id) REFERENCES users (user_id)
+);
 
 --
 -- Dumping data for table `items`
@@ -305,21 +314,6 @@ INSERT INTO `items` (`item_id`, `name`, `author`, `price`, `seller_id`, `stock`,
 (236, 'Demon Slayer: Kimetsu no Yaiba, Vol. 10 - Demon Slayer: Kimetsu no Yaiba 10 (Paperback)', 'Koyoharu Gotouge', '6.99', 1, 10, '9781974704552.jpg', 'Tanjiro sets out on the path of the Demon Slayer to save his sister and avenge his family!In Taisho-era Japan, Tanjiro Kamado is a kindhearted boy who makes a living selling charcoal. But his peaceful life is shattered when a demon slaughters his entire family. His little sister Nezuko is the only survivor, but she has been transformed into a demon herself! Tanjiro sets out on a dangerous journey to find a way to return his sister to normal and destroy the demon who ruined his life.Despite some comic misunderstandings that almost blow their cover, Tanjiro, Inosuke and Zenitsu smoke out Daki, a demon that has been devouring the residents of the entertainment district for years. The Hashira Tengen Uzui and his ninja companions engage Daki, but if they cannot handle her, will Tanjiro and his friends be able to take on one of Kibutsuji\'s Upper-Ranked demons by themselves?', 200, 122, '0.99'),
 (237, 'Radiant, Vol. 1 - Radiant 1 (Paperback)', 'Tony Valente', '6.99', 1, 10, '9781974703814.jpg', 'The world is overrun with monsters called Nemesis-and a young boy infected by them will stop at nothing to defeat them all!Seth is an aspiring wizard living in a pastoral village under the watchful eye of his mentor. Like all wizards, he is an \"infected\": one of the few living creatures that has survived contact with a Nemesis, creatures fallen from the sky that contaminate all they touch. His apparent immunity led him to choose a path that seemed to be a perfect: to become someone who hunts and fights the Nemesis. But Seth longs for a quest that goes beyond the simple hunt for monsters. He wants to find their home, Radiant. Along with other wizards, he travels the world in search of Radiant, under the sinister eye of the Inquisition...Seth has big goals of defeating Nemesis, but first he must earn the trust of the very villagers he wants to protect-not an easy task when those who use magic are just as mistrusted as the Nemesis they fight and Seth can barely control his monstrous powers! It\'ll take more than battle prowess-although it\'ll take that too- to get Seth\'s quest out of the boonies and into the bigtime!', 184, 12, '0.99'),
 (238, 'Naruto (3-in-1 Edition), Vol. 4: Includes vols. 10, 11 & 12 - Naruto (3-in-1 Edition) 4 (Paperback)', 'Masashi Kishimoto', '9.99', 2, 10, '9781421554884.jpg', 'With only a few matches left to be fought in the preliminaries to the third portion of the Chunin Ninja Selection Exams, the bout between Gaara and Rock Lee begins. And in preparation for the finals, Naruto struggles to harness the power of the Nine-Tailed Fox chakra locked within him. Too bad his first opponent is considered a genius!', 576, 123, '0.99');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `items`
---
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`item_id`),
-  ADD KEY `seller_id` (`seller_id`);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 
 -- Cart Items

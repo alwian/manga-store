@@ -2,8 +2,8 @@
 class Database
 {
     private $dbname = 'csci3172g1';
-    private $host = 'localhost';
-    private $username = 'root';
+    private $host = 'db.cs.dal.ca';
+    private $username = '';
     private $password = '';
     private $conn;
 

@@ -93,7 +93,7 @@ button#paypal-button{
     }
 }
 
-@media (min-width: 992px){
+@media (max-width: 1199px){
     .input-group-append{
         width: 70%;
         justify-content: center;
@@ -118,13 +118,6 @@ button#paypal-button{
 
     div.card img{
         height: 50%;
-    }
-
-    .card-text{
-        height: 80%;
-        white-space: normal;
-        overflow: scroll;
-        text-overflow: ellipsis;
     }
 
     .items{
@@ -287,3 +280,71 @@ meter[value="4"]::-moz-meter-bar { background: green; }
     font-family: Courgette, cursive;
     margin-top: 1em;
 }
+
+#item-page{
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    border: .25rem rgb(241, 241, 241) solid;
+    border-radius: 2rem;
+    padding: 2rem;
+    flex-direction: row;
+}
+
+#item-info{
+    width: 80%;
+    margin: .5%;
+}
+
+#page-title{
+    /* margin-left: 0; */
+    margin: 0;
+}
+
+em{
+    color: grey;
+}
+
+#item-details{
+    display: flex;
+    flex-direction:row;
+}
+
+#page-image{
+    width:25%;
+}
+
+#page-extras{
+    width: 75%;
+}
+
+#item-purchase{
+    width: 20%;
+    height: 50%;
+    margin: .5%;
+    border: .25rem rgb(241, 241, 241) solid;
+    border-radius: 2rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+#selectQuantity{
+    margin: auto;
+    width: 50%;
+    border: 2px lightgrey  solid;
+    border-radius: 0;
+}
+
+#cart-btn{
+    background-color: goldenrod;
+    border-color: white;
+    margin-top: 2rem;
+    margin-left: 0;
+}
+
+#cart-btn:hover{
+    background-color: gold;
+    color: black;
+}
+
+
