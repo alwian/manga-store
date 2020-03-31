@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `users`
     last_name  VARCHAR(36)                          NOT NULL,
     email      VARCHAR(128)                         NOT NULL UNIQUE,
     password   VARCHAR(64)                          NOT NULL,
-    phone      VARCHAR(12) UNIQUE,
+    phone      VARCHAR(12)                                  UNIQUE,
     image      VARCHAR(64),
     bio        VARCHAR(512),
     type       ENUM ('consumer', 'seller', 'admin') NOT NULL DEFAULT 'consumer',
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `items`
     item_id      INT AUTO_INCREMENT NOT NULL,
     seller_id    INT                NOT NULL,
     name         VARCHAR(64)        NOT NULL UNIQUE,
-    author_id    INT                NOT NULL,
+    author       VARCHAR(64)        NOT NULL,
     price        REAL               NOT NULL,
     stock        INT                NOT NULL,
     image        VARCHAR(64)        NOT NULL,
@@ -27,26 +27,9 @@ CREATE TABLE IF NOT EXISTS `items`
     rating_count INT                NOT NULL DEFAULT 0,
     total_rating INT                NOT NULL DEFAULT 0,
     PRIMARY KEY (item_id),
-    FOREIGN KEY (seller_id) REFERENCES users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (author_id) REFERENCES authors (author_id) ON DELETE CASCADE
-
+    FOREIGN KEY (seller_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS `authors`
-(
-    author_id INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(64),
-    PRIMARY KEY (author_id)
-);
-
--- Genres
-CREATE TABLE IF NOT EXISTS `genres`
-(
-    item_id INT         NOT NULL,
-    genre   VARCHAR(20) NOT NULL,
-    PRIMARY KEY (item_id, genre),
-    FOREIGN KEY (item_id) REFERENCES items (item_id) ON DELETE CASCADE
-);
 
 -- Cart Items
 CREATE TABLE IF NOT EXISTS `cart_items`
@@ -142,9 +125,10 @@ CREATE TABLE IF NOT EXISTS `shipping_information`
     FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS `recommendations` (
-     recommendation_id INT AUTO_INCREMENT NOT NULL,
-     item_id INT NOT NULL,
-     PRIMARY KEY (recommendation_id),
-     FOREIGN KEY (item_id) REFERENCES items (item_id)
+CREATE TABLE IF NOT EXISTS `recommendations`
+(
+    recommendation_id INT AUTO_INCREMENT NOT NULL,
+    item_id           INT                NOT NULL,
+    PRIMARY KEY (recommendation_id),
+    FOREIGN KEY (item_id) REFERENCES items (item_id)
 );

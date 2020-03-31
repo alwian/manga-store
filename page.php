@@ -19,15 +19,13 @@ if (!$item->getItem()) {
     echo 'Could not find the specified item.';
     exit;
 }
-
-$author = $item->getAuthorName();
 ?>
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer" />
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $author;?></title>
+    <title><?php echo $item->author;?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import bootstrap.css-->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
@@ -38,8 +36,7 @@ $author = $item->getAuthorName();
 require "header.php";
 
 echo 'Name: ' . $item->name . '<br><br>';
-echo 'Document Author: ' . $author . '<br><br>';
-echo 'Manga Categories: ' . json_encode($item->genres) . '<br><br>';
+echo 'Document Author: ' . $item->author . '<br><br>';
 
 echo '<br>';
 echo $item->description . '<br>';

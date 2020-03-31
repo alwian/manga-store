@@ -29,6 +29,37 @@ if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
 }
 ?>
 
+
+                    if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
+
+                         echo "
+                            <div class=\"btn-group\">
+                                  <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                                    My Account
+                                  </button>
+                                  <div class=\"dropdown-menu\">
+                                        <a class=\"dropdown-item text-black-50\" href=\"/profile.php\">Account</a>";
+
+                                        if(isset($_SESSION['type']) && $_SESSION['type'] != "consumer") {
+                                            echo "<a  class=\"dropdown-item text-black-50\" href=\"dashboard/index.php\">Dashboard</a>                         
+                                                ";
+                                        };
+                                         if(isset($_SESSION['type']) && $_SESSION['type'] == "consumer") {
+                                             echo "<a  class=\"dropdown-item text-black-50\" href=\"applyBecomeSeller.php\">Apply To Be Seller</a>";
+                                         };
+
+                                        echo "
+                                        <div class=\"dropdown-divider\"></div>
+                                            <a class=\"dropdown-item text-black-50\" href=\"/logout.php\">Logout</a>
+                                        </div>
+                                  </div>
+                            </div> ";
+                    } else {
+                            echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
+                                  <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>";
+                    }
+                ?>
+
             </ul>
         </div>
     </div>

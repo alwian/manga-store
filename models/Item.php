@@ -7,8 +7,7 @@ class Item
     public $item_id;
     public $seller_id;
     public $name;
-    public $author_id;
-    public $genres;
+    public $author;
     public $price;
     public $stock;
     public $image;
@@ -20,24 +19,34 @@ class Item
         $this->conn = $conn;
     }
 
-    public function getItem() {
-        $query = "SELECT item_id, seller_id, name, author_id, price, stock, image, description, total_rating / rating_count as average_rating FROM $this->table WHERE item_id = :item_id";
+    public function addItem() {
+        $query = "INSERT INTO $this->table (seller_id, name, author, price, stock, image, description) VALUES (:seller_id, :name, :author, :price, :stock, :image, :description)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":item_id", $this->item_id);
+        $stmt->bindParam(':seller_id', $this->seller_id);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':author', $this->author);
+        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':stock', $this->stock);
+        $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':description', $this->description);
 
         try {
             $stmt->execute();
-            $stmt->bindColumn('seller_id', $this->seller_id);
-            $stmt->bindColumn('name', $this->name);
-            $stmt->bindColumn('author_id', $this->author_id);
-            $stmt->bindColumn('price', $this->price);
-            $stmt->bindColumn('stock', $this->stock);
-            $stmt->bindColumn('image', $this->image);
-            $stmt->bindColumn('description', $this->description);
-            $stmt->bindColumn('average_rating', $this->average_rating);
-            if ($stmt->rowCount() === 1) {
-                $stmt->fetch(PDO::FETCH_BOUND);
-                $this->getGenres();
+            return $this->conn->lastInsertId();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function exists() {
+        $query = "SELECT * FROM $this->table WHERE item_id = :item_id OR name = :name";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":item_id", $this->item_id);
+        $stmt->bindParam(":name", $this->name);
+
+        try {
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
                 return true;
             } else {
                 return false;
@@ -48,39 +57,33 @@ class Item
         }
     }
 
-    private function getGenres() {
-        $query = "SELECT genre FROM genres WHERE item_id = :item_id";
+    public function getItem() {
+        $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, total_rating / rating_count as average_rating FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
 
         try {
             $stmt->execute();
-            $this->genres = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return null;
-        }
-    }
-
-    public function getAuthorName() {
-        $query = "SELECT name FROM authors WHERE author_id = :author_id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":author_id", $this->author_id);
-
-        try {
-            $stmt->execute();
-            $stmt->bindColumn('name', $author_name);
+            $stmt->bindColumn('seller_id', $this->seller_id);
+            $stmt->bindColumn('name', $this->name);
+            $stmt->bindColumn('author', $this->author);
+            $stmt->bindColumn('price', $this->price);
+            $stmt->bindColumn('stock', $this->stock);
+            $stmt->bindColumn('image', $this->image);
+            $stmt->bindColumn('description', $this->description);
+            $stmt->bindColumn('average_rating', $this->average_rating);
             if ($stmt->rowCount() === 1) {
-                $stmt->fetch(PDO::FETCH_ASSOC);
-                return $author_name;
+                $stmt->fetch(PDO::FETCH_BOUND);
+                return true;
             } else {
-                return null;
+                return false;
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
+
 
     public function getItems() {
         $query = "SELECT * FROM $this->table";

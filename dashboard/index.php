@@ -186,7 +186,7 @@
                                         <div class=\"card-body\">
                                             <div class=\"row no-gutters align-items-center\">
                                                 <div class=\"col mr-2\">
-                                                    <div class=\"h5 mb-0 font-weight-bold text-gray-800\">Add Item</div>
+                                                    <a href='addItem.php'><div class=\"h5 mb-0 font-weight-bold text-gray-800\">Add Item</div></a>
                                                 </div>
                                                 <div class=\"col-auto\">
                                                     <i class=\"fas fa-list text-primary fa-3x\"></i>
