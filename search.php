@@ -1,11 +1,11 @@
 <?php
 session_start();
 include 'config/Database.php';
-include 'models/Book.php';
+include 'models/Item.php';
 $value = $_POST['search'];
 $mysql = new Database();
 $conn = $mysql->connect();
-$query = "SELECT * from `search_table` where UPPER(title) like UPPER(:title) ";
+$query = "SELECT * from `items` where UPPER(name) like UPPER(:name) ";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,11 +42,11 @@ $query = "SELECT * from `search_table` where UPPER(title) like UPPER(:title) ";
 
         <?php
 $statement = $conn->prepare($query);
-$statement->bindValue(":title", "%{$value}%");
+$statement->bindValue(":name", "%{$value}%");
 $statement->execute();
 $result = $statement->fetchAll();
 foreach ($result as $row) {
-    $bk = new Book();
+    $bk = new Item($conn);
     $bk->db_construct($row);
     $bk->displayCard();
 }
