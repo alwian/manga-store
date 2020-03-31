@@ -39,7 +39,7 @@ require "header.php";
     <div class="items">
         <?php
         $item = new Item($conn);
-        if ($recommended = $item->getRecommended()) {
+        if ($recommended = $item->getTopTen()) {
             foreach ($recommended as $i) {
                 $item->item_id = $i['item_id'];
                 $item->getItem();
