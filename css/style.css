@@ -1,5 +1,20 @@
-.container{
+/* For mobile phones: */
+[class*="col-"] {
     width: 100%;
+}
+  
+@media only screen and (min-width: 300px) {
+    /* For tablets: */
+    .item-container#item-page{
+        flex-direction: column;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .item-container#item-page{
+        flex-direction: row;
+    }
 }
 
 .navbar{
@@ -28,7 +43,6 @@
 }
 
 input{
-    width: 80%;
     border-radius: .8em 0 0 .8em;
     border: 0px;
     padding-left: 1em;
@@ -48,181 +62,22 @@ input{
     fill: #fff;
 }
 
+#pay-button{
+    display:flex;
+    justify-content: end;
+    margin-right: 8rem;
+}
+
 button#paypal-button{
     background-image: url("https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif");
     background-repeat: no-repeat;
     background-size: contain;
-    width: 200px;
-    height: 100px;
-    margin-top: 50px;
+    width: 10rem;
+    height: 5rem;
 }
 
-@media (min-width: 1900px){
-    .input-group-append{
-        width: 70%;
-        justify-content: center;
-    }
-
-    ul.navbar-nav{
-        width: 100%;
-    }
-    
-    li.nav-item{
-        margin: auto;
-    }
-
-    div.card {
-        min-width: 12.5%;
-        max-width: 12.5%;
-        /* width: 12.5%; */
-        margin: 2rem;
-    }
-
-    div.card img{
-        height: 50%;
-
-    }
-
-    .card-body{
-        height: 50%;
-    }
-
-    .items{
-        justify-content: left;
-        margin-left: 2rem;
-    }
-
-    h5.card-title{
-        font-size: 1.25rem;
-    }
-
-    .btn-primary{
-        font-size: 1rem;
-    }
-
-}
-
-@media (max-width: 1899px){
-    .input-group-append{
-        width: 70%;
-        justify-content: center;
-    }
-
-    ul.navbar-nav{
-        width: 100%;
-    }
-    
-    li.nav-item{
-        margin: auto;
-    }
-
-    div.card {
-        min-width: 17.5%;
-        max-width: 20%;
-        width: 17.5%;
-        margin: 2rem;
-    }
-
-    div.card img{
-        height: 50%;
-
-    }
-
-    .card-body{
-        height: 50%;
-    }
-
-    .items{
-        justify-content: left;
-        margin-left: 2rem;
-    }
-
-    h5.card-title{
-        font-size: 1.25rem;
-    }
-}
-
-@media (max-width: 1199px){
-    .input-group-append{
-        width: 70%;
-        justify-content: center;
-    }
-
-    ul.navbar-nav{
-        width: 100%;
-    }
-    
-    li.nav-item{
-        margin: auto;
-    }
-
-    div.card {
-        min-width: 12.5%;
-        max-width: 17.5%;
-        /* width: 12.5%; */
-        margin: 2rem;
-        display: flex;
-        flex-direction: column;
-    }
-
-    div.card img{
-        height: 50%;
-    }
-
-    .items{
-        justify-content: left;
-        margin-left: 2rem;
-    }
-
-    .btn.btn-primary{
-        margin-bottom: .5rem;
-        width: 80%;
-        font-size: 1rem;
-    }
-
-    h5.card-title{
-        font-size: 1em;
-    }
-
-}
-
-@media (max-width: 991px){
-    .input-group-append{
-        width: 40%;
-        justify-content: center;
-    }
-
-    ul.navbar-nav{
-        justify-content: left;
-    }
-
-    li.nav-items{
-        margin-left: 0;
-    }
-    
-    .page-container h2{
-        font-size: 1.5rem;
-    }
-
-    div.card{
-        max-width: 60%;
-        min-width: 40%;
-        width: 40%;
-        margin-top: 2rem;
-    }
-
-    div.card img{
-        width: 100%;
-        height: 60%;
-    }
-
-    .card-body{
-        height: 40%;
-    }
-
-    .items{
-        justify-content: center;
-    }
+.card{
+    margin: 1.25rem;
 }
 
 div.buttons{
@@ -233,15 +88,19 @@ div.buttons{
 }
 
 .page-container{
-    align-content: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-content: center;
 }
 
 .page-container h2{
     margin-left: 2rem;
     margin-top: 2rem;
+}
+
+.item-container{
+    display:flex;
+    flex-direction: row;
 }
 
 .items{
@@ -250,6 +109,7 @@ div.buttons{
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card .btn-primary{
@@ -277,6 +137,12 @@ div.buttons{
 
 #right-forms, #left-forms{
     width: 50%;
+    align-content: center;
+}
+
+.form-group{
+    width:80%;
+    margin-left:auto;
 }
 
 .form-group > div input, .form-group > div select{
@@ -342,18 +208,12 @@ meter[value="4"]::-moz-meter-bar { background: green; }
 }
 
 #item-page{
-    width: 90%;
     height: 100%;
     margin: auto;
     border: .25rem rgb(241, 241, 241) solid;
     border-radius: 2rem;
     padding: 2rem;
     flex-direction: row;
-}
-
-#item-info{
-    width: 80%;
-    margin: .5%;
 }
 
 #page-title{
@@ -383,9 +243,8 @@ em{
 }
 
 #item-purchase{
-    width: 20%;
     height: 50%;
-    margin: .5%;
+    margin-left: auto;
     border: .25rem rgb(241, 241, 241) solid;
     border-radius: 2rem;
     padding: 2rem;
@@ -411,4 +270,7 @@ em{
     color: black;
 }
 
-
+th{
+    border-top: none !important;
+    border-bottom: none !important;
+}

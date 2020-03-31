@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg" role="navigation">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="index.php">Manga Store</a>
-        <form class="input-group-append" action="search.php" method="POST">
-            <input id="form-control"
+        <form class="input-group-append col-md-8 col-sm-3 col-xs-3" action="search.php" method="POST">
+            <input class="col-" id="form-control"
                 value="<?php if (isset($value)) {echo $value;} ?>"
                 name='search' type="text"
                 placeholder="Search"></input>
@@ -13,11 +13,11 @@
                 </svg>
             </button>
         </form>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        <!-- <button class="navbar-toggler col-" type="button" data-toggle="collapse" data-target="#navbarResponsive"
             aria-controls="#navbarResponsive" aria-label="Toggle navigation">
             Menu
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        </button> -->
+        <div class="col-" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <?php
                     require_once "config/Database.php";
@@ -29,8 +29,8 @@
                         $user->user_id = $_SESSION["id"];
                         $user->getUser();
                          echo "
-                            <div class=\"btn-group\">
-                                  <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                            <div class=\"btn-group \">
+                                  <button type=\"button\" class=\"btn btn-primary col- dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
                                     Hi, $user->first_name
                                   </button>
                                   <div class=\"dropdown-menu\">
