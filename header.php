@@ -34,9 +34,10 @@
                                     Hi, $user->first_name
                                   </button>
                                   <div class=\"dropdown-menu\">
-                                        <a class=\"dropdown-item text-black-50\" href=\"/profile.php\">My Account</a>";
+                                        <a class=\"dropdown-item text-black-50\" href=\"profile.php\">My Account</a>";
 
                                         if($user->type != "consumer") {
+
                                             echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
                                             echo "<a  class=\"dropdown-item text-black-50\" href=\"dashboard/index.php\">Dashboard</a>                         
                                                 ";
@@ -49,7 +50,7 @@
 
                                         echo "
                                         <div class=\"dropdown-divider\"></div>
-                                            <a class=\"dropdown-item text-black-50\" href=\"/logout.php\">Logout</a>
+                                            <a class=\"dropdown-item text-black-50\" href=\"logout.php\">Logout</a>
                                         </div>
                                   </div>
                             </div> ";
