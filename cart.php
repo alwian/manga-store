@@ -7,7 +7,7 @@
 
     // If the user is already logged in, take them to the homepage.
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: index.php");
+        header("Location: login.php");
     }
 
     $db = new Database();
@@ -104,7 +104,6 @@ require_once 'header.php';
 
         <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
 

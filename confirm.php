@@ -3,7 +3,7 @@
 
     // If the user is already logged in, take them to the homepage.
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: index.php");
+        header("Location: login.php");
     }
 
 ?>
@@ -25,5 +25,7 @@
 
 <h1 class="text-center">Thank you for your purchase. We have received your order.</h1><br><br>
 
+<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
 </html>

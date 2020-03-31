@@ -13,4 +13,3 @@
     $cart->user_id =  $_SESSION['id'];
     $cart->deleteItem();
     header("Location: cart.php");
-?>
