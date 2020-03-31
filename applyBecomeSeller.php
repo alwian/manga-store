@@ -6,4 +6,7 @@
     $user = new User($db->connect());
     $user->user_id = $_SESSION['id'];
     $user->getUser();
+    $user->applyToBeSeller();
+    echo "sadsd";
+    //header("Location: index.php");
 ?>
