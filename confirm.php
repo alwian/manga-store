@@ -1,3 +1,13 @@
+<?php
+    session_start();
+
+    // If the user is already logged in, take them to the homepage.
+    if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
+        header("Location: index.php");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
