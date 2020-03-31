@@ -88,7 +88,6 @@
                                                 <a class=\"collapse-item\" href=\"addItem.php\">Add Item</a>
                                                 <h6 class=\"collapse-header\">Order:</h6>
                                                 <a class=\"collapse-item\" href=\"#\">Order Display</a>
-                                                <a class=\"collapse-item\" href=\"#\">Search For Order</a>
                                             </div>";
                         }
 
@@ -96,6 +95,13 @@
 
         </div>
     </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <!-- Heading -->
+    <div class="sidebar-brand-text text-center" >
+        <a href="index.php" class="text-white-50">Go Back To Home Page</a>
+    </div><br><br><br>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
