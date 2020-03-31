@@ -28,7 +28,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($user->checkLogin()){
                 $user->getUser();
                 $_SESSION['id'] = $user->user_id;
-                $_SESSION['userType'] = $user->type;
                 $_SESSION['Logged'] = true;
                 header("Location: index.php");
             }else{
