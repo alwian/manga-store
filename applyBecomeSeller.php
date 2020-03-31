@@ -8,4 +8,5 @@
     $user->getUser();
     $user->applyToBeSeller();
     header("Location: index.php");
+    
 ?>
