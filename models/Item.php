@@ -113,6 +113,14 @@ class Item
         }
 
     }
+    public function db_construct($record)
+    {
+        $this->name = $record['name'];
+        $this->image = $record['image'];
+        $this->description = $record['description'];
+        $this->item_id = $record['item_id'];
+
+    }
 
     public function displayCard()
     {
