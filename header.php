@@ -13,11 +13,43 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <?php
+                    require_once "config/Database.php";
+                    require_once "models/User.php";
+
                     if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
-                        echo "<li class=\"nav-item\"><a href=\"logout.php\">Logout</a></li>";
-                    }else{
-                        echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
-                              <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>";
+                        $db = new Database();
+                        $user = new User($db->connect());
+                        $user->user_id = $_SESSION["id"];
+                        $user->getuser();
+                         echo "
+                            <div class=\"btn-group\">
+                                  <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" id=\"account\">
+                                    Hi, $user->first_name
+                                  </button>
+                                  <div class=\"dropdown-menu\">
+                                        <a class=\"dropdown-item text-black-50\" href=\"profile.php\">My Account</a>";
+
+                                        if($user->type != "consumer") {
+
+                                            echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
+                                            echo "<a  class=\"dropdown-item text-black-50\" href=\"dashboard/index.php\">Dashboard</a>                         
+                                                ";
+                                        };
+                                         if($user->type == "consumer") {
+                                             echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
+                                             echo "<a  class=\"dropdown-item text-black-50\" href=\"applyBecomeSeller.php\">Apply To Be Seller</a>";
+
+                                         };
+
+                                        echo "
+                                        <div class=\"dropdown-divider\"></div>
+                                            <a class=\"dropdown-item text-black-50\" href=\"logout.php\">Logout</a>
+                                        </div>
+                                  </div>
+                            </div> ";
+                    } else {
+                            echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
+                                  <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>";
                     }
                 ?>
 

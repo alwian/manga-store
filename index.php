@@ -26,7 +26,6 @@
 <body>
     <?php
         require "header.php";
-        require "functions.php";
     ?>
     <div class="page-container">
         <h2>Best Sellers</h2>
