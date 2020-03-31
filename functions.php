@@ -1,8 +1,8 @@
 <?php
 // this file contains my logic for connecting to the DB.
-include_once 'config/Database.php';
+require_once 'config/Database.php';
 include 'models/Queries.php';
-include 'models/User.php';
+require_once 'models/User.php';
 class Book
 {
     public $index;
