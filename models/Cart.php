@@ -80,7 +80,7 @@ class Cart
      * @return false|string|null When invalid json is found, The result of the query, When an error occurs with the database.
      */
     public function getItems() {
-        $query = "SELECT c.item_id, c.quantity, i.price * c.quantity as price FROM $this->table c, items i WHERE user_id = :user_id";
+        $query = "SELECT c.item_id, c.quantity, i.price * c.quantity as price FROM $this->table c, items i WHERE user_id = :user_id AND i.item_id = c.item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
 

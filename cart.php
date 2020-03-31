@@ -1,19 +1,31 @@
 <?php
-include_once 'config/Database.php';
-include_once 'models/Cart.php';
-include_once 'models/Item.php';
+    include_once 'config/Database.php';
+    include_once 'models/Cart.php';
+    include_once 'models/Item.php';
 
-session_start();
+    session_start();
 
-// If the user is already logged in, take them to the homepage.
-if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-    header("Location: index.php");
-}
+    // If the user is already logged in, take them to the homepage.
+    if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
+        header("Location: index.php");
+    }
 
-$db = new Database();
-$conn = $db->connect();
-$cart = new Cart($conn);
-$cart->user_id = $_SESSION['id'];
+    $db = new Database();
+    $conn = $db->connect();
+    $cart = new Cart($conn);
+    $cart->user_id = $_SESSION['id'];
+
+    // Check if the the form been submitted.
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        if(isset($_POST['quantity']) && !empty($_POST['quantity']) && isset($_POST['item_id'])){
+            $cart->item_id = $_POST["item_id"];
+            $cart->quantity = $_POST["quantity"];
+            $cart->addItem();
+        }
+        else{
+            echo "Item error";
+        }
+    }
 ?>
 
 <!DOCTYPE html>

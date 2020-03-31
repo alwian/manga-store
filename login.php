@@ -66,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <form class="forms" action="login.php" method="post">
         <div class="form-group">
             <label for="InputEmail">Email address</label>
-            <input type="email" class="form-control" id="InputPassword" name="email" aria-describedby="emailHelp" placeholder="Email">
+            <input type="email" class="form-control" id="InputEmail" name="email" aria-describedby="emailHelp" placeholder="Email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
