@@ -87,19 +87,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <input type="text" class="form-control" id="InputLastName" name="last_name" placeholder="Last name">
                     </div>
                 </div>
-                <div class="form-group">
-                    <div id="address">
-                        <label for="InputAddress">Address</label>
-                        <input type="text" class="form-control" id="InputAddress" name="address" placeholder="Address">
-                    </div>
-                    <div id="country">
-                        <label for="SelectCountry">Country</label>
-                        <select type="dropdown" class="form-control" id="SelectCountry" name="country">
-                            <option>Canada</option>
-                            <option>England</option>
-                        </select>
-                    </div>
-                </div>
             </div>
             <div id="right-forms">
                 <div class="form-group">
