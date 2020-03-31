@@ -235,4 +235,18 @@ class User
         }
 
     }
+
+    public function getItems() {
+        $query = "SELECT * FROM items WHERE seller_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }
