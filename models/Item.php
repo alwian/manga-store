@@ -13,6 +13,7 @@ class Item
     public $image;
     public $description;
     public $average_rating;
+    public $number_pages;
 
     function __construct($conn)
     {
@@ -73,7 +74,7 @@ class Item
     }
 
     public function getItem() {
-        $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, total_rating / rating_count as average_rating FROM $this->table WHERE item_id = :item_id";
+        $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, round(total_rating / rating_count * 100, 2) as average_rating, number_pages FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
 
@@ -87,6 +88,7 @@ class Item
             $stmt->bindColumn('image', $this->image);
             $stmt->bindColumn('description', $this->description);
             $stmt->bindColumn('average_rating', $this->average_rating);
+            $stmt->bindColumn('number_pages', $this->number_pages);
             if ($stmt->rowCount() === 1) {
                 $stmt->fetch(PDO::FETCH_BOUND);
                 return true;
@@ -145,6 +147,14 @@ class Item
         }
 
     }
+    public function db_construct($record)
+    {
+        $this->name = $record['name'];
+        $this->image = $record['image'];
+        $this->description = $record['description'];
+        $this->item_id = $record['item_id'];
+
+    }
 
     public function displayCard()
     {
@@ -153,7 +163,6 @@ class Item
             <img src="data/product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
             <div class="card-body">
                 <h5 class="card-title">{$this->name}</h5>
-                <p class="card-text">{$this->description}</p>
                 <div class="buttons" style="display: flex; flex-direction: row; position:absolute; bottom: 1rem;">
                     <a href="page.php?id={$this->item_id}" class="btn btn-primary">View</a>
                     <a href="#cart" class="btn btn-primary" style="left: 5rem;">Buy Now</a>
