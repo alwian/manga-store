@@ -48,6 +48,15 @@ span:active{
     fill: #fff;
 }
 
+button#paypal-button{
+    background-image: url("https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 200px;
+    height: 100px;
+    margin-top: 50px;
+}
+
 @media (min-width: 1200px){
     .input-group-append{
         width: 70%;
@@ -71,6 +80,7 @@ span:active{
 
     div.card img{
         height: 50%;
+
     }
 
     .card-body{
