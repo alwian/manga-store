@@ -84,7 +84,7 @@
                         if($user->type == "seller"){
                             echo " <div class=\"bg-white py-2 collapse-inner rounded\">
                                                 <h6 class=\"collapse-header\">Shop:</h6>
-                                                <a class=\"collapse-item\" href=\"#\">Item Management</a>
+                                                <a class=\"collapse-item\" href=\"myItems.php\">Item Management</a>
                                                 <a class=\"collapse-item\" href=\"addItem.php\">Add Item</a>
                                                 <h6 class=\"collapse-header\">Order:</h6>
                                                 <a class=\"collapse-item\" href=\"#\">Order Display</a>

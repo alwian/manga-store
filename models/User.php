@@ -145,7 +145,7 @@ class User
     public function getUser() {
         $query = "SELECT first_name, last_name, email, phone, image, bio, type FROM $this->table WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam('user_id', $this->user_id);
+        $stmt->bindParam(':user_id', $this->user_id);
         try {
             $stmt->execute();
             if ($stmt->rowCount() == 1) {
@@ -234,5 +234,19 @@ class User
             return null;
         }
 
+    }
+
+    public function getItems() {
+        $query = "SELECT * FROM items WHERE seller_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
     }
 }

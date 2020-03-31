@@ -170,7 +170,7 @@
                                         <div class=\"card-body\">
                                             <div class=\"row no-gutters align-items-center\">
                                                 <div class=\"col mr-2\">
-                                                    <div class=\"h5 mb-0 font-weight-bold text-gray-800\">Item Management</div>
+                                                    <a href='myItems.php'><div class=\"h5 mb-0 font-weight-bold text-gray-800\">Item Management</div></a>
                                                 </div>
                                                 <div class=\"col-auto\">
                                                     <i class=\"fas fa-store-alt text-primary fa-3x\"></i>

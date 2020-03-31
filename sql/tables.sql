@@ -52,13 +52,13 @@ INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, 
 --
 
 CREATE TABLE `items` (
-  `item_id` int(10) NOT NULL,
+  `item_id` int(11) AUTO_INCREMENT NOT NULL,
   `name` varchar(128) DEFAULT NULL,
   `author` varchar(30) DEFAULT NULL,
   `price` decimal(4,2) DEFAULT NULL,
-  `seller_id` int(10) DEFAULT NULL,
-  `stock` int(10) DEFAULT NULL,
-  `image` varchar(20) DEFAULT NULL,
+  `seller_id` int(11) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `image` varchar(120) DEFAULT NULL,
   `description` varchar(1612) DEFAULT NULL,
   `number_pages` int(5) DEFAULT NULL,
   `rating_count` int(10) DEFAULT NULL,
