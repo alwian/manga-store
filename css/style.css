@@ -57,7 +57,10 @@ button#paypal-button{
     margin-top: 50px;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 12bd419580d37b2af8cf66afddf0cf6a490a36c6
 @media (min-width: 1200px){
     .input-group-append{
         width: 70%;
@@ -73,12 +76,15 @@ button#paypal-button{
     }
 
     div.card {
-        width: 12.5%;
+        min-width: 8%;
+        max-width: 12.5%;
+        /* width: 12.5%; */
         margin: 2rem;
     }
 
     div.card img{
         height: 50%;
+
     }
 
     .card-body{
@@ -91,7 +97,11 @@ button#paypal-button{
     }
 }
 
+<<<<<<< HEAD
 @media (max-width: 1199px){
+=======
+@media (min-width: 992px){
+>>>>>>> 12bd419580d37b2af8cf66afddf0cf6a490a36c6
     .input-group-append{
         width: 70%;
         justify-content: center;
@@ -118,7 +128,16 @@ button#paypal-button{
         height: 50%;
     }
 
+<<<<<<< HEAD
     
+=======
+    .card-text{
+        height: 80%;
+        white-space: normal;
+        overflow: scroll;
+        text-overflow: ellipsis;
+    }
+>>>>>>> 12bd419580d37b2af8cf66afddf0cf6a490a36c6
 
     .items{
         justify-content: left;
@@ -152,6 +171,7 @@ button#paypal-button{
     }
 
     div.card{
+        min-width: 20%;
         width: 60%;
         margin-top: 2rem;
     }
@@ -170,6 +190,7 @@ button#paypal-button{
     }
 }
 
+<<<<<<< HEAD
 .card-text{
     /* height: 80%; */
     line-height: normal;
@@ -179,6 +200,8 @@ button#paypal-button{
     max-height: 2em;
 }
 
+=======
+>>>>>>> 12bd419580d37b2af8cf66afddf0cf6a490a36c6
 div.buttons{
     margin: auto;
     padding: auto;
