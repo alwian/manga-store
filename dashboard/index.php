@@ -81,16 +81,18 @@
                                 <!-- Seller Management -->
                                 <div class=\"col-xl-3 col-md-6 mb-4\">
                                     <div class=\"card border-left-primary shadow h-100 py-2\">
-                                        <div class=\"card-body\">
-                                            <div class=\"row no-gutters align-items-center\">
-                                                <div class=\"col mr-2\">
-                                                    <div class=\"h5 mb-0 font-weight-bold text-gray-800\">Seller Management</div>
-                                                </div>
-                                                <div class=\"col-auto\">
-                                                    <i class=\"fas fa-store-alt text-primary fa-3x\"></i>
+                                        <a href='#'>
+                                            <div class=\"card-body\">
+                                                <div class=\"row no-gutters align-items-center\">
+                                                    <div class=\"col mr-2\">
+                                                        <div class=\"h5 mb-0 font-weight-bold text-gray-800\">Seller Management</div>
+                                                    </div>
+                                                    <div class=\"col-auto\">
+                                                        <i class=\"fas fa-store-alt text-primary fa-3x\"></i>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
         
@@ -99,12 +101,14 @@
                                     <div class=\"card border-left-success shadow h-100 py-2\">
                                         <div class=\"card-body\">
                                             <div class=\"row no-gutters align-items-center\">
-                                                <div class=\"col mr-2\">
-                                                    <div class=\"h5 mb-0 font-weight-bold text-gray-800\">Seller Apply List</div>
-                                                </div>
-                                                <div class=\"col-auto\">
-                                                    <i class=\"fas fa-list text-primary fa-3x\"></i>
-                                                </div>
+                                                <a href='acceptApplying.php'>
+                                                    <div class=\"col mr-2\">
+                                                        <div class=\"h5 mb-0 font-weight-bold text-gray-800\">Seller Apply List</div>
+                                                    </div>
+                                                    <div class=\"col-auto\">
+                                                        <i class=\"fas fa-list text-primary fa-3x\"></i>
+                                                    </div>
+                                                 <a/>  
                                             </div>
                                         </div>
                                     </div>
