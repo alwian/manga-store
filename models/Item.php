@@ -21,11 +21,12 @@ class Item
     }
 
     public function addItem() {
-        $query = "INSERT INTO $this->table (seller_id, name, author, price, stock, image, description) VALUES (:seller_id, :name, :author, :price, :stock, :image, :description)";
+        $query = "INSERT INTO $this->table (seller_id, name, author, number_pages, price, stock, image, description) VALUES (:seller_id, :name, :author, :number_pages, :price, :stock, :image, :description)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':seller_id', $this->seller_id);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':author', $this->author);
+        $stmt->bindParam(':number_pages', $this->number_pages);
         $stmt->bindParam(':price', $this->price);
         $stmt->bindParam(':stock', $this->stock);
         $stmt->bindParam(':image', $this->image);

@@ -51,43 +51,73 @@ if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
-                !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
+            if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
+                !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
                 $item->name = $_POST['itemName'];
                 $item->author = $_POST['itemAuthor'];
                 $item->price = $_POST['itemPrice'];
                 $item->stock = $_POST['itemStock'];
                 $item->description = $_POST['itemDescription'];
+                $item->number_pages = $_POST['itemPages'];
 
 
                 $upload_successful = true;
-                if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
-                    $target_dir = "../data/product-images/";
-                    $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
-                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                    $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
+                $file_uploaded = false;
+                if (isset($_FILES['itemImage']['name']) && !empty($_FILES['itemImage']['name'])) {
+                    if (!($_FILES['itemImage']['name'] === $item->image)) {
+                        $file_uploaded = true;
+                        if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
+                            $item->author = $_POST['itemAuthor'];
+                            $item->price = $_POST['itemPrice'];
+                            $item->stock = $_POST['itemStock'];
+                            $item->description = $_POST['itemDescription'];
+                            $item->number_pages = $_POST['itemPages'];
 
-                    if ($check !== false) {
-                        if ($_FILES['itemImage']['size'] > 2500000) {
-                            $error = 'Image is too big';
-                            $upload_successful = false;
-                        } else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                            $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                            $upload_successful = false;
-                        } else if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
-                            unlink($target_dir . $item->image);
-                            $item->image = $_FILES['itemImage']['name'];
+                            $target_dir = "../data/product-images/";
+                            $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
+                            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                            $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
+                            if ($check !== false) {
+                                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                                    $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                                    $upload_successful = false;
+                                } else if (strlen($_FILES['itemImage']['name']) <= 120) {
+                                    if (!move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
+                                        $error = "Sorry, there was an error uploading your file.";
+                                        $upload_successful = false;
+                                    }
+                                } else {
+                                    $error = "File name is too long.";
+                                    $upload_successful = false;
+                                }
+                            } else {
+                                $error = "File is not an image.";
+                                $upload_successful = false;
+                            }
                         } else {
-                            $error = "Sorry, there was an error uploading your file.";
+                            $error = "Files is too big.";
                             $upload_successful = false;
                         }
-                    } else {
-                        $error = "File is not an image.";
-                        $upload_successful = false;
+
                     }
                 }
 
-                if ($upload_successful) {
+                if ($file_uploaded) {
+                    if ($upload_successful) {
+                        $old_file = $item->image;
+                        $item->image = $_FILES['itemImage']['name'];
+                        $success = $item->update();
+                        if ($success != null) {
+                            unlink("../data/product-images/" . $old_file);
+                            header("Location: ../page.php?id=$item->item_id");
+                            exit;
+                        } else {
+                            unlink($target_file);
+                            $item->image = $old_file;
+                            $error = "There was an error updating the item.";
+                        }
+                    }
+                } else {
                     $success = $item->update();
                     if ($success != null) {
                         header("Location: ../page.php?id=$item->item_id");
@@ -127,6 +157,10 @@ if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
                 <div class="form-group">
                     <label for="itemAuthor">Author</label>
                     <input class="form-control" type="text" id="itemAuthor" name="itemAuthor" value="<?php echo $item->author;?>" required/>
+                </div>
+                <div class="form-group">
+                    <label for="itemPages">Number of pages</label>
+                    <input class="form-control" type="text" id="itemPages" name="itemPages" value="<?php echo $item->number_pages;?>" required/>
                 </div>
                 <div class="form-group">
                     <label for="itemPrice">Price</label>
