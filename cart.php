@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once 'config/Database.php';
 include_once 'models/Cart.php';
 include_once 'models/Item.php';
@@ -20,8 +19,6 @@ $cart->user_id = $_SESSION['id'];
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="css/style.css">
     <!--Import materialize.css-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
@@ -96,6 +93,9 @@ require_once 'header.php';
                 </table>";
         ?>
 
+        <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
 
