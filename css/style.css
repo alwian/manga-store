@@ -34,13 +34,13 @@ input{
     padding-left: 1em;
 }
 
-span{
+.btn-search{
     background-color: #252525;
     border-radius: 0 .8em .8em 0;
     padding: .2em;
 }
 
-span:active{
+.btn-search:active{
     background-color: #353535;
 }
 
