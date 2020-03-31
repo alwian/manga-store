@@ -52,7 +52,6 @@ require_once 'header.php';
         <thead class="thead-light">
         <tr>
             <th scope="col">ID#</th>
-            <th scope="col">Image</th>
             <th scope="col">Product</th>
             <th scope="col">Price</th>
             <th scope="col">QTY</th>
@@ -76,7 +75,6 @@ require_once 'header.php';
 
                 echo "<tr>
                               <td>$item->item_id</td>
-                              <td><img href = $item->image\"></td>
                               <td>$item->name</td>
                               <td>$item->price</td>
                               <td>$quantity</td>
@@ -93,7 +91,6 @@ require_once 'header.php';
             <thead class=\"thead-light\">
                 <tr>
                     <th scope=\"col\">Total: $ $totalSum</th>
-                    <th scope=\"col\"> &emsp; &emsp;</th>
                     <th scope=\"col\"> &emsp; &emsp;</th>
                     <th scope=\"col\"> &emsp;</th>
                     <th scope=\"col\"> &emsp;</th>
