@@ -20,7 +20,7 @@ class Item
     }
 
     public function addItem() {
-        $query = "INSERT INTO $this->table (seller_id, name, author, price, stock, image, description) VALUES (:seller_id, :name, :author, :price, :stock, :image, :description)";
+        $query = "INSERT INTO $this->table (seller_id, name, author, price, stock, image, description) VALUES (:seller_id, :name, :author, :price, :stock, :image, :description) ON DUPLICATE KEY UPDATE name = :name, author = :author, price = :price, stock = :stock, image = :image, description = :description";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':seller_id', $this->seller_id);
         $stmt->bindParam(':name', $this->name);

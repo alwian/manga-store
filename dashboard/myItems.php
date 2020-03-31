@@ -3,16 +3,12 @@ include "dashboard_header.php";
 include "dashboard_sidebar.php";
 require_once "../models/Item.php";
 
-
-// If the user is already logged in, take them to the homepage.
-if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-    header("Location: index.php");
-}
-
 $db = new Database();
 $conn = $db->connect();
 $user = new User($conn);
 $user->user_id = $_SESSION['id'];
+
+
 ?>
 <div id="content-wrapper" class="d-flex flex-column">
 
@@ -52,7 +48,7 @@ $user->user_id = $_SESSION['id'];
                             echo "<tr>
                               <td>$item->item_id</td>
                               <td>$item->name</td>
-                              <td><a href='ItemManage.php?id=$item->item_id'><span class='material-icons bg-white text-info'>Edit</span></a></td>
+                              <td><a href='ItemManage.php?itemId=$item->item_id'><span class='material-icons bg-white text-info'>Edit</span></a></td>
                               <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons bg-white text-danger'>delete</span></a></td>
                             </tr>";
                         } else {

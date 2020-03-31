@@ -6,7 +6,8 @@ require_once "../models/Item.php";
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
-        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
+        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'] &&
+        file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name']))) {
         $item = new Item($conn);
         $item->seller_id = $_SESSION['id'];
         $item->name = $_POST['itemName'];
