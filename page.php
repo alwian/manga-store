@@ -45,8 +45,8 @@
             require "header.php";
 
             $content = <<<EOD
-            '<div class="page-container" id="item-page">
-                <div id="item-info">
+            '<div class="item-container col-10 col-sm-10 col-" id="item-page">
+                <div class="col-md-9 col-sm-12 col-" id="item-info">
                     <h2 id="page-title">{$item->name}</h2>
                     <h5 id="page-author">Author: <em>{$item->author}</em></h5>
                     </br>
@@ -68,7 +68,7 @@
                         <p>{$item->description}</p>
                     </div>
                 </div>
-                <div id="item-purchase">
+                <div class="col-md-3 col-sm-12 col-xs-12" id="item-purchase">
                     <h4><b>Purchase</b></h4>
                     </br>
                     <h5 id="price_label"><b>Price:</b></h5>

@@ -160,10 +160,10 @@ class Item
     public function displayCard()
     {
         $content = <<<EOD
-        <div class="card">
+        <div class="card col-xl-2 col-lg-2 col-md-3 col-sm-4 col-">
             <img src="data/product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
             <div class="card-body">
-                <h5 class="card-title">{$this->name}</h5>
+                <h5 class="card-title col-xl-12">{$this->name}</h5>
                 <div class="buttons">
                     <form action="page.php?id={$this->item_id}" method="get">
                         <input type="hidden" name="id" value="$this->item_id"/>
