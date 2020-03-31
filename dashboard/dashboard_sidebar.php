@@ -71,7 +71,7 @@
                         if($user->type == "admin") {
                             echo " <div class=\"bg-white py-2 collapse-inner rounded\">
                                     <h6 class=\"collapse-header\">Seller:</h6>
-                                    <a class=\"collapse-item\" href=\"#\">Seller Management</a>
+                                    <a class=\"collapse-item\" href=\"sellerManagement.php\">Seller Management</a>
                                     <a class=\"collapse-item\" href=\"acceptApplying.php\">Seller Apply List</a>
                                     <h6 class=\"collapse-header\">Order:</h6>
                                     <a class=\"collapse-item\" href=\"displayAllOrders.php\">Order Display</a>

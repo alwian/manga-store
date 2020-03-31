@@ -8,7 +8,7 @@ if(isset($_GET["id"])) {
     $order = new Order($db->connect());
     $order->order_id = $_GET["id"];
     $order->deleteOrder();
-//    header("Location: displayAllOrders.php");
+    header("Location: displayAllOrders.php");
 }
 ?>
 
