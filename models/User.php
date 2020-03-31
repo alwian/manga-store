@@ -278,4 +278,26 @@ class User
             return null;
         }
     }
+
+    /**
+     * This function is change user role
+     *
+     * could be change to 'admin' 'consumer' 'seller'
+     *
+     *
+     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     */
+    public function changeUserRole(){
+        $query = "UPDATE users SET type = '$this->type' WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $this->user_id);
+
+        try {
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }
