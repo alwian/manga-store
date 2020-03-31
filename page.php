@@ -29,7 +29,7 @@
         <meta name="referrer" content="no-referrer" />
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo $item->author;?></title>
+        <title><?php echo $item->name;?></title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import bootstrap.css-->
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
