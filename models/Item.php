@@ -13,6 +13,8 @@ class Item
     public $image;
     public $description;
     public $average_rating;
+    public $order_id;
+    public $quantity;
 
     function __construct($conn)
     {
@@ -129,4 +131,6 @@ class Item
 EOD;
         echo $content;
     }
+
+
 }
