@@ -85,7 +85,7 @@
                             echo " <div class=\"bg-white py-2 collapse-inner rounded\">
                                                 <h6 class=\"collapse-header\">Shop:</h6>
                                                 <a class=\"collapse-item\" href=\"#\">Item Management</a>
-                                                <a class=\"collapse-item\" href=\"#\">Add Item</a>
+                                                <a class=\"collapse-item\" href=\"addItem.php\">Add Item</a>
                                                 <h6 class=\"collapse-header\">Order:</h6>
                                                 <a class=\"collapse-item\" href=\"#\">Order Display</a>
                                                 <a class=\"collapse-item\" href=\"#\">Search For Order</a>

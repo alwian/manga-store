@@ -4,7 +4,8 @@
     require_once "../models/User.php";
     if(isset($_SESSION['id'])){
         $db = new Database();
-        $user = new User($db->connect());
+        $conn = $db->connect();
+        $user = new User($conn);
         $user->user_id = $_SESSION['id'];
         $user->getUser();
     }
