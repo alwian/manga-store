@@ -8,6 +8,14 @@
         $user = new User($conn);
         $user->user_id = $_SESSION['id'];
         $user->getUser();
+
+        if ($user->type == "consumer") {
+            header("Location: ../index.php");
+            exit;
+        }
+    } else {
+        header("Location: ../login.php");
+        exit;
     }
 
 ?>
