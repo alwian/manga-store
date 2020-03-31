@@ -119,10 +119,6 @@ class Item
             <img src="data/product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
             <div class="card-body">
                 <h5 class="card-title">{$this->name}</h5>
-<<<<<<< HEAD
-=======
-                <p class="card-text">{$this->description}</p>
->>>>>>> 12bd419580d37b2af8cf66afddf0cf6a490a36c6
                 <div class="buttons" style="display: flex; flex-direction: row; position:absolute; bottom: 1rem;">
                     <a href="page.php?id={$this->item_id}" class="btn btn-primary">View</a>
                     <a href="#cart" class="btn btn-primary" style="left: 5rem;">Buy Now</a>

@@ -27,17 +27,10 @@
                         $db = new Database();
                         $user = new User($db->connect());
                         $user->user_id = $_SESSION["id"];
-<<<<<<< HEAD
-                        $user->getuser();
-                         echo "
-                            <div class=\"btn-group\">
-                                  <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" id=\"account\">
-=======
                         $user->getUser();
                          echo "
                             <div class=\"btn-group\">
                                   <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
->>>>>>> 12bd419580d37b2af8cf66afddf0cf6a490a36c6
                                     Hi, $user->first_name
                                   </button>
                                   <div class=\"dropdown-menu\">
