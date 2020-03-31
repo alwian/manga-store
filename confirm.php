@@ -3,7 +3,7 @@
 
     // If the user is already logged in, take them to the homepage.
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: index.php");
+        header("Location: login.php");
     }
 
 ?>
