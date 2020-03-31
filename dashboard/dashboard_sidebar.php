@@ -75,7 +75,7 @@
                                     <a class=\"collapse-item\" href=\"acceptApplying.php\">Seller Apply List</a>
                                     <h6 class=\"collapse-header\">Order:</h6>
                                     <a class=\"collapse-item\" href=\"displayAllOrders.php\">Order Display</a>
-                                    <a class=\"collapse-item\" href=\"#\">Search For Order</a>
+                                    <a class=\"collapse-item\" href=\"searchOrder.php\">Search For Order</a>
                                 </div>";
                         }
 
