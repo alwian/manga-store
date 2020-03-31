@@ -3,7 +3,7 @@
 
     // If the user is already logged in, take them to the homepage.
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: index.php");
+        header("Location: login.php");
     }
 ?>
 
@@ -79,7 +79,6 @@
                 <!--Link to thankyou.php, remove when button is resized and used as a link instead-->
                 <button type="submit" class="btn" id="paypal-button"></button>
             </div>
-
         </form>
     </div>
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>

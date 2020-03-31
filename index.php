@@ -39,7 +39,7 @@ require "header.php";
     <div class="items">
         <?php
         $item = new Item($conn);
-        if ($recommended = $item->getRecommended()) {
+        if ($recommended = $item->getTopTen()) {
             foreach ($recommended as $i) {
                 $item->item_id = $i['item_id'];
                 $item->getItem();
@@ -65,7 +65,6 @@ require "header.php";
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
 </body>
 
 </html>

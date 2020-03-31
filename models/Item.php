@@ -41,6 +41,19 @@ class Item
         }
     }
 
+    public function getTopTen() {
+        $query = "SELECT item_id, SUM(quantity) as total_ordered FROM sold_items GROUP BY item_id ORDER BY total_ordered DESC LIMIT 10";
+        $stmt = $this->conn->prepare($query);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
     public function exists() {
         $query = "SELECT * FROM $this->table WHERE item_id = :item_id OR name = :name";
         $stmt = $this->conn->prepare($query);
@@ -135,19 +148,6 @@ class Item
         }
     }
 
-    public function getRecommended() {
-        $query = "SELECT i.* FROM items i, recommendations r WHERE i.item_id = r.item_id";
-        $stmt = $this->conn->prepare($query);
-
-        try {
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return null;
-        }
-
-    }
     public function db_construct($record)
     {
         $this->name = $record['name'];

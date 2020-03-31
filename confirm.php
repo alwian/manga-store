@@ -7,7 +7,7 @@
 
     // If the user is already logged in, take them to the homepage.
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: index.php");
+        header("Location: login.php");
     }
 
     $db = new Database();
@@ -102,5 +102,7 @@
             <h5><?php echo "$address, $city, $country"?></h5>
         </div>
     </div>
+<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -14,9 +14,9 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="../index.php">
             <ion-icon name="list-circle-outline"></ion-icon>
-            <span>Dashboard</span></a>
+            <span>HomePage</span></a>
     </li>
 
     <?php
@@ -71,11 +71,11 @@
                         if($user->type == "admin") {
                             echo " <div class=\"bg-white py-2 collapse-inner rounded\">
                                     <h6 class=\"collapse-header\">Seller:</h6>
-                                    <a class=\"collapse-item\" href=\"#\">Seller Management</a>
-                                    <a class=\"collapse-item\" href=\"#\">Seller Apply List</a>
+                                    <a class=\"collapse-item\" href=\"sellerManagement.php\">Seller Management</a>
+                                    <a class=\"collapse-item\" href=\"acceptApplying.php\">Seller Apply List</a>
                                     <h6 class=\"collapse-header\">Order:</h6>
-                                    <a class=\"collapse-item\" href=\"#\">Order Display</a>
-                                    <a class=\"collapse-item\" href=\"#\">Search For Order</a>
+                                    <a class=\"collapse-item\" href=\"displayAllOrders.php\">Order Display</a>
+                                    <a class=\"collapse-item\" href=\"searchOrder.php\">Search For Order</a>
                                 </div>";
                         }
 
@@ -88,7 +88,6 @@
                                                 <a class=\"collapse-item\" href=\"addItem.php\">Add Item</a>
                                                 <h6 class=\"collapse-header\">Order:</h6>
                                                 <a class=\"collapse-item\" href=\"#\">Order Display</a>
-                                                <a class=\"collapse-item\" href=\"#\">Search For Order</a>
                                             </div>";
                         }
 
@@ -96,6 +95,13 @@
 
         </div>
     </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <!-- Heading -->
+    <div class="sidebar-brand-text text-center" >
+        <a href="index.php" class="text-white-50">Go Back To Home Page</a>
+    </div><br><br><br>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
