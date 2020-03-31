@@ -57,7 +57,7 @@ button#paypal-button{
     margin-top: 50px;
 }
 
-@media (min-width: 1200px){
+@media (min-width: 1900px){
     .input-group-append{
         width: 70%;
         justify-content: center;
@@ -72,7 +72,7 @@ button#paypal-button{
     }
 
     div.card {
-        min-width: 8%;
+        min-width: 12.5%;
         max-width: 12.5%;
         /* width: 12.5%; */
         margin: 2rem;
@@ -91,6 +91,55 @@ button#paypal-button{
         justify-content: left;
         margin-left: 2rem;
     }
+
+    h5.card-title{
+        font-size: 1.25rem;
+    }
+
+    .btn-primary{
+        font-size: 1rem;
+    }
+
+}
+
+@media (max-width: 1899px){
+    .input-group-append{
+        width: 70%;
+        justify-content: center;
+    }
+
+    ul.navbar-nav{
+        width: 100%;
+    }
+    
+    li.nav-item{
+        margin: auto;
+    }
+
+    div.card {
+        min-width: 17.5%;
+        max-width: 20%;
+        width: 17.5%;
+        margin: 2rem;
+    }
+
+    div.card img{
+        height: 50%;
+
+    }
+
+    .card-body{
+        height: 50%;
+    }
+
+    .items{
+        justify-content: left;
+        margin-left: 2rem;
+    }
+
+    h5.card-title{
+        font-size: 1.25rem;
+    }
 }
 
 @media (max-width: 1199px){
@@ -108,7 +157,7 @@ button#paypal-button{
     }
 
     div.card {
-        min-width: 8%;
+        min-width: 12.5%;
         max-width: 17.5%;
         /* width: 12.5%; */
         margin: 2rem;
@@ -129,6 +178,10 @@ button#paypal-button{
         margin-bottom: .5rem;
         width: 80%;
         font-size: 1rem;
+    }
+
+    h5.card-title{
+        font-size: 1em;
     }
 
 }
@@ -152,8 +205,9 @@ button#paypal-button{
     }
 
     div.card{
-        min-width: 20%;
-        width: 60%;
+        max-width: 60%;
+        min-width: 40%;
+        width: 40%;
         margin-top: 2rem;
     }
 
@@ -172,6 +226,8 @@ button#paypal-button{
 }
 
 div.buttons{
+    display: flex;
+    flex-direction: column;
     margin: auto;
     padding: auto;
 }
@@ -196,10 +252,14 @@ div.buttons{
     flex-wrap: wrap;
 }
 
+.card .btn-primary{
+    width: 100%;
+    margin-top: 1rem;
+}
+
 .btn-primary{
-    margin-left: 1rem;
     background-color: darkblue;
-    border-color: darkblue
+    border-color: darkblue;
 }
 
 .forms{
@@ -297,7 +357,6 @@ meter[value="4"]::-moz-meter-bar { background: green; }
 }
 
 #page-title{
-    /* margin-left: 0; */
     margin: 0;
 }
 
@@ -314,7 +373,12 @@ em{
     width:25%;
 }
 
+#page-image img{
+    width: 100%;
+}
+
 #page-extras{
+    padding-left: 2rem;
     width: 75%;
 }
 

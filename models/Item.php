@@ -129,9 +129,16 @@ class Item
             <img src="data/product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
             <div class="card-body">
                 <h5 class="card-title">{$this->name}</h5>
-                <div class="buttons" style="display: flex; flex-direction: row; position:absolute; bottom: 1rem;">
-                    <a href="page.php?id={$this->item_id}" class="btn btn-primary">View</a>
-                    <a href="#cart" class="btn btn-primary" style="left: 5rem;">Buy Now</a>
+                <div class="buttons">
+                    <form action="page.php?id={$this->item_id}" method="get">
+                        <input type="hidden" name="id" value="$this->item_id"/>
+                        <button type="submit" class="btn btn-primary">View</button>
+                    </form>
+                    <form action="cart.php" method="post">
+                        <input type="hidden" name="item_id" value="$this->item_id">
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button type="submit" class="btn btn-primary" style="left: 5rem;">Buy Now</button>
+                    </form>
                 </div>
             </div>
         </div>

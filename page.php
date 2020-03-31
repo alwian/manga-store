@@ -12,17 +12,22 @@
 
         $item = new Item($conn);
 
-        $id = $_GET["id"];
-        $item->item_id = $id;
+        if($_SERVER["REQUEST_METHOD"]==="GET"){
+            $id = $_GET["id"];
+            $item->item_id = $id;
+        }
 
         if (!$item->getItem()) {
             echo 'Could not find the specified item.';
             exit;
         }
 
+        
+
         $seller = new User($db->connect());
         $seller->user_id = $item->seller_id;
         $seller->getUser();
+        
     ?>
     <head>
         <meta charset="UTF-8">
