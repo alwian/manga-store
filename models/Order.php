@@ -93,6 +93,20 @@ class Order
         }
     }
 
+    public function getOrdersForUser() {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
 
     /**
      * This function is for get the Item_ID from Order_ID in 'sold_items' table

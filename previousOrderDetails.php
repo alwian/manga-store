@@ -36,22 +36,47 @@ require_once 'header.php';
         <table class="table table-dark table-striped table-hover " style="margin-bottom:0;">
             <thead class="thead-dark" >
             <tr>
-                <th>Order ID</th>
-                <th>Time</th>
-                <th>View</th>
+                <th scope="col">ID#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">QTY</th>
+                <th scope="col">Amount</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <?php
             $order = new Order($conn);
-            $order->user_id = $_SESSION['id'];
-            foreach ($order->getOrdersForUser() as $o) {
+            $order->order_id = $_GET['id'];
+            $item = new Item($conn);
+            $total = 0;
+            $totalSum = 0;
+            foreach ($order->getSoldItems() as $i){
+                $item->item_id = $i['item_id'];
+                $quantity =  $i['quantity'];
+                $item->getItem();
                 echo "<tr>";
-                echo "<td>{$o['order_id']}</td>";
-                echo "<td>{$o['order_time']}</td>";
-                echo "<td><a href='previousOrderDetails.php?id={$o['order_id']}'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
-                echo "</tr>";
+                echo "<td>$item->item_id</td>";
+                echo "<td>$item->name</td>";
+                echo "<td>$item->price</td>";
+                echo "<td>$quantity</td>";
+                echo "<td>$total</td>";
+                $total = $total + $item->price*$quantity;
+                $totalSum += $total;
             }
+
+            echo "<thead class=\"thead-dark\">
+                            <tr>
+                                <th scope=\"col\">Total: $ $totalSum</th>
+                                <th scope=\"col\"> &emsp; &emsp;</th>
+                                <th scope=\"col\"> &emsp;</th>
+                                <th scope=\"col\"> &emsp;</th>
+                                <th scope=\"col\"> &emsp;</th>
+                                <th scope=\"col\">
+                                 
+                                </th>
+                            </tr>
+                            </thead>";
             ?>
             </tbody>
         </table>
