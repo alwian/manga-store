@@ -34,7 +34,7 @@
                                     Hi, $user->first_name
                                   </button>
                                   <div class=\"dropdown-menu\">
-                                        <a class=\"dropdown-item text-black-50\" href=\"profile.php\">My Account</a>";
+                                        <a class=\"dropdown-item text-black-50\" href=\"orderHistory.php\">Order History</a>";
 
                                         if($user->type != "consumer") {
 
