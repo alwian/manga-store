@@ -15,7 +15,7 @@ if ($user->type !== 'seller') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_GET['itemId']) && !empty($_GET['itemId'])) {
+    if (isset($_GET['itemId']) && (!empty($_GET['itemId']) || $_GET['itemId'] == 0)) {
         $id = $_GET['itemId'];
     } else {
         http_response_code(400);
