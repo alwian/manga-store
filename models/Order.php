@@ -34,6 +34,7 @@ class Order
             $cart->user_id = $this->user_id;
             $query = "INSERT INTO $this->sold VALUES (:item_id, :order_id, :quantity)";
             foreach ($cart->getItems() as $product){
+
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(":item_id", $product["item_id"]);
                 $stmt->bindParam(":order_id", $new_order);
@@ -42,6 +43,11 @@ class Order
                 $cart->item_id = $product["item_id"];
                 $cart->quantity = 0;
                 $cart->updateItem();
+                $item = new Item($this->conn);
+                $item->item_id = $product['item_id'];
+                $item->getItem();
+                $item->stock -= $product['quantity'];
+                $item->update();
             }
             $this->order_id = $new_order;
             return true;
