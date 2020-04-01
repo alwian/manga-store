@@ -1,7 +1,7 @@
 <?php
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
-
+//connect to db
 $db = new Database();
 $conn = $db->connect();
 ?>
@@ -39,12 +39,16 @@ $conn = $db->connect();
                             </thead>
                             <tbody>
                             <?php
+                            //create a new user
                             $user = new User($conn);
-
+                            //check if the search box is set and not empty
                             if(isset($_POST["searchBox"]) && !empty($_POST["searchBox"])) {
+                                //set the user id from the search box
                                 $user->user_id = $_POST["searchBox"];
+                                //get the user information
                                 $user->getUser();
 
+                                //print out information of searched user
                                 echo "
                                 <td>$user->user_id</td>
                                  <!-- Delete Modal-->

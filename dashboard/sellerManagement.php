@@ -2,8 +2,11 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
+//connect to db
 $db = new Database();
 $conn = $db->connect();
+
+//get the user ID and set user to consumer if admin click on the set to consumer button
 if(isset($_GET["id"])) {
     $user = new User($db->connect());
     $user->user_id = $_GET["id"];
@@ -28,7 +31,7 @@ if(isset($_GET["id"])) {
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800">Sellers Table</h1>
             <p></p>
-            <!-- DataTales Example -->
+            <!-- Data Table -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary text-center">Sellers Table</h6>
@@ -47,15 +50,18 @@ if(isset($_GET["id"])) {
                             </thead>
                             <tbody>
                             <?php
-
+                            //create a new user
                             $user = new User($conn);
+                            //get all the users from db
                             $users = $user->getUsers();
 
+                            //for each user in db
                             foreach ($users as $u) {
+                                //set user ID
                                 $user->user_id = $u['user_id'];
-
-
+                                //get user information
                                 $user->getUser();
+                                //if user is a seller then print out information
                                 if($user->type == "seller"){
                                     echo "<tr>
                                 <td>$user->user_id</td>
@@ -63,14 +69,13 @@ if(isset($_GET["id"])) {
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                 <td>$user->type &nbsp;&nbsp;&nbsp;</td>
+                                <!-- button for change user back to consumer-->
                                 <td>
                                     <a href='sellerManagement.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i>Change To Consumer&nbsp;&nbsp&nbsp;&nbsp</a>
                                 </td>
                       </tr>
                       ";
                                 }
-
-
                             }
                             ?>
                             </tbody>

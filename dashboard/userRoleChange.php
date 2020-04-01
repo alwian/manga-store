@@ -2,9 +2,11 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
+//connect to db
 $db = new Database();
 $conn = $db->connect();
 
+    //is user role is set in url then get userID and change the role to select value
     if(isset($_POST["userRole"]) && $_POST["userRole"]){
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
@@ -50,13 +52,17 @@ $conn = $db->connect();
                             </thead>
                             <tbody>
                             <?php
+                            //create a new user obj
                             $user = new User($conn);
+                            //if user role is set then get user ID from url
                             if(isset($_POST["userRole"])){
                                 $user->user_id = $_POST["userID"];
                             }else{
+                                //else get the id in the url for print information
                                 $user->user_id = $_GET["id"];
                             }
 
+                            //get user information and print
                             $user->getUser();
                                 echo "<tr>
                                 <td>$user->user_id</td>                               
@@ -64,7 +70,9 @@ $conn = $db->connect();
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                      <td>
                                          <form method='post'>
+                                                <!-- save the user ID to URL-->
                                                 <input type='hidden' value='$user->user_id' name='userID'/>
+                                                <!-- select for user role-->
                                                <div class=\"input-group\">
                                                   <select name='userRole' class=\"custom-select\" id=\"inputGroupSelect04\" aria-label=\"Example select with button addon\">
                                                     <option value=$user->type selected>Select A Role($user->type)</option>

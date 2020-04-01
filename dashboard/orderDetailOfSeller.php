@@ -2,6 +2,7 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
+//connect to db
 $db = new Database();
 $conn = $db->connect();
 ?>
@@ -38,18 +39,27 @@ $conn = $db->connect();
                             </thead>
                             <tbody>
                             <?php
-
+                            //create a new order obj
                             $order = new Order($conn);
+                            //create a new item obj
                             $item = new Item($conn);
+                            //total is for calculate the total price
                             $total = 0;
 
+                            //get the order id from url
                             if(isset($_GET["id"])){
+                                //get order ID
                                 $order->order_id = $_GET["id"];
+                                //get all the item from the order id
                                 $soldItems = $order->getSoldItems();
 
+                                //for each item in the order
                                 foreach ($soldItems as $i){
+                                    //set the item it
                                     $item->item_id = $i['item_id'];
+                                    //get the item information
                                     $item->getItem();
+                                    //if item's seller id equals to seller then print all the item in this order
                                     if($item->seller_id == $_SESSION['id']){
                                         $quantity =  $i['quantity'];
                                         echo "<tr>";
@@ -63,6 +73,7 @@ $conn = $db->connect();
                                 }
                             }
 
+                            //print out the price
                             echo "<tr><td colspan='4' class='text-center'>Total: $total</td></tr>"
                             ?>
 

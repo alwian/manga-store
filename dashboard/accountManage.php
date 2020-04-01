@@ -1,7 +1,9 @@
 <?php
+    //include header and sidebar
     require_once "dashboard_header.php";
     require_once "dashboard_sidebar.php";
 
+    //connect to database
     $db = new Database();
     $conn = $db->connect();
 ?>
@@ -20,7 +22,7 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">Accounts Table</h1>
                 <p></p>
-            <!-- DataTales Example -->
+            <!-- Data Table -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary text-center">Accounts Table</h6>
@@ -38,10 +40,15 @@
                             </thead>
                             <tbody>
                                 <?php
+                                    //create a user object
                                     $user = new User($conn);
+                                    //get all the user in database
                                     $users = $user->getUsers();
+                                    //loop each user
                                     foreach ($users as $u) {
+                                        //set user ID
                                         $user->user_id = $u['user_id'];
+                                        //get user information
                                         $user->getUser();
 
                                         echo "<tr>
@@ -64,10 +71,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!--display user information-->
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                 <td>$user->type &nbsp;&nbsp;&nbsp;
+                                <!--set user role-->
                                 <a href='userRoleChange.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i>Edit&nbsp;&nbsp&nbsp;&nbsp</a>
+                                <!--delete user-->
                                 <a href='dashboard/accountManage.php?id=$user->user_id' data-toggle='modal' data-target='#deleteConfirm$user->user_id'><i class=\"fas fa-trash text-danger\"></i>Delete</a>
                                 </td>
                       </tr>
