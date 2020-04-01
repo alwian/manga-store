@@ -29,10 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (!isset($_GET['id']) || empty($_GET['id'])) {
+    if (!isset($_GET['id']) || (empty($_GET['id'] && $_GET['id'] != 0))) {
         http_response_code(400);
         echo 'id is required.';
         exit;
+    } else {
+        $user = new User($conn);
+        $user->user_id = $_GET['id'];
+        if (!$user->existsById()) {
+            http_response_code(404);
+            echo 'Could not find the specified user.';
+            exit;
+        }
     }
 }
 
