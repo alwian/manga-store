@@ -16,9 +16,7 @@
     $db = new Database();
     $conn = $db->connect();
     $order = new Order($conn);
-    
     $order->user_id = $_SESSION['id'];
-    
 
     // Check if the the form been submitted.
     if($_SERVER["REQUEST_METHOD"] == "POST"){

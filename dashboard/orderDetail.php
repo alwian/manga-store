@@ -1,9 +1,6 @@
 <?php
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
-
-$db = new Database();
-$conn = $db->connect();
 ?>
 
 <!-- Content Wrapper -->

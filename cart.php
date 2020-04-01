@@ -24,6 +24,7 @@
             $cart->quantity = $_POST["quantity"];
 
             $item = new Item($conn);
+            $item->item_id = $_POST['item_id'];
             if ($item->exists()) {
                 $cart->addItem();
             } else {

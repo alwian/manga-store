@@ -2,7 +2,6 @@
 class Order
 {
     private $table = 'orders';
-    private $ship = 'shipping_information';
     private $sold = 'sold_items';
     private $conn;
 
@@ -48,6 +47,7 @@ class Order
             return true;
         }
         catch(PDOException $e){
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -102,7 +102,7 @@ class Order
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -117,7 +117,7 @@ class Order
             $stmt->execute();
             return $stmt->rowCount() === 1;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -135,7 +135,7 @@ class Order
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -157,7 +157,7 @@ class Order
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -171,7 +171,7 @@ class Order
             $stmt->execute();
             return $stmt->rowCount() === 1;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
