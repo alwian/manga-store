@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && !empty($_POST['userID'])) {
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
-        if ($user->exists()) {
-            if ($_POST['userType'] !== 'consumer' && $_POST['userType'] !== 'seller' && $_POST['userType'] !== 'admin') {
+        if ($user->existsById()) {
+            if ($_POST['userRole'] !== 'consumer' && $_POST['userRole'] !== 'seller' && $_POST['userRole'] !== 'admin') {
                 http_response_code(422);
                 echo 'User role is invalid.';
                 exit;

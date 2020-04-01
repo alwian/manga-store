@@ -11,7 +11,7 @@ if ($user->type !== 'admin') {
 if(isset($_GET["id"]) && !empty($_GET['id'])) {
     $user = new User($db->connect());
     $user->user_id = $_GET["id"];
-    if ($user->exists()) {
+    if ($user->existsById()) {
         $user->type = "consumer";
         $user->changeUserRole();
         header("Location: displayAllOrders.php");
