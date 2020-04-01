@@ -87,7 +87,7 @@
                                                 <a class=\"collapse-item\" href=\"myItems.php\">Item Management</a>
                                                 <a class=\"collapse-item\" href=\"addItem.php\">Add Item</a>
                                                 <h6 class=\"collapse-header\">Order:</h6>
-                                                <a class=\"collapse-item\" href=\"#\">Order Display</a>
+                                                <a class=\"collapse-item\" href=\"orderOfSeller.php\">Order Display</a>
                                             </div>";
                         }
 
