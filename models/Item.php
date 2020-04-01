@@ -12,7 +12,6 @@ class Item
     public $stock;
     public $image;
     public $description;
-    public $average_rating;
     public $number_pages;
 
     function __construct($conn)
@@ -88,7 +87,7 @@ class Item
     }
 
     public function getItem() {
-        $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, round(total_rating / rating_count * 100, 2) as average_rating, number_pages FROM $this->table WHERE item_id = :item_id";
+        $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, number_pages FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
 
@@ -101,7 +100,6 @@ class Item
             $stmt->bindColumn('stock', $this->stock);
             $stmt->bindColumn('image', $this->image);
             $stmt->bindColumn('description', $this->description);
-            $stmt->bindColumn('average_rating', $this->average_rating);
             $stmt->bindColumn('number_pages', $this->number_pages);
             if ($stmt->rowCount() === 1) {
                 $stmt->fetch(PDO::FETCH_BOUND);
