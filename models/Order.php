@@ -1,5 +1,5 @@
 <?php
-    require_once "models/Cart.php";
+    require_once "Cart.php";
 
 class Order
 {
