@@ -29,10 +29,15 @@
             $order->user_id = $_SESSION["id"];
             $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
             $order->addToOrder();
+        } else{
+            http_response_code(400);
+            echo "Could not process your order, ensure all fields are filled on the checkout page.";
+            exit;
         }
-        else{
-            echo "Item error";
-        }
+    } else {
+        http_response_code(400);
+        echo 'Invalid request type.';
+        exit;
     }
 
 ?>
