@@ -2,6 +2,7 @@
     include_once 'config/Database.php';
     include_once 'models/Cart.php';
     include_once 'models/Item.php';
+    include_once 'models/Order.php';
     
     session_start();
 
@@ -12,15 +13,22 @@
 
     $db = new Database();
     $conn = $db->connect();
-    $cart = new Cart($conn);
-    $cart->user_id = $_SESSION['id'];
+    $order = new Order($conn);
+    
+    $order->user_id = $_SESSION['id'];
+    
 
     // Check if the the form been submitted.
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))){
+        if((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
+        && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))){
             $address = $_POST['address'];
             $country = $_POST['country'];
             $city = $_POST['city'];
+            $order = new Order($conn);
+            $order->user_id = $_SESSION["id"];
+            $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
+            $order->addToOrder();
         }
         else{
             echo "Item error";
@@ -62,7 +70,8 @@
                     <?php
                     $totalSum = 0;
                     $count = 0;
-                    foreach ($cart->getItems() as $current_item) {
+                    // $order->getOrder();
+                    foreach ($order->getSoldItems() as $current_item) {
                         $item = new Item($conn);
                         $item->item_id = $current_item['item_id'];
                         $quantity=$current_item['quantity'];
