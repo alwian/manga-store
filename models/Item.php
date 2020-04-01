@@ -168,15 +168,16 @@ class Item
                         <input type="hidden" name="id" value="$this->item_id"/>
                         <button type="submit" class="btn btn-primary">View</button>
                     </form>
-                    <form action="cart.php" method="post">
-                        <input type="hidden" name="item_id" value="$this->item_id">
-                        <input type="hidden" name="quantity" value="1"/>
-                        <button type="submit" class="btn btn-primary" style="left: 5rem;">Buy Now</button>
-                    </form>
-                </div>
-            </div>
-        </div>
 EOD;
+        if ($this->stock > 0) {
+            $content .= "<form action=\"cart.php\" method=\"post\">
+                        <input type=\"hidden\" name=\"item_id\" value=\"$this->item_id\">
+                        <input type=\"hidden\" name=\"quantity\" value=\"1\"/>
+                        <button type=\"submit\" class=\"btn btn-primary\" style=\"left: 5rem;\">Buy Now</button>
+                    </form>";
+        }
+
+        $content .= "</div></div></div>";
         echo $content;
     }
 }
