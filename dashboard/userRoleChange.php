@@ -8,7 +8,7 @@ if ($user->type !== 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && !empty($_POST['userID'])) {
+    if(isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && (!empty($_POST['userID']) || $_POST['userID'] == 0)) {
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
         if ($user->existsById()) {
