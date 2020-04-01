@@ -1,6 +1,4 @@
 <?php
-    require_once "models/Cart.php";
-
 class Order
 {
     private $table = 'orders';
