@@ -25,7 +25,7 @@ $cart->user_id = $_SESSION['id'];
 
 // Check if the the form been submitted.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['quantity']) && !empty($_POST['quantity']) && ((isset($_POST['item_id']) && !empty($_POST['item_id'])) && $_POST['item_id'] != 0)) {
+    if (isset($_POST['quantity']) && !empty($_POST['quantity']) && isset($_POST['item_id']) && (!empty($_POST['item_id']) || $_POST['item_id'] == 0)) {
         $cart->item_id = $_POST["item_id"];
         $cart->quantity = $_POST["quantity"];
 
