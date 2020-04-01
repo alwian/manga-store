@@ -30,8 +30,8 @@ $query = "SELECT * from `items` where UPPER(name) like UPPER(:name) ";
 
 <body>
     <?php require "header.php"; //load header to top of page ?>
-    <div class="page-container">
-        <h2>Search Results for: <?php echo $value ?></h2>
+    <div class="container col-12">
+        <h2 style="margin: 1rem;">Search Results for: <?php echo $value ?></h2>
         <div class="items">
             <?php
             $stmt = $conn->prepare($query);

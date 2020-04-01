@@ -37,8 +37,8 @@ $conn = $db->connect();
     <?php
     require "header.php" //load header to the top of page;
     ?>
-    <div class="page-container">
-        <h2>Best Sellers</h2>
+    <div class="container col-12">
+        <h2 style="margin: 1rem;">Best Sellers</h2>
         <div class="items">
             <?php
             //print all items that are sold most
@@ -52,7 +52,7 @@ $conn = $db->connect();
             }
             ?>
         </div>
-        <h2>Catalogue</h2>
+        <h2 style="margin: 1rem;">Catalogue</h2>
         <div class="items">
             <?php
             //print all items

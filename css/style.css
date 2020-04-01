@@ -93,17 +93,6 @@ div.buttons {
     padding: auto;
 }
 
-.page-container {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-}
-
-.page-container h2 {
-    margin-left: 2rem;
-    margin-top: 2rem;
-}
-
 .item-container {
     display: flex;
     flex-direction: row;
