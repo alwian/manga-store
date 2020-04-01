@@ -25,6 +25,7 @@
 
             $item = new Item($conn);
             $item->item_id = $_POST['item_id'];
+            $item->getItem();
             if ($item->exists()) {
                 if ($item->stock >= $cart->quantity) {
                     if (!$cart->addItem()) {
