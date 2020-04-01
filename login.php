@@ -31,13 +31,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $_SESSION['Logged'] = true;
                 header("Location: index.php");
             }else{
+                http_response_code(401);
                 $errorMsg = "Login failed, incorrect email or password.";
             }
-
         }else{
+            http_response_code(401);
             $errorMsg = "Login failed, incorrect email or password.";
         }
-    }else{
+    } else{
+        http_response_code(400);
         $errorMsg = "All fields required.";
     }
 }
