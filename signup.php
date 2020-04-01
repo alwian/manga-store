@@ -40,15 +40,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_SESSION['Logged'] = true;
                     header("Location: index.php");
                 } else {
+                    http_response_code(500);
                     $errorMsg = "Something went wrong on our end.";
                 }
             }else{
+                http_response_code(400);
                 $errorMsg = "Password and verify password do not match.";
             }
         }else{
+            http_response_code(409);
             $errorMsg = "This email is already in use.";
         }
     }else{
+        http_response_code(400);
         $errorMsg = "All fields required.";
     }
 }
