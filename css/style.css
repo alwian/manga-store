@@ -154,8 +154,8 @@ div.buttons{
 }
 
 #login-button{
-    width: 100%;
-    margin-left: 0;
+    width: 80%;
+    margin: auto;
 }
 
 #signup-button{
@@ -273,4 +273,10 @@ em{
 th{
     border-top: none !important;
     border-bottom: none !important;
+}
+
+.form-group.form-login{
+    margin-left: auto;
+    margin-right: auto;
+
 }
