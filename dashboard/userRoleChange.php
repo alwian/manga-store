@@ -1,6 +1,5 @@
 <?php
 require_once "dashboard_header.php";
-require_once "dashboard_sidebar.php";
 
 $db = new Database();
 $conn = $db->connect();
@@ -11,8 +10,10 @@ $conn = $db->connect();
         $user->type = $_POST["userRole"];
         $user->changeUserRole();
         header("Location: accountManage.php");
+        exit;
     }
 
+require_once "dashboard_sidebar.php";
 
 
 ?>
