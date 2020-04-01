@@ -92,7 +92,7 @@
                                 <th scope=\"col\"> &emsp;</th>
                                 <th scope=\"col\"> &emsp;</th>
                                 <th scope=\"col\">
-                                    <form action='checkout.php'>
+                                    <form action='checkout.php' Method='POST'>
                                         <button type='submit' class='btn' id='cart-btn' href=\"checkout.php\"> Checkout</button>
                                     </form>
                                 </th>
