@@ -9,7 +9,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     http_response_code(403);
     header("Location: login.php");
     exit;
-} else if (!isset($_GET['id']) || empty($_GET['id'])) {
+} else if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['item_id'] != 0) {
     http_response_code(400);
     echo "Item id is required.";
     exit;
