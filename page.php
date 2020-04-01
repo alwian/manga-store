@@ -57,7 +57,6 @@
                         </div>
                         <div id="page-extras">
                             <h5>Number of Pages in Comic: <em>{$item->number_pages}</em></h5>
-                            <h5>Rating: <em>{$item->average_rating}</em></h5>
                             </br>
                             <h5>Sold by: <em>{$seller->first_name} {$seller->last_name}</em></h5>
                             <h5>Stock available: <em>{$item->stock}</em></h5>
