@@ -2,9 +2,9 @@
 class Database
 {
     private $dbname = 'csci3172g1';
-    private $host = 'db.cs.dal.ca';
-    private $username = '';
-    private $password = '';
+    private $host = 'localhost';
+    private $username = 'root';
+    private $password = 'root';
     private $conn;
 
     public function connect() {
