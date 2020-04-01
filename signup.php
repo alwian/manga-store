@@ -124,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script> -->
 <!--CDN Link for Password Strength Checker Tool-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 <script type="text/javascript" src="js/strength.js"></script>
