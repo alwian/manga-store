@@ -1,4 +1,5 @@
 <?php
+//includes the hearders
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 ?>
@@ -9,6 +10,7 @@ require_once "dashboard_sidebar.php";
     <!-- Main Content -->
     <div id="content">
         <?php
+        //display the topbar
         require_once "dashboard_topbar.php";
         ?>
 
@@ -17,7 +19,7 @@ require_once "dashboard_sidebar.php";
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800">Order Detail</h1>
             <p></p>
-            <!-- DataTales Example -->
+            <!-- Data Table -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary text-center">Order Detail</h6>
@@ -35,19 +37,28 @@ require_once "dashboard_sidebar.php";
                             </thead>
                             <tbody>
                             <?php
-
+                            //create a order obj
                             $order = new Order($conn);
+                            //create a item obj
                             $item = new Item($conn);
+                            //total price of a order
                             $total = 0;
 
+                            //get the order id from url
                             if(isset($_GET["id"])){
+                                //set order's id from url
                                  $order->order_id = $_GET["id"];
+                                 //get items from order
                                  $soldItems = $order->getSoldItems();
-
+                                 //for each item in order
                                 foreach ($soldItems as $i){
+                                    //print each item information
                                     $item->item_id = $i['item_id'];
                                     $quantity =  $i['quantity'];
                                     $item->getItem();
+                                    if ($user->type === 'seller' && $item->seller_id != $_SESSION['id']) {
+                                        continue;
+                                    }
                                     echo "<tr>";
                                     echo "<td>$item->item_id</td>";
                                     echo "<td>$item->name</td>";

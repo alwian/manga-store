@@ -8,7 +8,7 @@ if ($user->type !== 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && !empty($_POST['userID'])) {
+    if(isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && (!empty($_POST['userID']) || $_POST['userID'] == 0)) {
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
         if ($user->existsById()) {
@@ -29,10 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (!isset($_GET['id']) || empty($_GET['id'])) {
+    if (!isset($_GET['id']) && (empty($_GET['id'] && $_GET['id'] != 0))) {
         http_response_code(400);
         echo 'id is required.';
         exit;
+    } else {
+        $user = new User($conn);
+        $user->user_id = $_GET['id'];
+        if (!$user->existsById()) {
+            http_response_code(404);
+            echo 'Could not find the specified user.';
+            exit;
+        }
     }
 }
 
@@ -74,6 +82,7 @@ require_once "dashboard_sidebar.php";
                             </thead>
                             <tbody>
                             <?php
+                            //create a new user obj
                             $user = new User($conn);
                             if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                 $user->user_id = $_POST["userID"];
@@ -81,6 +90,7 @@ require_once "dashboard_sidebar.php";
                                 $user->user_id = $_GET["id"];
                             }
 
+                            //get user information and print
                             $user->getUser();
                                 echo "<tr>
                                 <td>$user->user_id</td>                               

@@ -10,16 +10,6 @@ if ($user->type !== 'admin') {
     echo 'You do not have permission to access this page.';
     exit;
 }
-
-$order = new Order($db->connect());
-$order->order_id = $_GET["id"];
-if ($order->exists()) {
-    $order->deleteOrder();
-    header("Location: displayAllOrders.php");
-} else {
-    http_response_code(404);
-    echo 'The specified order was not found.';
-}
 ?>
 
 <!-- Content Wrapper -->
@@ -55,17 +45,23 @@ if ($order->exists()) {
                             <tbody>
                             <?php
 
+                                //create a order obj
                                 $order = new Order($conn);
-
+                                //get all the orders from db
                                 $orders=$order->getOrders();
-
+                                //for each order in orders
                                 foreach ($orders as $o){
+                                    //set order id
                                     $order->order_id = $o['order_id'];
+                                    //get order information
                                     $order->getOrder();
+                                    //print order id , time
                                     echo "<tr>";
                                     echo "<td>$order->order_id</td>";
                                     echo "<td>$order->order_time</td>";
+                                    //view the detial of the order
                                     echo "<td><a href='orderDetail.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
+
                                     echo "<td>
                                                 <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa - trash text - danger\"></i>Delete</a>
                                          </td>";

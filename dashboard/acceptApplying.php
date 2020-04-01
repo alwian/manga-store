@@ -1,4 +1,5 @@
 <?php
+//add header and side bar
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800">Apply To Be Seller List</h1>
             <p></p>
-            <!-- DataTales Example -->
+            <!-- Data Table -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary text-center">Apply To Be Seller List</h6>
@@ -65,18 +66,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </thead>
                             <tbody>
                             <?php
+                            //create a user obj
                             $user = new User($conn);
+                            //get a array of users who applied to be a seller in 'request_seller' table
                             $users = $user->displayAppliedUser();
+                            //for each user in this array
                             foreach ($users as $u) {
+                                //set the user obj's id
                                 $user->user_id = $u['user_id'];
+                                //get the user information with the id
                                 $user->getUser();
+                                //print out all the information of the user
                                 echo "<tr>
                                 <td>$user->user_id</td>
-         
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                 <td>$user->type &nbsp;&nbsp;&nbsp;
+                                <!--accept user to be seller-->
                                 <a href='acceptApplying.php?id=$user->user_id&type=accept'><i class=\"fas fa-edit text-primary\"></i>Accept&nbsp;&nbsp&nbsp;&nbsp</a>
+                                <!--reject and delete this request-->
                                 <a href='acceptApplying.php?id=$user->user_id&type=delete'><i class=\"fas fa-trash text-danger\"></i>Delete</a>
                                 </td>
                       </tr>
@@ -98,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 <!-- End of Page Wrapper -->
 <?php
+//when logout ask user to comfirm
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";
 ?>

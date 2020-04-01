@@ -1,5 +1,6 @@
 
 <?php
+    //include classes
     include '../models/User.php';
     include_once '../config/Database.php';
 

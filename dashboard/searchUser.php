@@ -42,13 +42,17 @@ if ($user->type !== 'admin') {
                             </thead>
                             <tbody>
                             <?php
+                            //create a new user
                             $user = new User($conn);
-
+                            //check if the search box is set and not empty
                             if(isset($_POST["searchBox"]) && !empty($_POST["searchBox"])) {
+                                //set the user id from the search box
                                 $user->user_id = $_POST["searchBox"];
-                                $user->getUser();
-
-                                echo "
+                                //get the user information
+                                if ($user->existsById()) {
+                                    $user->getUser();
+                                    //print out information of searched user
+                                    echo "
                                 <td>$user->user_id</td>
                                  <!-- Delete Modal-->
                                 <div class=\"modal fade\" id=\"deleteConfirm$user->user_id\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
@@ -78,7 +82,7 @@ if ($user->type !== 'admin') {
                       </tr>
                        </tbody>
                       ";
-
+                                }
                             }
 
                             ?>
