@@ -1,50 +1,57 @@
+
+<?php
+require 'config/Database.php';
+require 'models/User.php';
+require 'models/Item.php';
+
+session_start();
+
+//establish connection to the database
+$db = new Database();
+$conn = $db->connect();
+
+//create new instance of item
+$item = new Item($conn);
+
+//GET Method page response
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    $id = $_GET["id"];
+    $item->item_id = $id;
+}
+
+//Could not find the item
+if (!$item->getItem()) {
+    echo 'Could not find the specified item.';
+    exit;
+}
+
+//craete new instance of seller
+$seller = new User($db->connect());
+$seller->user_id = $item->seller_id;
+$seller->getUser();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $item->name; ?></title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import stylesheets-->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
     <?php
-        session_start();
+    require "header.php";
 
-        require 'config/Database.php';
-        require 'models/User.php';
-        require 'models/Item.php';
-
-        $db = new Database();
-        $conn = $db->connect();
-
-        $item = new Item($conn);
-
-        if($_SERVER["REQUEST_METHOD"]==="GET"){
-            $id = $_GET["id"];
-            $item->item_id = $id;
-        }
-
-        if (!$item->getItem()) {
-            echo 'Could not find the specified item.';
-            exit;
-        }
-
-        
-
-        $seller = new User($db->connect());
-        $seller->user_id = $item->seller_id;
-        $seller->getUser();
-        
-    ?>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="referrer" content="no-referrer" />
-        <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo $item->name;?></title>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!--Import bootstrap.css-->
-        <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
-        <link type="text/css" rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <?php
-            require "header.php";
-
-            $content = <<<EOD
+    //page info
+    $content = <<<EOD
             '<div class="item-container col-10 col-sm-10 col-" id="item-page">
                 <div class="col-md-9 col-sm-12 col-" id="item-info">
                     <h2 id="page-title">{$item->name}</h2>
@@ -83,10 +90,11 @@
                 </div>
             </div>'
 EOD;
-            echo $content;
-        ?>
+    echo $content;
+    ?>
+    <!-- Import scripts -->
+    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</body>
 
-        <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    </body>
 </html>

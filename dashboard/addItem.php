@@ -5,8 +5,10 @@ require_once "../models/Item.php";
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
-        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
+    if (
+        isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
+        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])
+    ) {
         $item = new Item($conn);
         $item->seller_id = $_SESSION['id'];
         $item->name = $_POST['itemName'];
@@ -63,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Main Content -->
     <div id="content">
         <?php
-            include "dashboard_topbar.php";
+        include "dashboard_topbar.php";
         ?>
 
         <!-- Begin Page Content -->
@@ -77,27 +79,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="addItem.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="itemName">Item Name</label>
-                    <input class="form-control" type="text" id="itemName" name="itemName" required/>
+                    <input class="form-control" type="text" id="itemName" name="itemName" required />
                 </div>
                 <div class="form-group">
                     <label for="itemAuthor">Author</label>
-                    <input class="form-control" type="text" id="itemAuthor" name="itemAuthor" required/>
+                    <input class="form-control" type="text" id="itemAuthor" name="itemAuthor" required />
                 </div>
                 <div class="form-group">
                     <label for="itemPages">Number of pages</label>
-                    <input class="form-control" type="text" id="itemPages" name="itemPages" required/>
+                    <input class="form-control" type="text" id="itemPages" name="itemPages" required />
                 </div>
                 <div class="form-group">
                     <label for="itemPrice">Price</label>
-                    <input class="form-control" type="number" id="itemPrice" name="itemPrice" required/>
+                    <input class="form-control" type="number" id="itemPrice" name="itemPrice" required />
                 </div>
                 <div class="form-group">
                     <label for="itemStock">Stock</label>
-                    <input class="form-control" type="number" id="itemStock"  name="itemStock" required/>
+                    <input class="form-control" type="number" id="itemStock" name="itemStock" required />
                 </div>
                 <div class="form-group">
                     <label for="itemImage">Image</label>
-                    <input class="form-control" type="file" id="itemImage" name="itemImage" required/>
+                    <input class="form-control" type="file" id="itemImage" name="itemImage" required />
                 </div>
                 <div class="form-group">
                     <label for="itemDescription">Description</label>
@@ -116,11 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 <!-- End of Page Wrapper -->
 <?php
-    include "dashboard_logoutModal.php";
-    include "dashboard_footer.php";
+include "dashboard_logoutModal.php";
+include "dashboard_footer.php";
 ?>
-
-
-
-
-

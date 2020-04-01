@@ -1,10 +1,10 @@
 <?php
-    session_start();
+session_start();
 
-    // If the user is already logged in, take them to the homepage.
-    if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: login.php");
-    }
+// If the user is already logged in, take them to the homepage.
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    header("Location: login.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +20,11 @@
 </head>
 
 <body>
-    <?php require "header.php";?>
+    <?php require "header.php"; //load header to top of page ?>
+    <!-- Container to hold form -->
     <div class="page-container">
         <h1 class="text-center" style="margin-top:1rem;">Checkout</h1>
+        <!-- Form on submit post details to confirm.php -->
         <form class="forms" action="confirm.php" method="post">
             <div id="form-inputs">
                 <div id="left-forms">
@@ -60,12 +62,14 @@
             </div>
             <hr class="col-12">
             <div id="pay-button">
-                <!--Link to thankyou.php, remove when button is resized and used as a link instead-->
+                <!--Post shipping information and place order on click-->
                 <button type="submit" class="btn" id="paypal-button"></button>
             </div>
         </form>
     </div>
+    <!-- Import scripts -->
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

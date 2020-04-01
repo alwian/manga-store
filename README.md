@@ -11,6 +11,7 @@ LOGIN: Enter email and password from an associated account. This will grant acce
 SIGNUP: Sign up for a new account. Enter details. Details submitted to the Database, and login page loaded.
 
 INDEX: Main page which includes the catalogue of products available. Product cards have buttons to view the product page or buy the product.
+
     ---> Best sellers shows most ordered products.
     ---> Search bar in header will allow to search for products.
 
@@ -28,3 +29,4 @@ ORDER HISTORY: Displays all orders previously placed by the user.
 
 HEADER: Page header carried across all pages in the site.
 --------
+

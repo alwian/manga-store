@@ -58,11 +58,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 
 <body>
-<?php require "header.php"; ?>
+<?php require "header.php"; //load header to top of page ?>
 
 <div class="page-container">
     <h2>Login</h2>
-
+    <!--Form for login with POST method-->
     <form class="forms" action="login.php" method="post">
         <div class="form-group form-login">
             <label for="InputEmail">Email address</label>
@@ -73,6 +73,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <label for="InputPassword">Password</label>
             <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
         </div>
+        <!-- Submit POST request with login details -->
         <button type="submit" class="btn btn-primary" id="login-button">Submit</button>
         <p class="form-text text-danger"><?php echo $errorMsg;?></p>
     </form>
