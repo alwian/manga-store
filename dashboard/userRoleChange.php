@@ -1,20 +1,42 @@
 <?php
 require_once "dashboard_header.php";
-require_once "dashboard_sidebar.php";
 
-//connect to db
-$db = new Database();
-$conn = $db->connect();
+if ($user->type !== 'admin') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
 
-    //is user role is set in url then get userID and change the role to select value
-    if(isset($_POST["userRole"]) && $_POST["userRole"]){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if(isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && !empty($_POST['userID'])) {
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
-        $user->type = $_POST["userRole"];
-        $user->changeUserRole();
-        header("Location: accountManage.php");
+        if ($user->existsById()) {
+            if ($_POST['userRole'] !== 'consumer' && $_POST['userRole'] !== 'seller' && $_POST['userRole'] !== 'admin') {
+                http_response_code(422);
+                echo 'User role is invalid.';
+                exit;
+            } else {
+                $user->type = $_POST["userRole"];
+                $user->changeUserRole();
+                header("Location: accountManage.php");
+                exit;
+            }
+        } else {
+            http_response_code(404);
+            echo 'The specified user does not exist';
+            exit;
+        }
     }
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (!isset($_GET['id']) || empty($_GET['id'])) {
+        http_response_code(400);
+        echo 'id is required.';
+        exit;
+    }
+}
 
+require_once "dashboard_sidebar.php";
 
 
 ?>
@@ -54,11 +76,9 @@ $conn = $db->connect();
                             <?php
                             //create a new user obj
                             $user = new User($conn);
-                            //if user role is set then get user ID from url
-                            if(isset($_POST["userRole"])){
+                            if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                 $user->user_id = $_POST["userID"];
-                            }else{
-                                //else get the id in the url for print information
+                            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 $user->user_id = $_GET["id"];
                             }
 
@@ -69,10 +89,8 @@ $conn = $db->connect();
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                      <td>
-                                         <form method='post'>
-                                                <!-- save the user ID to URL-->
-                                                <input type='hidden' value='$user->user_id' name='userID'/>
-                                                <!-- select for user role-->
+                                         <form action='userRoleChange.php' method='post'>
+                                               <input type='hidden' value='$user->user_id' name='userID'/>
                                                <div class=\"input-group\">
                                                   <select name='userRole' class=\"custom-select\" id=\"inputGroupSelect04\" aria-label=\"Example select with button addon\">
                                                     <option value=$user->type selected>Select A Role($user->type)</option>

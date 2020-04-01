@@ -5,7 +5,9 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
+    http_response_code(403);
     header("Location: index.php");
+    exit;
 }
 
 $errorMsg = null;
@@ -21,7 +23,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $user = new User($db->connect());
         // Check if the email is exists.
         $user->email = $_POST['email'];
-        if($user->exists()!=null){
+        if($user->existsByEmail()!=null){
             // Check if the password matches the database.
             $user->password = $_POST['password'];
             // Check the password is correct.
@@ -31,13 +33,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $_SESSION['Logged'] = true;
                 header("Location: index.php");
             }else{
+                http_response_code(401);
                 $errorMsg = "Login failed, incorrect email or password.";
             }
-
         }else{
+            http_response_code(401);
             $errorMsg = "Login failed, incorrect email or password.";
         }
-    }else{
+    } else{
+        http_response_code(400);
         $errorMsg = "All fields required.";
     }
 }

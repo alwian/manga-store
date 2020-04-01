@@ -1,10 +1,12 @@
 <?php
-    session_start();
+session_start();
 
-    // If the user is already logged in, take them to the homepage.
-    if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: login.php");
-    }
+// If the user is already logged in, take them to the homepage.
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    http_response_code(403);
+    header("Location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,28 +22,23 @@
 </head>
 
 <body>
-    <?php require "header.php";?>
+    <?php require "header.php"; //load header to top of page 
+    ?>
+    <!-- Container to hold form -->
     <div class="page-container">
         <h1 class="text-center" style="margin-top:1rem;">Checkout</h1>
+        <!-- Form on submit post details to confirm.php -->
         <form class="forms" action="confirm.php" method="post">
             <div id="form-inputs">
                 <div id="left-forms">
                     <div class="form-group">
-                        <div id="fullname">
-                            <label for="InputFullName">Full Name</label>
-                            <input type="text" class="form-control" id="InputFullName" name="full_name" placeholder="Full name">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <div id="address">
                             <label for="InputAddress">Shipping Address</label>
                             <input type="text" class="form-control" id="InputAddress" name="address" placeholder="Address">
-
                         </div>
                         <div id="city">
                             <label for="InputCity">City</label>
                             <input type="text" class="form-control" id="InputCity" name="city" placeholder="City">
-
                         </div>
                         <div id="country">
                             <label for="SelectCountry">Country</label>
@@ -55,13 +52,6 @@
                 </div>
                 <div id="right-forms">
                     <div class="form-group">
-                        <div id="email">
-                            <label for="InputEmail">Email address</label>
-                            <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Email">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <div id="state">
                             <label for="InputState">State</label>
                             <input type="text" class="form-control" id="InputState" name="state" placeholder="State">
@@ -70,18 +60,19 @@
                             <label for="InputZip">Zip</label>
                             <input type="text" class="form-control" id="InputZip" name="zip" placeholder="Zip">
                         </div>
-
                     </div>
                 </div>
             </div>
             <hr class="col-12">
             <div id="pay-button">
-                <!--Link to thankyou.php, remove when button is resized and used as a link instead-->
+                <!--Post shipping information and place order on click-->
                 <button type="submit" class="btn" id="paypal-button"></button>
             </div>
         </form>
     </div>
+    <!-- Import scripts -->
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

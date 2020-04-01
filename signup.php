@@ -5,7 +5,9 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
+    http_response_code(403);
     header("Location: index.php");
+    exit;
 }
 
 $errorMsg = null;
@@ -23,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $user = new User($db->connect());
         // Check if the email is already registered
         $user->email = $_POST['email'];
-        if($user->exists() == null){
+        if($user->existsByEmail() == null){
             // Check if the password and re-enter are the same.
             if($_POST['password'] == $_POST['verify']){
                 // Set the user details.
@@ -40,15 +42,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_SESSION['Logged'] = true;
                     header("Location: index.php");
                 } else {
+                    http_response_code(500);
                     $errorMsg = "Something went wrong on our end.";
                 }
             }else{
+                http_response_code(400);
                 $errorMsg = "Password and verify password do not match.";
             }
         }else{
+            http_response_code(409);
             $errorMsg = "This email is already in use.";
         }
     }else{
+        http_response_code(400);
         $errorMsg = "All fields required.";
     }
 }
@@ -118,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script> -->
 <!--CDN Link for Password Strength Checker Tool-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 <script type="text/javascript" src="js/strength.js"></script>

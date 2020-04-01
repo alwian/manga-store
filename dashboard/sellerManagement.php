@@ -2,17 +2,24 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-//connect to db
-$db = new Database();
-$conn = $db->connect();
+if ($user->type !== 'admin') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
 
-//get the user ID and set user to consumer if admin click on the set to consumer button
-if(isset($_GET["id"])) {
+if(isset($_GET["id"]) && !empty($_GET['id'])) {
     $user = new User($db->connect());
     $user->user_id = $_GET["id"];
-    $user->type = "consumer";
-    $user->changeUserRole();
-    header("Location: displayAllOrders.php");
+    if ($user->existsById()) {
+        $user->type = "consumer";
+        $user->changeUserRole();
+        header("Location: displayAllOrders.php");
+    } else {
+        http_response_code(404);
+        echo 'The specified user could not be found.';
+        exit;
+    }
 }
 
 ?>

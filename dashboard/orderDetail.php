@@ -2,9 +2,6 @@
 //includes the hearders
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
-//connect to db
-$db = new Database();
-$conn = $db->connect();
 ?>
 
 <!-- Content Wrapper -->

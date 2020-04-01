@@ -4,130 +4,135 @@ include "dashboard_sidebar.php";
 require_once "../models/Item.php";
 require_once "../models/User.php";
 
-$db = new Database();
-$conn = $db->connect();
 $user = new User($conn);
 $user->user_id = $_SESSION['id'];
 
-// If the user is already logged in, take them to the homepage.
-if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    header("Location: ../login.php");
-} else {
-    $user->getUser();
-    if ($user->type !== 'seller') {
-        echo 'You must be a seller to access this page.';
-        exit;
+$user->getUser();
+if ($user->type !== 'seller') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_GET['itemId']) && !empty($_GET['itemId'])) {
+        $id = $_GET['itemId'];
     } else {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (isset($_GET['itemId']) && !empty($_GET['itemId'])) {
-                $id = $_GET['itemId'];
-            } else {
-                echo 'Item id is required.';
-                exit;
-            }
-        } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['itemId']) && !empty($_POST['itemId'])) {
-                $id = $_POST['itemId'];
-            } else {
-                echo 'Item id is required.';
-                exit;
-            }
-        } else {
-            echo 'Invalid Request method.';
-        }
+        http_response_code(400);
+        echo 'Item id is required.';
+        exit;
+    }
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['itemId']) && !empty($_POST['itemId'])) {
+        $id = $_POST['itemId'];
+    } else {
+        http_response_code(400);
+        echo 'Item id is required.';
+        exit;
+    }
+} else {
+    http_response_code(400);
+    echo 'Invalid Request method.';
+    exit;
+}
 
-        $item = new Item($conn);
-        $item->item_id = $id;
-        if ($item->exists()) {
-            $item->getItem();
-            if (!($item->seller_id === $_SESSION['id'])) {
-                echo "You do not own this item.";
-                exit;
-            }
-        } else {
-            echo 'Item does not exist.';
-            exit;
-        }
+$item = new Item($conn);
+$item->item_id = $id;
+if ($item->exists()) {
+    $item->getItem();
+    if (!($item->seller_id === $_SESSION['id'])) {
+        http_response_code(403);
+        echo "You do not own this item.";
+        exit;
+    }
+} else {
+    http_response_code(404);
+    echo 'Item does not exist.';
+    exit;
+}
 
-        $error = '';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
-                !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
-                $item->name = $_POST['itemName'];
-                $item->author = $_POST['itemAuthor'];
-                $item->price = $_POST['itemPrice'];
-                $item->stock = $_POST['itemStock'];
-                $item->description = $_POST['itemDescription'];
-                $item->number_pages = $_POST['itemPages'];
+$error = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
+        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
+        $item->name = $_POST['itemName'];
+        $item->author = $_POST['itemAuthor'];
+        $item->price = $_POST['itemPrice'];
+        $item->stock = $_POST['itemStock'];
+        $item->description = $_POST['itemDescription'];
+        $item->number_pages = $_POST['itemPages'];
 
 
-                $upload_successful = true;
-                $file_uploaded = false;
-                if (isset($_FILES['itemImage']['name']) && !empty($_FILES['itemImage']['name'])) {
-                    if (!($_FILES['itemImage']['name'] === $item->image)) {
-                        $file_uploaded = true;
-                        if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
-                            $item->author = $_POST['itemAuthor'];
-                            $item->price = $_POST['itemPrice'];
-                            $item->stock = $_POST['itemStock'];
-                            $item->description = $_POST['itemDescription'];
-                            $item->number_pages = $_POST['itemPages'];
+        $upload_successful = true;
+        $file_uploaded = false;
+        if (isset($_FILES['itemImage']['name']) && !empty($_FILES['itemImage']['name'])) {
+            if (!($_FILES['itemImage']['name'] === $item->image)) {
+                $file_uploaded = true;
+                if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
+                    $item->author = $_POST['itemAuthor'];
+                    $item->price = $_POST['itemPrice'];
+                    $item->stock = $_POST['itemStock'];
+                    $item->description = $_POST['itemDescription'];
+                    $item->number_pages = $_POST['itemPages'];
 
-                            $target_dir = "../data/product-images/";
-                            $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
-                            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                            $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
-                            if ($check !== false) {
-                                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                                    $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                                    $upload_successful = false;
-                                } else if (strlen($_FILES['itemImage']['name']) <= 120) {
-                                    if (!move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
-                                        $error = "Sorry, there was an error uploading your file.";
-                                        $upload_successful = false;
-                                    }
-                                } else {
-                                    $error = "File name is too long.";
-                                    $upload_successful = false;
-                                }
-                            } else {
-                                $error = "File is not an image.";
-                                $upload_successful = false;
-                            }
-                        } else {
-                            $error = "Files is too big.";
+                    $target_dir = "../data/product-images/";
+                    $unique_filename = uniqid('uploaded-', true)
+                        . '.' . strtolower(pathinfo($_FILES['itemImage']['name'], PATHINFO_EXTENSION));
+                    $target_file = $target_dir . $unique_filename;
+                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
+                    if ($check !== false) {
+                        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                            http_response_code(415);
+                            $error = "Sorry, only JPG, JPEG & PNG files are allowed.";
+                            $upload_successful = false;
+                        } else if (!move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
+                            $error = "Sorry, there was an error uploading your file.";
                             $upload_successful = false;
                         }
-
-                    }
-                }
-
-                if ($file_uploaded) {
-                    if ($upload_successful) {
-                        $old_file = $item->image;
-                        $item->image = $_FILES['itemImage']['name'];
-                        $success = $item->update();
-                        if ($success != null) {
-                            unlink("../data/product-images/" . $old_file);
-                            header("Location: ../page.php?id=$item->item_id");
-                            exit;
-                        } else {
-                            unlink($target_file);
-                            $item->image = $old_file;
-                            $error = "There was an error updating the item.";
-                        }
+                    } else {
+                        http_response_code(415);
+                        $error = "File is not an image.";
+                        $upload_successful = false;
                     }
                 } else {
-                    $success = $item->update();
-                    if ($success != null) {
-                        header("Location: ../page.php?id=$item->item_id");
-                        exit;
-                    } else {
-                        $error = "There was an error updating the item.";
-                    }
+                    http_response_code(413);
+                    $error = "Files is too big.";
+                    $upload_successful = false;
                 }
+
             }
         }
+
+        if ($file_uploaded) {
+            if ($upload_successful) {
+                $old_file = $item->image;
+                $item->image = $unique_filename;
+                $success = $item->update();
+                if ($success != null) {
+                    unlink("../data/product-images/" . $old_file);
+                    header("Location: ../page.php?id=$item->item_id");
+                    exit;
+                } else {
+                    unlink($target_file);
+                    $item->image = $old_file;
+                    http_response_code(304);
+                    $error = "There was an error updating the item.";
+                }
+            }
+        } else {
+            $success = $item->update();
+            if ($success != null) {
+                header("Location: ../page.php?id=$item->item_id");
+                exit;
+            } else {
+                http_response_code(304);
+                $error = "There was an error updating the item.";
+            }
+        }
+    } else {
+        http_response_code(400);
+        $error = 'All fields must be filled besides image, we will use the current if one is not specified.';
     }
 }
 ?>

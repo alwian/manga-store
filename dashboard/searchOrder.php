@@ -1,17 +1,19 @@
 <?php
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
-//connect to db
-$db = new Database();
-$conn = $db->connect();
-//get the order id of url, if admin click on delete button then delete it
+
+if ($user->type !== 'admin') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
+
 if(isset($_GET["id"]) && isset($_GET["type"])) {
     $order = new Order($db->connect());
     $order->order_id = $_GET["id"];
     $order->deleteOrder();
     header("Location: searchOrder.php");
 }
-
 ?>
 
 <!-- Content Wrapper -->

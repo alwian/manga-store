@@ -2,7 +2,6 @@
 class Order
 {
     private $table = 'orders';
-    private $ship = 'shipping_information';
     private $sold = 'sold_items';
     private $conn;
 
@@ -35,6 +34,7 @@ class Order
             $cart->user_id = $this->user_id;
             $query = "INSERT INTO $this->sold VALUES (:item_id, :order_id, :quantity)";
             foreach ($cart->getItems() as $product){
+
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(":item_id", $product["item_id"]);
                 $stmt->bindParam(":order_id", $new_order);
@@ -43,11 +43,17 @@ class Order
                 $cart->item_id = $product["item_id"];
                 $cart->quantity = 0;
                 $cart->updateItem();
+                $item = new Item($this->conn);
+                $item->item_id = $product['item_id'];
+                $item->getItem();
+                $item->stock -= $product['quantity'];
+                $item->update();
             }
             $this->order_id = $new_order;
             return true;
         }
         catch(PDOException $e){
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -93,6 +99,35 @@ class Order
         }
     }
 
+    public function getOrdersForUser() {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function isOwnedByUser() {
+        $query = "SELECT * FROM $this->table WHERE order_id = :order_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":order_id", $this->order_id);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() === 1;
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
 
     /**
      * This function is for get the Item_ID from Order_ID in 'sold_items' table
@@ -106,7 +141,7 @@ class Order
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -128,7 +163,21 @@ class Order
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function exists() {
+        $query = "SELECT * FROM $this->table WHERE order_id = :order_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":order_id", $this->order_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() === 1;
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
             return null;
         }
     }

@@ -3,26 +3,37 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
+$user = new User($conn);
+$user->user_id = $_SESSION['id'];
+$user->getUser();
+if ($user->type !== 'admin') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
 
-$db = new Database();
-$conn = $db->connect();
-    if(isset($_GET["id"]) && isset($_GET["type"])){
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_GET["id"]) || !isset($_GET["type"]) || empty($_GET['id']) || empty($_GET['type'])) {
+        http_response_code(200);
+        echo 'ID and type are required.';
+        exit;
+    } else {
         if($_GET["type"] == 'delete'){
-            $user = new User($db->connect());
+            $user = new User($conn);
             $user->user_id = $_GET["id"];
             $user->deleteUserFromSellerApllyList();
             header("Location: acceptApplying.php");
-        }else{
-            $user = new User($db->connect());
+        }else {
+            $user = new User($conn);
             $user->user_id = $_GET["id"];
             $user->type = "seller";
             $user->changeUserRole();
             $user->deleteUserFromSellerApllyList();
             header("Location: acceptApplying.php");
         }
-
     }
+}
 ?>
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">

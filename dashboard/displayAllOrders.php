@@ -2,13 +2,23 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-$db = new Database();
-$conn = $db->connect();
-if(isset($_GET["id"])) {
-    $order = new Order($db->connect());
-    $order->order_id = $_GET["id"];
+$user = new User($conn);
+$user->user_id = $_SESSION['id'];
+$user->getUser();
+if ($user->type !== 'admin') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
+
+$order = new Order($db->connect());
+$order->order_id = $_GET["id"];
+if ($order->exists()) {
     $order->deleteOrder();
     header("Location: displayAllOrders.php");
+} else {
+    http_response_code(404);
+    echo 'The specified order was not found.';
 }
 ?>
 

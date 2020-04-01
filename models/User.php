@@ -94,11 +94,30 @@ class User
      *
      * @return bool|null Whether the user exists, an error occurred during database interaction.
      */
-    public function exists() {
+    public function existsByEmail() {
         $query = "SELECT email FROM $this->table WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute(array($this->email));
+            return ($stmt->rowCount() > 0); // See whether any users where found.
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+    /**
+     * Checks whether a user exists.
+     *
+     * Uses the users email to check their existence.
+     *
+     * @return bool|null Whether the user exists, an error occurred during database interaction.
+     */
+    public function existsById() {
+        $query = "SELECT user_id FROM $this->table WHERE user_id = ?";
+        $stmt = $this->conn->prepare($query);
+        try {
+            $stmt->execute(array($this->user_id));
             return ($stmt->rowCount() > 0); // See whether any users where found.
         } catch (PDOException $e) {
             //echo $e->getMessage();
@@ -201,7 +220,7 @@ class User
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
 
@@ -274,7 +293,7 @@ class User
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -296,7 +315,7 @@ class User
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -310,7 +329,7 @@ class User
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }

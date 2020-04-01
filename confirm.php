@@ -1,39 +1,43 @@
 <?php
-    include_once 'config/Database.php';
-    include_once 'models/Cart.php';
-    include_once 'models/Item.php';
-    include_once 'models/Order.php';
-    
-    session_start();
+include_once 'config/Database.php';
+include_once 'models/Cart.php';
+include_once 'models/Item.php';
+include_once 'models/Order.php';
 
-    // If the user is already logged in, take them to the homepage.
-    if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
-        header("Location: login.php");
+session_start();
+
+// If the user is already logged in, take them to the homepage.
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    http_response_code(403);
+    header("Location: login.php");
+    exit;
+}
+
+$db = new Database();
+$conn = $db->connect();
+$order = new Order($conn);
+$order->user_id = $_SESSION['id'];
+
+// Check if the the form been submitted.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
+        && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))
+    ) {
+        $order = new Order($conn);
+        $order->user_id = $_SESSION["id"];
+        $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
+        $shipping = $order->shipping_info;
+        $order->addToOrder();
+    } else {
+        http_response_code(400);
+        echo "Could not process your order, ensure all fields are filled on the checkout page.";
+        exit;
     }
-
-    $db = new Database();
-    $conn = $db->connect();
-    $order = new Order($conn);
-    
-    $order->user_id = $_SESSION['id'];
-    
-
-    // Check if the the form been submitted.
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
-        && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))){
-            $address = $_POST['address'];
-            $country = $_POST['country'];
-            $city = $_POST['city'];
-            $order = new Order($conn);
-            $order->user_id = $_SESSION["id"];
-            $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
-            $order->addToOrder();
-        }
-        else{
-            echo "Item error";
-        }
-    }
+} else {
+    http_response_code(400);
+    echo 'Invalid request type.';
+    exit;
+}
 
 ?>
 
@@ -50,14 +54,16 @@
 </head>
 
 <body>
-    <?php require "header.php";?>
+    <?php require "header.php"; //load header to top of page 
+    ?>
     <h1 class="text-center" style="margin-top:1rem">Thank you for your purchase. We have received your order.</h1><br><br>
+    <!-- Container to display order details after submitting order-->
     <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
         </br>
         <h2 class="text-center" id="cart-header">Here's your order:</h2></br></br>
         <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
             <table class="table table-dark table-striped table-hover " style="margin-bottom:0;">
-                <thead class="thead-dark" >
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">ID#</th>
                         <th scope="col">Product</th>
@@ -70,16 +76,16 @@
                     <?php
                     $totalSum = 0;
                     $count = 0;
-                    // $order->getOrder();
+                    // For each item in the order print the item details to the table
                     foreach ($order->getSoldItems() as $current_item) {
                         $item = new Item($conn);
                         $item->item_id = $current_item['item_id'];
-                        $quantity=$current_item['quantity'];
+                        $quantity = $current_item['quantity'];
 
                         if ($item->getItem()) {
-                            $amount = $quantity*$item->price;
-                            $totalSum +=$amount;
-                            
+                            $amount = $quantity * $item->price;
+                            $totalSum += $amount;
+
 
                             echo "<tr>
                                         <td>$item->item_id</td>
@@ -106,12 +112,15 @@
             </table>
         </div>
         </br>
+        <!-- Display the shipping information-->
         <div class="container" id="shipping-details">
             <h5>Shipping to:</h5>
-            <h5><?php echo "$address, $city, $country"?></h5>
+            <h5><?php echo "$shipping"  ?></h5>
         </div>
     </div>
-<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- Import scripts -->
+    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

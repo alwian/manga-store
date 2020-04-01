@@ -16,7 +16,7 @@
     <li class="nav-item active">
         <a class="nav-link" href="../index.php">
             <ion-icon name="list-circle-outline"></ion-icon>
-            <span>HomePage</span></a>
+            <span>Return to site</span></a>
     </li>
 
     <?php
