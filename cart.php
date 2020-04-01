@@ -9,6 +9,7 @@
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
         http_response_code(403);
         header("Location: login.php");
+        exit;
     }
 
     $db = new Database();

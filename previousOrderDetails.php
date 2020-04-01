@@ -10,6 +10,7 @@ session_start();
 if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
     http_response_code(403);
     header("Location: login.php");
+    exit;
 } else if (!isset($_GET['id']) || empty($_GET['id'])) {
     http_response_code(400);
     echo 'Order ID must be specified.';
