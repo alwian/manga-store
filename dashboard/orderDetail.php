@@ -4,12 +4,6 @@ require_once "dashboard_sidebar.php";
 
 $db = new Database();
 $conn = $db->connect();
-if(isset($_GET["id"])) {
-    $order = new Order($db->connect());
-    $order->order_id = $_GET["id"];
-    $order->deleteOrder();
-    header("Location: displayAllOrders.php");
-}
 ?>
 
 <!-- Content Wrapper -->
@@ -24,12 +18,12 @@ if(isset($_GET["id"])) {
         <!-- Begin Page Content -->
         <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Order List</h1>
+            <h1 class="h3 mb-2 text-gray-800">Order Detail</h1>
             <p></p>
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary text-center">Order List</h6>
+                    <h6 class="m-0 font-weight-bold text-primary text-center">Order Detail</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -37,32 +31,38 @@ if(isset($_GET["id"])) {
                             <thead>
                             <tr>
                                 <th>Order ID</th>
-                                <th>Time</th>
-                                <th>View</th>
-                                <th>Edit</th>
+                                <th>Items</th>
+                                <th>Price</th>
+                                <th>Amount</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
 
-                                $order = new Order($conn);
+                            $order = new Order($conn);
+                            $item = new Item($conn);
+                            $total = 0;
 
-                                $orders=$order->getOrders();
+                            if(isset($_GET["id"])){
+                                 $order->order_id = $_GET["id"];
+                                 $soldItems = $order->getSoldItems();
 
-                                foreach ($orders as $o){
-                                    $order->order_id = $o['order_id'];
-                                    $order->getOrder();
+                                foreach ($soldItems as $i){
+                                    $item->item_id = $i['item_id'];
+                                    $quantity =  $i['quantity'];
+                                    $item->getItem();
                                     echo "<tr>";
                                     echo "<td>$order->order_id</td>";
-                                    echo "<td>$order->order_time</td>";
-                                    echo "<td><a href='orderDetail.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
-                                    echo "<td>
-                                                <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa - trash text - danger\"></i>Delete</a>
-                                         </td>";
-                                    echo "</tr>";
-
+                                    echo "<td>$item->item_id</td>";
+                                    echo "<td>$item->price</td>";
+                                    echo "<td>$quantity</td>";
+                                    $total = $total + $item->price*$quantity;
                                 }
+                            }
+
+                            echo "<tr><td colspan='4' class='text-center'>Total: $total</td>></tr>"
                             ?>
+
                             </tbody>
                         </table>
                     </div>
