@@ -32,8 +32,8 @@ $conn = $db->connect();
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Order ID</th>
-                                <th>Items</th>
+                                <th>Item ID</th>
+                                <th>Item</th>
                                 <th>Price</th>
                                 <th>Amount</th>
                             </tr>
@@ -60,8 +60,8 @@ $conn = $db->connect();
                                     $quantity =  $i['quantity'];
                                     $item->getItem();
                                     echo "<tr>";
-                                    echo "<td>$order->order_id</td>";
                                     echo "<td>$item->item_id</td>";
+                                    echo "<td>$item->name</td>";
                                     echo "<td>$item->price</td>";
                                     echo "<td>$quantity</td>";
                                     $total = $total + $item->price*$quantity;

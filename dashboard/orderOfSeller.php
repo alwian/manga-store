@@ -5,13 +5,6 @@ require_once "dashboard_sidebar.php";
 //connect to db
 $db = new Database();
 $conn = $db->connect();
-//get the order id and delete the order if seller click on the delete button
-if(isset($_GET["id"])) {
-    $order = new Order($db->connect());
-    $order->order_id = $_GET["id"];
-    $order->deleteOrder();
-    header("Location: displayAllOrders.php");
-}
 ?>
 
 <!-- Content Wrapper -->
@@ -41,7 +34,6 @@ if(isset($_GET["id"])) {
                                 <th>Order ID</th>
                                 <th>Time</th>
                                 <th>View</th>
-                                <th>Edit</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -83,9 +75,6 @@ if(isset($_GET["id"])) {
                                     echo "<td>$order->order_time</td>";
                                     //button for display the detial of seller
                                     echo "<td><a href='orderDetailOfSeller.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
-                                    echo "<td>
-                                                <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa - trash text - danger\"></i>Delete</a>
-                                         </td>";
                                     echo "</tr>";
                                 }
                             }
