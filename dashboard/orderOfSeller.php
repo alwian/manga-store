@@ -4,12 +4,6 @@ require_once "dashboard_sidebar.php";
 
 $db = new Database();
 $conn = $db->connect();
-if(isset($_GET["id"])) {
-    $order = new Order($db->connect());
-    $order->order_id = $_GET["id"];
-    $order->deleteOrder();
-    header("Location: displayAllOrders.php");
-}
 ?>
 
 <!-- Content Wrapper -->
@@ -39,7 +33,6 @@ if(isset($_GET["id"])) {
                                 <th>Order ID</th>
                                 <th>Time</th>
                                 <th>View</th>
-                                <th>Edit</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -68,9 +61,6 @@ if(isset($_GET["id"])) {
                                     echo "<td>$order->order_id</td>";
                                     echo "<td>$order->order_time</td>";
                                     echo "<td><a href='orderDetailOfSeller.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
-                                    echo "<td>
-                                                <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa - trash text - danger\"></i>Delete</a>
-                                         </td>";
                                     echo "</tr>";
                                 }
                             }
