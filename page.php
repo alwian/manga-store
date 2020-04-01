@@ -91,16 +91,17 @@ $seller->getUser();
                     <h5 id="price_label"><b>Price:</b></h5>
                     <h3 id="price_value">&#36;{$item->price}</h3>
                     </br>
-                    <form class="forms" action="cart.php" method="post">
-                        <label for="selectQuantity">Quantity:</label>
-                        <input type="number" name="quantity" id="selectQuantity" value="1"/>
-                        <input type="hidden" name="item_id" value="{$_GET['id']}"/>
-                        <button class="btn btn-primary" id="cart-btn" type="submit">Add to Cart</button>
-                    </form>
-                </div>
-            </div>'
 EOD;
-        echo $content;
+            if ($item->stock > 0) {
+                $content .= "<form class=\"forms\" action=\"cart.php\" method=\"post\">
+                        <label for=\"selectQuantity\">Quantity:</label>
+                        <input type=\"number\" name=\"quantity\" id=\"selectQuantity\" value=\"1\"/>
+                        <input type=\"hidden\" name=\"item_id\" value=\"{$_GET['id']}\"/>
+                        <button class=\"btn btn-primary\" id=\"cart-btn\" type=\"submit\">Add to Cart</button>";
+            }
+
+            $content .= "</form></div></div>";
+            echo $content;
         ?>
         <!-- Import scripts -->
         <script type="text/javascript" src="js/jquery-3.4.1.js"></script>

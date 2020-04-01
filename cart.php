@@ -31,17 +31,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $item = new Item($conn);
         $item->item_id = $_POST['item_id'];
+        $item->getItem();
         if ($item->exists()) {
-            $cart->addItem();
+            if ($item->stock >= $cart->quantity) {
+                if (!$cart->addItem()) {
+                    http_response_code(500);
+                    echo 'There was an error adding the item.';
+                    exit;
+                }
+            } else {
+                http_response_code(400);
+                echo 'We do not have that many items in stock.';
+                exit;
+            }
+
         } else {
             http_response_code(404);
             echo 'Could not add item, item does not exist.';
             exit;
         }
-    } else {
-        http_response_code(400);
-        echo 'Item quantity and ID required.';
-        exit;
     }
 }
 ?>
