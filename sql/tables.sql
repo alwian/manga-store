@@ -327,16 +327,6 @@ CREATE TABLE IF NOT EXISTS `cart_items`
     FOREIGN KEY (item_id) REFERENCES items (item_id) ON DELETE CASCADE
 );
 
--- Wishlist Items
-CREATE TABLE IF NOT EXISTS `wishlist_items`
-(
-    user_id INT NOT NULL,
-    item_id INT NOT NULL,
-    PRIMARY KEY (user_id, item_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (item_id) REFERENCES items (item_id) ON DELETE CASCADE
-);
-
 -- Orders
 CREATE TABLE IF NOT EXISTS `orders`
 (
@@ -358,27 +348,6 @@ CREATE TABLE IF NOT EXISTS `sold_items`
     FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE NO ACTION
 );
 
--- Subscription Plans
-CREATE TABLE IF NOT EXISTS `subscription_plans`
-(
-    plan_id INT  NOT NULL AUTO_INCREMENT,
-    price   REAL NOT NULL,
-    credits INT  NOT NULL,
-    PRIMARY KEY (plan_id)
-);
-
--- Subscriptions
-CREATE TABLE IF NOT EXISTS `subscriptions`
-(
-    subscription_id INT       NOT NULL AUTO_INCREMENT,
-    user_id         INT       NOT NULL UNIQUE,
-    plan_id         INT       NOT NULL,
-    start_date      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (subscription_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (plan_id) REFERENCES subscription_plans (plan_id) ON DELETE RESTRICT
-);
-
 -- Seller Requests
 CREATE TABLE IF NOT EXISTS `seller_requests`
 (
@@ -387,33 +356,4 @@ CREATE TABLE IF NOT EXISTS `seller_requests`
     request_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (request_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
-);
-
--- Reviews
-CREATE TABLE IF NOT EXISTS `seller_reviews`
-(
-    user_id   INT NOT NULL,
-    seller_id INT NOT NULL,
-    value     INT NOT NULL,
-    comment   VARCHAR(250),
-    PRIMARY KEY (user_id, seller_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE NO ACTION,
-    FOREIGN KEY (seller_id) REFERENCES users (user_id) ON DELETE CASCADE
-);
-
--- Shipping
-CREATE TABLE IF NOT EXISTS `shipping_information`
-(
-    order_id         INT          NOT NULL,
-    shipping_address VARCHAR(255) NOT NULL,
-    PRIMARY KEY (order_id),
-    FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS `recommendations`
-(
-    recommendation_id INT AUTO_INCREMENT NOT NULL,
-    item_id           INT                NOT NULL,
-    PRIMARY KEY (recommendation_id),
-    FOREIGN KEY (item_id) REFERENCES items (item_id)
 );

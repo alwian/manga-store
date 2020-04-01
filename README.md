@@ -17,4 +17,14 @@ INDEX: Main page which includes the catalogue of products available. Product car
 SEARCH: Displays items which match the search term.
 
 PAGE: This page displays the information for a product. From here the user can add the product to their cart.
+
+CART: This page shows all items that have been added to the users cart. Here you can remove items or checkout.
+
+CHECKOUT: Enter your shipping information and click on the PayPal button to purchase an order.
+
+CONFIRM: Confirms an order was recieved and prints the order summary.
+
+ORDER HISTORY: Displays all orders previously placed by the user.
+
+HEADER: Page header carried across all pages in the site.
 --------
