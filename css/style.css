@@ -42,6 +42,10 @@
     border: 1px solid rgba(239, 239, 239, 1);
 }
 
+li.nav-item{
+    margin-left:.5rem;
+}
+
 input{
     border-radius: .8em 0 0 .8em;
     border: 0px;
