@@ -36,7 +36,7 @@ class Item
             $stmt->execute();
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -49,7 +49,7 @@ class Item
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -68,7 +68,7 @@ class Item
                 return false;
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -82,7 +82,7 @@ class Item
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -110,13 +110,13 @@ class Item
                 return false;
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
 
     public function update() {
-        $query = "UPDATE $this->table SET name = :name, author = :author, price = :price, stock = :stock, image = :image, description = :description WHERE item_id = :item_id";
+        $query = "UPDATE $this->table SET name = :name, author = :author, number_pages = :num_pages, price = :price, stock = :stock, image = :image, description = :description WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':author', $this->author);
@@ -124,13 +124,14 @@ class Item
         $stmt->bindParam(':stock', $this->stock);
         $stmt->bindParam(':image', $this->image);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':num_pages', $this->number_pages);
         $stmt->bindParam(":item_id", $this->item_id);
 
         try {
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            // $e->getMessage();
             return null;
         }
 
@@ -143,7 +144,7 @@ class Item
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }

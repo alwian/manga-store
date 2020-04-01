@@ -4,7 +4,7 @@ class Database
     private $dbname = 'csci3172g1';
     private $host = 'localhost';
     private $username = 'root';
-    private $password = 'root';
+    private $password = '';
     private $conn;
 
     public function connect() {

@@ -5,7 +5,9 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
+    http_response_code(403);
     header("Location: index.php");
+    exit;
 }
 
 $errorMsg = null;
@@ -40,15 +42,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_SESSION['Logged'] = true;
                     header("Location: index.php");
                 } else {
+                    http_response_code(500);
                     $errorMsg = "Something went wrong on our end.";
                 }
             }else{
+                http_response_code(400);
                 $errorMsg = "Password and verify password do not match.";
             }
         }else{
+            http_response_code(409);
             $errorMsg = "This email is already in use.";
         }
     }else{
+        http_response_code(400);
         $errorMsg = "All fields required.";
     }
 }

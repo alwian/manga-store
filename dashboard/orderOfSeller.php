@@ -2,8 +2,11 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-$db = new Database();
-$conn = $db->connect();
+if ($user->type !== 'seller') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
 ?>
 
 <!-- Content Wrapper -->
@@ -60,7 +63,7 @@ $conn = $db->connect();
                                     echo "<tr>";
                                     echo "<td>$order->order_id</td>";
                                     echo "<td>$order->order_time</td>";
-                                    echo "<td><a href='orderDetailOfSeller.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
+                                    echo "<td><a href='orderDetail.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
                                     echo "</tr>";
                                 }
                             }

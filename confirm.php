@@ -8,15 +8,15 @@
 
     // If the user is already logged in, take them to the homepage.
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
+        http_response_code(403);
         header("Location: login.php");
+        exit;
     }
 
     $db = new Database();
     $conn = $db->connect();
     $order = new Order($conn);
-    
     $order->user_id = $_SESSION['id'];
-    
 
     // Check if the the form been submitted.
     if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -29,10 +29,15 @@
             $order->user_id = $_SESSION["id"];
             $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
             $order->addToOrder();
+        } else{
+            http_response_code(400);
+            echo "Could not process your order, ensure all fields are filled on the checkout page.";
+            exit;
         }
-        else{
-            echo "Item error";
-        }
+    } else {
+        http_response_code(400);
+        echo 'Invalid request type.';
+        exit;
     }
 
 ?>

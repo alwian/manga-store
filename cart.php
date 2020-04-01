@@ -7,7 +7,9 @@
 
     // If the user is already logged in, take them to the homepage.
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
+        http_response_code(403);
         header("Location: login.php");
+        exit;
     }
 
     $db = new Database();
@@ -17,13 +19,24 @@
 
     // Check if the the form been submitted.
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if(isset($_POST['quantity']) && !empty($_POST['quantity']) && isset($_POST['item_id'])){
+        if(isset($_POST['quantity']) && !empty($_POST['quantity']) && isset($_POST['item_id']) && !empty($_POST['item_id'])){
             $cart->item_id = $_POST["item_id"];
             $cart->quantity = $_POST["quantity"];
-            $cart->addItem();
-        }
-        else{
-            echo "Item error";
+
+            $item = new Item($conn);
+            $item->item_id = $_POST['item_id'];
+            if ($item->exists()) {
+                $cart->addItem();
+            } else {
+                http_response_code(404);
+                echo 'Could not add item, item does not exist.';
+                exit;
+            }
+
+        } else{
+            http_response_code(400);
+            echo 'Item quantity and ID required.';
+            exit;
         }
     }
 ?>
@@ -80,8 +93,6 @@
                                         <td>$amount</td>
                                         <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons text-light' alt='delete'>delete</span></a></td>
                                         </tr>";
-                        } else {
-                            echo 'Item unavailable.';
                         }
                     }
                     echo "<thead class=\"thead-dark\">

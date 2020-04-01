@@ -2,8 +2,14 @@
     require_once "dashboard_header.php";
     require_once "dashboard_sidebar.php";
 
-    $db = new Database();
-    $conn = $db->connect();
+    $user = new User($conn);
+    $user->user_id = $_SESSION['id'];
+    $user->getUser();
+    if ($user->type !== 'admin') {
+        http_response_code(403);
+        echo 'You do not have permission to access this page.';
+        exit;
+    }
 ?>
 
 <!-- Content Wrapper -->

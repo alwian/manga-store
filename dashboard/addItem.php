@@ -4,6 +4,17 @@ include "dashboard_sidebar.php";
 require_once "../models/Item.php";
 
 $error = '';
+
+$user = new User($conn);
+$user->user_id = $_SESSION['id'];
+$user->getUser();
+if ($user->type !== 'seller') {
+    http_response_code(403);
+    echo 'You do not have permission to access this page.';
+    exit;
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
         !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
@@ -20,16 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $item->number_pages = $_POST['itemPages'];
 
                 $target_dir = "../data/product-images/";
-                $target_file = $target_dir . basename($_FILES["itemImage"]["name"]);
+                $unique_filename = uniqid('uploaded-', true)
+                    . '.' . strtolower(pathinfo($_FILES['itemImage']['name'], PATHINFO_EXTENSION));
+                $target_file = $target_dir . $unique_filename;
                 $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
                 $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
                 if ($check !== false) {
                     $error = 'Image is too big';
                     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                        $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                    } else if (strlen($_FILES['itemImage']['name']) <= 120) {
+                        $error = "Sorry, only JPG, JPEG & PNG files are allowed.";
+                    } else {
                         if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
-                            $item->image = $_FILES['itemImage']['name'];
+                            $item->image = $unique_filename;
                             $item_id = $item->addItem();
                             if ($item_id !== null) {
                                 header("Location: ../page.php?id=$item_id");
@@ -40,8 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         } else {
                             $error = "Sorry, there was an error uploading your file.";
                         }
-                    } else {
-                        $error = "File name is too long.";
                     }
                 } else {
                     $error = "File is not an image.";
