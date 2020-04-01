@@ -107,6 +107,21 @@ class Order
         }
     }
 
+    public function isOwnedByUser() {
+        $query = "SELECT * FROM $this->table WHERE order_id = :order_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":order_id", $this->order_id);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() === 1;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
 
     /**
      * This function is for get the Item_ID from Order_ID in 'sold_items' table
@@ -141,6 +156,20 @@ class Order
             $stmt->bindParam(":order_id", $this->order_id);
             $stmt->execute();
             return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function exists() {
+        $query = "SELECT * FROM $this->table WHERE order_id = :order_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":order_id", $this->order_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() === 1;
         } catch (PDOException $e) {
             echo $e->getMessage();
             return null;
