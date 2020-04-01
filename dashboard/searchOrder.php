@@ -25,7 +25,7 @@ if(isset($_GET["id"]) && isset($_GET["type"])) {
         <!-- Begin Page Content -->
         <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Order List</h1>
+            <h1 class="h3 mb-2 text-gray-800">Search Order</h1>
             <p></p>
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
@@ -38,51 +38,26 @@ if(isset($_GET["id"]) && isset($_GET["type"])) {
                             <thead>
                             <tr>
                                 <th>Order ID</th>
-                                <th>Items</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Author</th>
-                                <th>Buyer</th>
                                 <th>Time</th>
+                                <th>View</th>
                                 <th>Edit</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
 
-                            if(isset($_GET["searchBox"]) && $_GET["searchBox"]!= null) {
-                                $order = new Order($conn);
-                                $order->order_id = $_GET["searchBox"];
+                            $order = new Order($conn);
+                            if(isset($_GET["searchBox"]) && !empty($_GET["searchBox"])){
+                                $order->order_id =$_GET["searchBox"] ;
                                 $order->getOrder();
-                                $order->getSoldItem();
-
-                                $item = new Item($conn);
-                                $item->item_id = $order->item_id;
-                                $item->getItem();
-                                $user = new User($conn);
-                                $user->user_id = $order->user_id;
-                                $user->getUser();
-                                $totalPrice = $item->price * $order->quantity;
-                                if ($item->name!= null) {
-                                    echo "<tr>
-                                            <td>$order->order_id</td>
-                                            <td>$item->name</td>
-                                            <td>$order->quantity</td>
-                                            <td>$totalPrice</td>
-                                            <td>$item->author</td>
-                                            <td>$user->first_name $user->last_name</td>
-                                            <td>$order->order_time</td>
-                                            <td>
-                                                <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa-trash text-danger\"></i>Delete</a>
-                                            </td>
-                                            
-                                          </tr>
-                                            
-                                            
-                                          ";
-
-
-                                }
+                                echo "<tr>";
+                                echo "<td>$order->order_id</td>";
+                                echo "<td>$order->order_time</td>";
+                                echo "<td><a href='orderDetail.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
+                                echo "<td>
+                                                <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa - trash text - danger\"></i>Delete</a>
+                                         </td>";
+                                echo "</tr>";
                             }
                             ?>
                             </tbody>
@@ -96,6 +71,7 @@ if(isset($_GET["id"]) && isset($_GET["type"])) {
                             </form>
 
                         </div>
+
                     </div>
                 </div>
             </div>

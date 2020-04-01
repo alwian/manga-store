@@ -60,7 +60,7 @@ $conn = $db->connect();
                                 }
                             }
 
-                            echo "<tr><td colspan='4' class='text-center'>Total: $total</td>></tr>"
+                            echo "<tr><td colspan='4' class='text-center'>Total: $total</td></tr>"
                             ?>
 
                             </tbody>
