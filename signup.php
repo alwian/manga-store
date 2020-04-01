@@ -42,19 +42,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_SESSION['Logged'] = true;
                     header("Location: index.php");
                 } else {
-                    http_response_code(500);
+                    http_response_code(500); // Server error.
                     $errorMsg = "Something went wrong on our end.";
                 }
             }else{
-                http_response_code(400);
+                http_response_code(400); // Bad request.
                 $errorMsg = "Password and verify password do not match.";
             }
         }else{
-            http_response_code(409);
+            http_response_code(409); // Conflict.
             $errorMsg = "This email is already in use.";
         }
     }else{
-        http_response_code(400);
+        http_response_code(400); // Bad request.
         $errorMsg = "All fields required.";
     }
 }

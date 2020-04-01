@@ -56,6 +56,9 @@ require_once "dashboard_sidebar.php";
                                     $item->item_id = $i['item_id'];
                                     $quantity =  $i['quantity'];
                                     $item->getItem();
+                                    if ($user->type === 'seller' && $item->seller_id != $_SESSION['id']) {
+                                        continue;
+                                    }
                                     echo "<tr>";
                                     echo "<td>$item->item_id</td>";
                                     echo "<td>$item->name</td>";

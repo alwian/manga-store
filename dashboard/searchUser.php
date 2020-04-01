@@ -49,10 +49,10 @@ if ($user->type !== 'admin') {
                                 //set the user id from the search box
                                 $user->user_id = $_POST["searchBox"];
                                 //get the user information
-                                $user->getUser();
-
-                                //print out information of searched user
-                                echo "
+                                if ($user->existsById()) {
+                                    $user->getUser();
+                                    //print out information of searched user
+                                    echo "
                                 <td>$user->user_id</td>
                                  <!-- Delete Modal-->
                                 <div class=\"modal fade\" id=\"deleteConfirm$user->user_id\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
@@ -82,7 +82,7 @@ if ($user->type !== 'admin') {
                       </tr>
                        </tbody>
                       ";
-
+                                }
                             }
 
                             ?>

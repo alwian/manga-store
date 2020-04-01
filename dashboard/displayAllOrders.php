@@ -10,16 +10,6 @@ if ($user->type !== 'admin') {
     echo 'You do not have permission to access this page.';
     exit;
 }
-
-$order = new Order($db->connect());
-$order->order_id = $_GET["id"];
-if ($order->exists()) {
-    $order->deleteOrder();
-    header("Location: displayAllOrders.php");
-} else {
-    http_response_code(404);
-    echo 'The specified order was not found.';
-}
 ?>
 
 <!-- Content Wrapper -->
