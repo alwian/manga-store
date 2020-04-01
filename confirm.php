@@ -23,12 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
         && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))
     ) {
-        $address = $_POST['address'];
-        $country = $_POST['country'];
-        $city = $_POST['city'];
         $order = new Order($conn);
         $order->user_id = $_SESSION["id"];
         $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
+        $shipping = $order->shipping_info;
         $order->addToOrder();
     } else {
         http_response_code(400);
