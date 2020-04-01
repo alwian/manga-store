@@ -6,7 +6,9 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    http_response_code(403);
     header("Location: login.php");
+    exit;
 }
 
 //create a connection to the database

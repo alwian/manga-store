@@ -3,7 +3,9 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    http_response_code(403);
     header("Location: login.php");
+    exit;
 }
 ?>
 
@@ -20,7 +22,8 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 </head>
 
 <body>
-    <?php require "header.php"; //load header to top of page ?>
+    <?php require "header.php"; //load header to top of page 
+    ?>
     <!-- Container to hold form -->
     <div class="page-container">
         <h1 class="text-center" style="margin-top:1rem;">Checkout</h1>

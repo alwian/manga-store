@@ -8,11 +8,33 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    http_response_code(403);
     header("Location: login.php");
+    exit;
+} else if (!isset($_GET['id']) || empty($_GET['id'])) {
+    http_response_code(400);
+    echo 'Order ID must be specified.';
+    exit;
+} else {
+    $db = new Database();
+    $conn = $db->connect();
+
+    $order = new Order($conn);
+    $order->order_id = $_GET['id'];
+    $order->user_id = $_SESSION['id'];
+
+    if (!$order->exists()) {
+        http_response_code(404);
+        echo 'Could not find the specified order.';
+        exit;
+    } else if (!$order->isOwnedByUser()) {
+        http_response_code(403);
+        echo 'You do not have permission to access this order.';
+        exit;
+    }
 }
 
-$db = new Database();
-$conn = $db->connect();
+
 ?>
 
 <!DOCTYPE html>

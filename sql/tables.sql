@@ -61,8 +61,6 @@ CREATE TABLE `items` (
   `image` varchar(120) DEFAULT NULL,
   `description` varchar(1612) DEFAULT NULL,
   `number_pages` int(5) DEFAULT NULL,
-  `rating_count` int(10) DEFAULT NULL,
-  `total_rating` decimal(2,2) DEFAULT NULL,
   PRIMARY KEY (item_id),
   FOREIGN KEY (seller_id) REFERENCES users (user_id)
 );

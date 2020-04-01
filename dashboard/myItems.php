@@ -4,34 +4,33 @@ include "dashboard_sidebar.php";
 require_once "../models/User.php";
 require_once "../models/Item.php";
 
-$db = new Database();
-$conn = $db->connect();
 $user = new User($conn);
 $user->user_id = $_SESSION['id'];
 
-if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    header("Location: ../login.php");
-} else {
-    $user->getUser();
-    if ($user->type !== 'seller') {
-        echo 'You must be a seller to access this page.';
-        exit;
-    } else {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['operation']) && $_POST['operation'] === 'Delete' && isset($_POST['itemId']) && !empty($_POST['itemId']))  {
-                $item = new Item($conn);
-                $item->item_id = $_POST['itemId'];
-                $item->getItem();
-                if ($item->seller_id === $_SESSION['id']) {
-                    if ($item->deleteItem() === null) {
-                        echo 'There was a problem deleting the item.';
-                    } else {
-                        unlink("../data/product-images/$item->image");
-                    }
-                } else {
-                    echo 'You do not own this item.';
-                }
+$user->getUser();
+if ($user->type !== 'seller') {
+    http_response_code(403);
+    echo 'You must be a seller to access this page.';
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['operation']) && $_POST['operation'] === 'Delete' && isset($_POST['itemId']) && !empty($_POST['itemId']))  {
+        $item = new Item($conn);
+        $item->item_id = $_POST['itemId'];
+        $item->getItem();
+        if ($item->seller_id === $_SESSION['id']) {
+            if ($item->deleteItem() === null) {
+                http_response_code(304);
+                echo 'There was a problem deleting the item.';
+                exit;
+            } else {
+                unlink("../data/product-images/$item->image");
             }
+        } else {
+            http_response_code(403);
+            echo 'You do not own this item.';
+            exit;
         }
     }
 }

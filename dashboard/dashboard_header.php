@@ -4,22 +4,24 @@
     require_once "../models/User.php";
     require_once "../models/Order.php";
     require_once "../models/Item.php";
-    if(isset($_SESSION['id'])){
-        $db = new Database();
-        $conn = $db->connect();
+
+    $db = new Database();
+    $conn = $db->connect();
+
+    if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
+        http_response_code(403);
+        header("Location: ../login.php");
+        exit;
+    } else {
         $user = new User($conn);
         $user->user_id = $_SESSION['id'];
         $user->getUser();
-
-        if ($user->type == "consumer") {
-            header("Location: ../index.php");
+        if ($user->type !== 'admin' && $user->type !== 'seller') {
+            http_response_code(403);
+            echo 'You do not have permission to access this page.';
             exit;
         }
-    } else {
-        header("Location: ../login.php");
-        exit;
     }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -2,7 +2,6 @@
 class Order
 {
     private $table = 'orders';
-    private $ship = 'shipping_information';
     private $sold = 'sold_items';
     private $conn;
 
@@ -48,6 +47,7 @@ class Order
             return true;
         }
         catch(PDOException $e){
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -102,7 +102,22 @@ class Order
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function isOwnedByUser() {
+        $query = "SELECT * FROM $this->table WHERE order_id = :order_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":order_id", $this->order_id);
+        $stmt->bindParam(":user_id", $this->user_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() === 1;
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -120,7 +135,7 @@ class Order
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -142,7 +157,21 @@ class Order
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function exists() {
+        $query = "SELECT * FROM $this->table WHERE order_id = :order_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":order_id", $this->order_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() === 1;
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
             return null;
         }
     }

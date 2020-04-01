@@ -8,30 +8,37 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    http_response_code(403);
     header("Location: login.php");
+    exit;
 }
 
-//Create connection to the data base and new instance of Order
 $db = new Database();
 $conn = $db->connect();
 $order = new Order($conn);
 $order->user_id = $_SESSION['id'];
-
 
 // Check if the the form been submitted.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
         && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))
     ) {
-        
+        $address = $_POST['address'];
+        $country = $_POST['country'];
+        $city = $_POST['city'];
         $order = new Order($conn);
         $order->user_id = $_SESSION["id"];
         $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
-        $shipping = $order->shipping_info;
         $order->addToOrder();
     } else {
-        echo "Item error";
+        http_response_code(400);
+        echo "Could not process your order, ensure all fields are filled on the checkout page.";
+        exit;
     }
+} else {
+    http_response_code(400);
+    echo 'Invalid request type.';
+    exit;
 }
 
 ?>
@@ -49,7 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php require "header.php"; //load header to top of page ?>
+    <?php require "header.php"; //load header to top of page 
+    ?>
     <h1 class="text-center" style="margin-top:1rem">Thank you for your purchase. We have received your order.</h1><br><br>
     <!-- Container to display order details after submitting order-->
     <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">

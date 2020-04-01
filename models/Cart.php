@@ -49,7 +49,7 @@ class Cart
                 $stmt->execute();
                 return true;
             } catch (PDOException $e) {
-                echo $e->getMessage();
+                //echo $e->getMessage();
                 return null;
             }
         }
@@ -70,7 +70,7 @@ class Cart
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -88,7 +88,7 @@ class Cart
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
@@ -108,7 +108,7 @@ class Cart
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
             return null;
         }
     }
