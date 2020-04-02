@@ -97,8 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // If the page has been submitted.
                             http_response_code(500); // Server Error.
                             $error = "Sorry, there was an error uploading your file.";
                             $upload_successful = false;
-                        } else {
-                            chmod($target_file, 755); // Set permissions for image.
                         }
                     } else {
                         http_response_code(415); // Unsupported Media Type.
