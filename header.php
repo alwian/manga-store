@@ -4,7 +4,7 @@
         <a class="navbar-brand js-scroll-trigger" href="index.php">Manga Store</a>
         <form class="input-group-append col-md-8 col-sm-3 col-xs-3" action="search.php" method="POST">
             <input class="col-" id="form-control" value="<?php if (isset($value)) {
-                echo $value;
+                echo htmlspecialchars($value);
             } ?>" name='search' type="text" placeholder="Search">
             <button class="btn btn-search" id="#search" type="submit">
                 <svg id="search-img" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
