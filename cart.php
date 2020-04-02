@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <!--Import styling-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <title>Cart</title>
 </head>
@@ -69,24 +69,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     require_once 'header.php'; //Load header at top of page
     ?>
-    </br>
+    <br>
     <!-- Container to hold the cart items and table-->
     <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
-        </br>
-        <h2 class="text-center" id="cart-header">My Cart</h2></br></br>
+        <br>
+        <h2 class="text-center" id="cart-header">My Cart</h2><br><br>
         <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
-            <table class="table table-dark table-striped table-hover " style="margin-bottom:0;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">ID#</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">QTY</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
+                
+            <table class="table table-dark table-striped table-hover thead-dark" style="margin-bottom:0;">
+                <tr>
+                    <th scope="col">ID#</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">QTY</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col"></th>
+                </tr>
                     <?php
                     $totalSum = 0;
                     $count = 0;
@@ -102,37 +100,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                             echo "<tr>
-                                        <td>$item->item_id</td>
-                                        <td>$item->name</td>
-                                        <td>$item->price</td>
-                                        <td>$quantity</td>
-                                        <td>$amount</td>
-                                        <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons text-light' alt='delete'>delete</span></a></td>
-                                        </tr>";
+                                    <td>$item->item_id</td>
+                                    <td>$item->name</td>
+                                    <td>$item->price</td>
+                                    <td>$quantity</td>
+                                    <td>$amount</td>
+                                    <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons text-light'>delete</span></a></td>
+                                </tr>";
                         }
                     }
-                    echo "<thead class=\"thead-dark\">
-                            <tr>
-                                <th scope=\"col\">Total: $ $totalSum</th>
-                                <th scope=\"col\"> &emsp; &emsp;</th>
-                                <th scope=\"col\"> &emsp;</th>
-                                <th scope=\"col\"> &emsp;</th>
-                                <th scope=\"col\"> &emsp;</th>
-                                <th scope=\"col\">
-                                    <form action='checkout.php' Method='POST'>
-                                        <button type='submit' class='btn' id='cart-btn' href=\"checkout.php\"> Checkout</button>
-                                    </form>
-                                </th>
-                            </tr>
-                            </thead>";
+                    echo "<tr>
+                            <th scope=\"col\">Total: $$totalSum</th>
+                            <th scope=\"col\"> &emsp; &emsp;</th>
+                            <th scope=\"col\"> &emsp;</th>
+                            <th scope=\"col\"> &emsp;</th>
+                            <th scope=\"col\"> &emsp;</th>
+                            <th scope=\"col\">
+                                <form action='checkout.php' Method='POST'>
+                                    <button type='submit' class='btn' id='cart-btn'> Checkout</button>
+                                </form>
+                            </th>
+                        </tr>";
                     ?>
-                </tbody>
             </table>
         </div>
     </div>
     <!--Import scripts-->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script  src="js/jquery-3.4.1.js"></script>
+    <script  src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

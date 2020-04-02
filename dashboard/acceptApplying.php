@@ -18,12 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo 'ID and type are required.';
         exit;
     } else {
-        if($_GET["type"] == 'delete'){
+        if ($_GET["type"] == 'delete') {
             $user = new User($conn);
             $user->user_id = $_GET["id"];
             $user->deleteUserFromSellerApllyList();
             header("Location: acceptApplying.php");
-        }else {
+        } else {
             $user = new User($conn);
             $user->user_id = $_GET["id"];
             $user->type = "seller";
@@ -54,35 +54,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="dataTable">
                             <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Email Address</th>
-                                <th>Name</th>
-                                <th>User Role</th>
-                            </tr>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Email Address</th>
+                                    <th>Name</th>
+                                    <th>User Role</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            $user = new User($conn);
-                            $users = $user->displayAppliedUser();
-                            foreach ($users as $u) {
-                                $user->user_id = $u['user_id'];
-                                $user->getUser();
-                                echo "<tr>
+                                <?php
+                                $user = new User($conn);
+                                $users = $user->displayAppliedUser();
+                                foreach ($users as $u) {
+                                    $user->user_id = $u['user_id'];
+                                    $user->getUser();
+                                    echo "<tr>
                                 <td>$user->user_id</td>
          
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                 <td>$user->type &nbsp;&nbsp;&nbsp;
-                                <a href='acceptApplying.php?id=$user->user_id&type=accept'><i class=\"fas fa-edit text-primary\"></i>Accept&nbsp;&nbsp&nbsp;&nbsp</a>
+                                <a href='acceptApplying.php?id=$user->user_id&type=accept'><i class=\"fas fa-edit text-primary\"></i>Accept&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                 <a href='acceptApplying.php?id=$user->user_id&type=delete'><i class=\"fas fa-trash text-danger\"></i>Delete</a>
                                 </td>
                       </tr>
                       ";
-                            }
-                            ?>
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -97,12 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </div>
 <!-- End of Page Wrapper -->
+</div>
 <?php
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";
 ?>
-
-
-
-
-

@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>SignUp Page</title>
     <!--Import Stylesheets-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div id="password">
                             <label for="InputPassword">Password</label>
                             <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
-                            <meter max="4" id="password-strength-meter"></meter>
+                            <meter value="0" max="4" id="password-strength-meter"></meter>
                             <p id="password-strength-text"></p>
                         </div>
                         <div id="verify">
@@ -126,11 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script  src="js/jquery-3.4.1.js"></script>
+    <script  src="js/bootstrap.min.js"></script>
     <!--CDN Link for Password Strength Checker Tool-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
-    <script type="text/javascript" src="js/strength.js"></script>
+    <script  src="js/strength.js"></script>
 </body>
 
 </html>

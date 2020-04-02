@@ -8,7 +8,7 @@ if ($user->type !== 'admin') {
     exit;
 }
 
-if(isset($_GET["id"]) && !empty($_GET['id'])) {
+if (isset($_GET["id"]) && !empty($_GET['id'])) {
     $user = new User($db->connect());
     $user->user_id = $_GET["id"];
     if ($user->exists()) {
@@ -45,44 +45,42 @@ if(isset($_GET["id"]) && !empty($_GET['id'])) {
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="dataTable">
                             <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Email Address</th>
-                                <th>Name</th>
-                                <th>User Role</th>
-                                <th>Edit</th>
-                            </tr>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Email Address</th>
+                                    <th>Name</th>
+                                    <th>User Role</th>
+                                    <th>Edit</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
 
-                            $user = new User($conn);
-                            $users = $user->getUsers();
+                                $user = new User($conn);
+                                $users = $user->getUsers();
 
-                            foreach ($users as $u) {
-                                $user->user_id = $u['user_id'];
+                                foreach ($users as $u) {
+                                    $user->user_id = $u['user_id'];
 
 
-                                $user->getUser();
-                                if($user->type == "seller"){
-                                    echo "<tr>
+                                    $user->getUser();
+                                    if ($user->type == "seller") {
+                                        echo "<tr>
                                 <td>$user->user_id</td>
            
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                 <td>$user->type &nbsp;&nbsp;&nbsp;</td>
                                 <td>
-                                    <a href='sellerManagement.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i>Change To Consumer&nbsp;&nbsp&nbsp;&nbsp</a>
+                                    <a href='sellerManagement.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i>Change To Consumer&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                 </td>
                       </tr>
                       ";
+                                    }
                                 }
-
-
-                            }
-                            ?>
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -97,12 +95,8 @@ if(isset($_GET["id"]) && !empty($_GET['id'])) {
 
 </div>
 <!-- End of Page Wrapper -->
+</div>
 <?php
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";
 ?>
-
-
-
-
-

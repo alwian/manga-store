@@ -28,7 +28,7 @@ $conn = $db->connect();
     <title>Manga Store</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import stylesheets-->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
     <link type="text/css" rel="stylesheet" href="css/style.css">
 
 </head>
@@ -38,7 +38,7 @@ $conn = $db->connect();
     require "header.php" //load header to the top of page;
     ?>
     <div class="container col-12">
-        <h2 style="margin: 1rem;">Best Sellers</h2>
+        <h2>Best Sellers</h2>
         <div class="items">
             <?php
             //print all items that are sold most
@@ -52,7 +52,7 @@ $conn = $db->connect();
             }
             ?>
         </div>
-        <h2 style="margin: 1rem;">Catalogue</h2>
+        <h2>Catalogue</h2>
         <div class="items">
             <?php
             //print all items
@@ -68,8 +68,8 @@ $conn = $db->connect();
     </div>
 
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script  src="js/jquery-3.4.1.js"></script>
+    <script  src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

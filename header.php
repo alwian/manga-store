@@ -1,5 +1,5 @@
 <!-- Header and navigation bar for the whole site -->
-<nav class="navbar navbar-expand-lg" role="navigation">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="index.php">Manga Store</a>
         <form class="input-group-append col-md-8 col-sm-3 col-xs-3" action="search.php" method="POST">
@@ -14,51 +14,47 @@
             </button>
         </form>
         <div class="col-" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <?php
-                require_once "config/Database.php";
-                require_once "models/User.php";
+            <?php
+            require_once "config/Database.php";
+            require_once "models/User.php";
 
-                //if logged in show specific buttons on navigation bar
-                if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
-                    $db = new Database();
-                    $user = new User($db->connect());
-                    $user->user_id = $_SESSION["id"];
-                    $user->getUser();
-                    echo "
-                            <div class=\"btn-group \">
-                                  <button type=\"button\" class=\"btn btn-primary col- dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                    Hi, $user->first_name
-                                  </button>
-                                  <div class=\"dropdown-menu\">
-                                        <a class=\"dropdown-item text-black-50\" href=\"orderHistory.php\">Order History</a>";
+            //if logged in show specific buttons on navigation bar
+            if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
+                $db = new Database();
+                $user = new User($db->connect());
+                $user->user_id = $_SESSION["id"];
+                $user->getUser();
+                echo "
+                <div class=\"btn-group \">
+                    <button type=\"button\" class=\"btn btn-primary col- dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                    Hi, $user->first_name
+                    </button>
+                    <div class=\"dropdown-menu\">
+                        <a class=\"dropdown-item text-black-50\" href=\"orderHistory.php\">Order History</a>";
 
-                    if ($user->type != "consumer") {
+                if ($user->type != "consumer") {
 
-                        echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
-                        echo "<a  class=\"dropdown-item text-black-50\" href=\"dashboard/index.php\">Dashboard</a>                         
+                    echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
+                    echo "<a  class=\"dropdown-item text-black-50\" href=\"dashboard/index.php\">Dashboard</a>                         
                                                 ";
-                    };
-                    if ($user->type == "consumer") {
-                        echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
-                        echo "<a  class=\"dropdown-item text-black-50\" href=\"applyBecomeSeller.php\">Apply To Be Seller</a>";
-                    };
+                };
+                if ($user->type == "consumer") {
+                    echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
+                    echo "<a  class=\"dropdown-item text-black-50\" href=\"applyBecomeSeller.php\">Apply To Be Seller</a>";
+                };
 
-                    echo "
-                                        <div class=\"dropdown-divider\"></div>
-                                            <a class=\"dropdown-item text-black-50\" href=\"logout.php\">Logout</a>
-                                        </div>
-                                  </div>
-                            </div> ";
-                }
-                //otherwise show login and sign up buttons
-                else {
-                    echo "<li class=\"nav-item\"><a href=\"login.php\">Login</a></li>
-                                  <li class=\"nav-item\"><a href=\"signup.php\">Sign Up</a></li>";
-                }
-                ?>
-
-            </ul>
+                echo "
+                        <div class=\"dropdown-divider\"></div>
+                        <a class=\"dropdown-item text-black-50\" href=\"logout.php\">Logout</a>
+                    </div>
+                </div>";
+            }
+            //otherwise show login and sign up buttons
+            else {
+                echo "<a class=\"nav-item\" style=\"margin-left:.5rem\" href=\"login.php\">Login</a>
+                      <a class=\"nav-item\" style=\"margin-left:.5rem\" href=\"signup.php\">Sign Up</a>";
+            }
+            ?>
         </div>
     </div>
 </nav>

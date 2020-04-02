@@ -23,21 +23,21 @@ $conn = $db->connect();
 <head>
     <!--Import stylesheets-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
     <link type="text/css" rel="stylesheet" href="css/style.css">
 
-    <title>Cart</title>
+    <title>Order History</title>
 </head>
 
 <body>
     <?php
     require_once 'header.php'; //load header at top of page
     ?>
-    </br>
+    <br>
     <!-- Container to hold order information -->
     <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
-        </br>
-        <h2 class="text-center" id="cart-header">Order History</h2></br></br>
+        <br>
+        <h2 class="text-center" id="cart-header">Order History</h2><br><br>
         <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
             <table class="table table-dark table-striped table-hover " style="margin-bottom:0;">
                 <thead class="thead-dark">
@@ -65,8 +65,8 @@ $conn = $db->connect();
         </div>
     </div>
     <!--Import scripts-->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script  src="js/jquery-3.4.1.js"></script>
+    <script  src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

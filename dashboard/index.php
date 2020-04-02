@@ -1,29 +1,29 @@
 <?php
-    include "dashboard_header.php";
-    include "dashboard_sidebar.php";
+include "dashboard_header.php";
+include "dashboard_sidebar.php";
 ?>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
-            <div id="content">
-                <?php
-                    include "dashboard_topbar.php";
-                ?>
+    <!-- Main Content -->
+    <div id="content">
+        <?php
+        include "dashboard_topbar.php";
+        ?>
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Quick Buttons</h1>
-                    </div>
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Quick Buttons</h1>
+            </div>
 
-                    <?php
-                        //index of dashboard(quick buttons) for admin
-                        if($user->type == "admin"){
-                            echo "<!-- Row Heading -->
+            <?php
+            //index of dashboard(quick buttons) for admin
+            if ($user->type == "admin") {
+                echo "<!-- Row Heading -->
                                     <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">
                                         <h5>User Management</h5>
                                     </div>
@@ -110,7 +110,7 @@
                                                     <div class=\"col-auto\">
                                                         <i class=\"fas fa-list text-primary fa-3x\"></i>
                                                     </div>
-                                                 <a/>  
+                                                 </a>  
                                             </div>
                                         </div>
                                     </div>
@@ -165,10 +165,10 @@
 
                 </div>
                 <!-- /.container-fluid -->";
-                        }
+            }
 
-                            if($user->type == "seller"){
-                                echo "<!-- Row Heading -->
+            if ($user->type == "seller") {
+                echo "<!-- Row Heading -->
                             <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">
                                 <h5>Store Management</h5>
                             </div>
@@ -233,26 +233,22 @@
                 
                            
                                     </div>";
-                            }
-                    ?>
+            }
+            ?>
 
 
 
 
 
 
-
-            </div>
-            <!-- End of Main Content -->
 
         </div>
-        <!-- End of Page Wrapper -->
-        <?php
-             include "dashboard_logoutModal.php";
-             include "dashboard_footer.php";
-        ?>
+        <!-- End of Main Content -->
 
-
-
-
-
+    </div>
+</div>
+<!-- End of Page Wrapper -->
+<?php
+include "dashboard_logoutModal.php";
+include "dashboard_footer.php";
+?>

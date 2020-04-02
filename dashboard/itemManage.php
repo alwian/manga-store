@@ -53,8 +53,10 @@ if ($item->exists()) {
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
-        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])) {
+    if (
+        isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
+        !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])
+    ) {
         $item->name = $_POST['itemName'];
         $item->author = $_POST['itemAuthor'];
         $item->price = $_POST['itemPrice'];
@@ -100,7 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = "Files is too big.";
                     $upload_successful = false;
                 }
-
             }
         }
 
@@ -154,34 +155,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <form action="itemManage.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" value="<?php echo $item->item_id;?>" name="itemId" />
+                <input type="hidden" value="<?php echo $item->item_id; ?>" name="itemId" />
                 <div class="form-group">
                     <label for="itemName">Item Name</label>
-                    <input class="form-control" type="text" id="itemName" name="itemName" value="<?php echo $item->name;?>" required/>
+                    <input class="form-control" type="text" id="itemName" name="itemName" value="<?php echo $item->name; ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="itemAuthor">Author</label>
-                    <input class="form-control" type="text" id="itemAuthor" name="itemAuthor" value="<?php echo $item->author;?>" required/>
+                    <input class="form-control" type="text" id="itemAuthor" name="itemAuthor" value="<?php echo $item->author; ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="itemPages">Number of pages</label>
-                    <input class="form-control" type="text" id="itemPages" name="itemPages" value="<?php echo $item->number_pages;?>" required/>
+                    <input class="form-control" type="text" id="itemPages" name="itemPages" value="<?php echo $item->number_pages; ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="itemPrice">Price</label>
-                    <input class="form-control" type="number" id="itemPrice" name="itemPrice" value="<?php echo $item->price;?>" required/>
+                    <input class="form-control" type="number" id="itemPrice" name="itemPrice" value="<?php echo $item->price; ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="itemStock">Stock</label>
-                    <input class="form-control" type="number" id="itemStock"  name="itemStock" value="<?php echo $item->stock;?>" required/>
+                    <input class="form-control" type="number" id="itemStock" name="itemStock" value="<?php echo $item->stock; ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="itemImage">Image</label>
-                    <input class="form-control" type="file" id="itemImage" name="itemImage"/>
+                    <input class="form-control" type="file" id="itemImage" name="itemImage" />
                 </div>
                 <div class="form-group">
                     <label for="itemDescription">Description</label>
-                    <textarea class="form-control" id="itemDescription" name="itemDescription" required><?php echo $item->description;?></textarea>
+                    <textarea class="form-control" id="itemDescription" name="itemDescription" required><?php echo $item->description; ?></textarea>
                 </div>
                 <button class="btn btn-primary" type="submit">Update</button>
                 <?php echo "<p class='text-danger'>$error</p>" ?>

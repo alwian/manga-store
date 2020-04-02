@@ -11,15 +11,6 @@ if ($user->type !== 'admin') {
     exit;
 }
 
-$order = new Order($db->connect());
-$order->order_id = $_GET["id"];
-if ($order->exists()) {
-    $order->deleteOrder();
-    header("Location: displayAllOrders.php");
-} else {
-    http_response_code(404);
-    echo 'The specified order was not found.';
-}
 ?>
 
 <!-- Content Wrapper -->
@@ -43,23 +34,23 @@ if ($order->exists()) {
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="dataTable">
                             <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Time</th>
-                                <th>View</th>
-                                <th>Edit</th>
-                            </tr>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Time</th>
+                                    <th>View</th>
+                                    <th>Edit</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
 
                                 $order = new Order($conn);
 
-                                $orders=$order->getOrders();
+                                $orders = $order->getOrders();
 
-                                foreach ($orders as $o){
+                                foreach ($orders as $o) {
                                     $order->order_id = $o['order_id'];
                                     $order->getOrder();
                                     echo "<tr>";
@@ -70,9 +61,8 @@ if ($order->exists()) {
                                                 <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa - trash text - danger\"></i>Delete</a>
                                          </td>";
                                     echo "</tr>";
-
                                 }
-                            ?>
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -87,9 +77,8 @@ if ($order->exists()) {
 
 </div>
 <!-- End of Page Wrapper -->
+</div>
 <?php
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";
 ?>
-
-

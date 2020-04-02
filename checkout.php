@@ -17,8 +17,9 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Import Stylesheets-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
     <link type="text/css" rel="stylesheet" href="css/style.css">
+    <title>Checkout</title>
 </head>
 
 <body>
@@ -42,7 +43,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
                         </div>
                         <div id="country">
                             <label for="SelectCountry">Country</label>
-                            <select type="dropdown" class="form-control" id="SelectCountry" name="country">
+                            <select class="form-control" id="SelectCountry" name="country">
                                 <option>Canada</option>
                                 <option>England</option>
                                 <option>United States</option>
@@ -71,8 +72,8 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
         </form>
     </div>
     <!-- Import scripts -->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script  src="js/jquery-3.4.1.js"></script>
+    <script  src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

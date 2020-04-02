@@ -24,14 +24,14 @@ $query = "SELECT * from `items` where UPPER(name) like UPPER(:name) ";
     <title>Manga Store</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import stylesheets-->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <?php require "header.php"; //load header to top of page ?>
     <div class="container col-12">
-        <h2 style="margin: 1rem;">Search Results for: <?php echo $value ?></h2>
+        <h2>Search Results for: <?php echo $value ?></h2>
         <div class="items">
             <?php
             $stmt = $conn->prepare($query);
@@ -43,6 +43,7 @@ $query = "SELECT * from `items` where UPPER(name) like UPPER(:name) ";
                 foreach ($result as $row) {
                     $item = new Item($conn);
                     $item->db_construct($row);
+                    $item->getItem();
                     $item->displayCard();
                 }
             } else {
@@ -52,8 +53,8 @@ $query = "SELECT * from `items` where UPPER(name) like UPPER(:name) ";
         </div>
     </div>
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script  src="js/jquery-3.4.1.js"></script>
+    <script  src="js/bootstrap.min.js"></script>
 </body>
 
 </html>
