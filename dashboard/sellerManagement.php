@@ -24,29 +24,29 @@ if (isset($_GET["id"]) && !empty($_GET['id'])) {
 
 ?>
 
-<!-- Content Wrapper -->
-<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-    <!-- Main Content -->
-    <div id="content">
-        <?php
-        require_once "dashboard_topbar.php";
-        ?>
+        <!-- Main Content -->
+        <div id="content">
+            <?php
+            require_once "dashboard_topbar.php";
+            ?>
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-            <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Sellers Table</h1>
-            <p></p>
-            <!-- Data Table -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary text-center">Sellers Table</h6>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable">
-                            <thead>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Sellers Table</h1>
+                <p></p>
+                <!-- Data Table -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center">Sellers Table</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable">
+                                <thead>
                                 <tr>
                                     <th>User ID</th>
                                     <th>Email Address</th>
@@ -54,23 +54,23 @@ if (isset($_GET["id"]) && !empty($_GET['id'])) {
                                     <th>User Role</th>
                                     <th>Edit</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            //create a new user
-                            $user = new User($conn);
-                            //get all the users from db
-                            $users = $user->getUsers();
+                                </thead>
+                                <tbody>
+                                <?php
+                                //create a new user
+                                $user = new User($conn);
+                                //get all the users from db
+                                $users = $user->getUsers();
 
-                            //for each user in db
-                            foreach ($users as $u) {
-                                //set user ID
-                                $user->user_id = $u['user_id'];
-                                //get user information
-                                $user->getUser();
-                                //if user is a seller then print out information
-                                if($user->type == "seller"){
-                                    echo "<tr>
+                                //for each user in db
+                                foreach ($users as $u) {
+                                    //set user ID
+                                    $user->user_id = $u['user_id'];
+                                    //get user information
+                                    $user->getUser();
+                                    //if user is a seller then print out information
+                                    if ($user->type == "seller") {
+                                        echo "<tr>
                                 <td>$user->user_id</td>
            
                                 <td>$user->email</td>
@@ -85,21 +85,21 @@ if (isset($_GET["id"]) && !empty($_GET['id'])) {
                                     }
                                 }
                                 ?>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
             </div>
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- /.container-fluid -->
+        <!-- End of Main Content -->
 
     </div>
-    <!-- End of Main Content -->
-
-</div>
-<!-- End of Page Wrapper -->
-</div>
+    <!-- End of Page Wrapper -->
+    </div>
 <?php
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";

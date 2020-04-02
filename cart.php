@@ -60,46 +60,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <!--Import styling-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <title>Cart</title>
 </head>
 
 <body>
-    <?php
-    require_once 'header.php'; //Load header at top of page
-    ?>
+<?php
+require_once 'header.php'; //Load header at top of page
+?>
+<br>
+<!-- Container to hold the cart items and table-->
+<div class="container col-1w"
+     style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
     <br>
-    <!-- Container to hold the cart items and table-->
-    <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
-        <br>
-        <h2 class="text-center" id="cart-header">My Cart</h2><br><br>
-        <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
-                
-            <table class="table table-dark table-striped table-hover thead-dark" style="margin-bottom:0;">
-                <tr>
-                    <th scope="col">ID#</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">QTY</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col"></th>
-                </tr>
-                    <?php
-                    $totalSum = 0;
-                    $count = 0;
-                    //For every item in cart fetch the item details and print to the table
-                    foreach ($cart->getItems() as $current_item) {
-                        $item = new Item($conn);
-                        $item->item_id = $current_item['item_id'];
-                        $quantity = $current_item['quantity'];
+    <h2 class="text-center" id="cart-header">My Cart</h2><br><br>
+    <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
 
-                        if ($item->getItem()) {
-                            $amount = $quantity * $item->price;
-                            $totalSum += $amount;
+        <table class="table table-dark table-striped table-hover thead-dark" style="margin-bottom:0;">
+            <tr>
+                <th scope="col">ID#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">QTY</th>
+                <th scope="col">Amount</th>
+                <th scope="col"></th>
+            </tr>
+            <?php
+            $totalSum = 0;
+            $count = 0;
+            //For every item in cart fetch the item details and print to the table
+            foreach ($cart->getItems() as $current_item) {
+                $item = new Item($conn);
+                $item->item_id = $current_item['item_id'];
+                $quantity = $current_item['quantity'];
+
+                if ($item->getItem()) {
+                    $amount = $quantity * $item->price;
+                    $totalSum += $amount;
 
 
-                            echo "<tr>
+                    echo "<tr>
                                     <td>$item->item_id</td>
                                     <td>$item->name</td>
                                     <td>$item->price</td>
@@ -107,9 +108,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <td>$amount</td>
                                     <td><a href='deleteItemFromCart.php?id=$item->item_id'><span class='material-icons text-light'>delete</span></a></td>
                                 </tr>";
-                        }
-                    }
-                    echo "<tr>
+                }
+            }
+            echo "<tr>
                             <th scope=\"col\">Total: $$totalSum</th>
                             <th scope=\"col\"> &emsp; &emsp;</th>
                             <th scope=\"col\"> &emsp;</th>
@@ -121,13 +122,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </form>
                             </th>
                         </tr>";
-                    ?>
-            </table>
-        </div>
+            ?>
+        </table>
     </div>
-    <!--Import scripts-->
-    <script  src="js/jquery-3.4.1.js"></script>
-    <script  src="js/bootstrap.min.js"></script>
+</div>
+<!--Import scripts-->
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>
