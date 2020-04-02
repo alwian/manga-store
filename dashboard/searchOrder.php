@@ -47,22 +47,29 @@ if (isset($_GET["id"]) && isset($_GET["type"])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-
-                                $order = new Order($conn);
-                                if (isset($_GET["searchBox"]) && !empty($_GET["searchBox"])) {
-                                    $order->order_id = $_GET["searchBox"];
+                            <?php
+                            //create a order obk
+                            $order = new Order($conn);
+                            //check if the search box is set
+                            if(isset($_GET["searchBox"]) && !empty($_GET["searchBox"])){
+                                //set the id of the order
+                                $order->order_id =$_GET["searchBox"] ;
+                                if ($order->exists()) {
+                                    //get the order detail
                                     $order->getOrder();
                                     echo "<tr>";
                                     echo "<td>$order->order_id</td>";
                                     echo "<td>$order->order_time</td>";
+                                    //display the order detail
                                     echo "<td><a href='orderDetail.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
+                                    //delete the order button
                                     echo "<td>
                                                 <a href='displayAllOrders.php?id=$order->order_id&type=delete'><i class=\"fas fa - trash text - danger\"></i>Delete</a>
                                          </td>";
                                     echo "</tr>";
                                 }
-                                ?>
+                            }
+                            ?>
                             </tbody>
                         </table>
                         <div class="input-group mb-3">

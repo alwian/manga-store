@@ -1,4 +1,5 @@
 <?php
+    //include all the class
     session_start();
     require_once "../config/Database.php";
     require_once "../models/User.php";
@@ -34,6 +35,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
+    <!-- the title of the header-->
   <title>Manga - Dashboard</title>
 
   <!-- Custom fonts for this template-->
@@ -44,7 +46,7 @@
 
 
 </head>
-
+<!--The start of every page in dashboard -->
 <body id="page-top">
 
   <!-- Page Wrapper -->

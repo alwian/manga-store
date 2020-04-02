@@ -23,6 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
         && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))
     ) {
+        $cart = new Cart($conn);
+        $cart->user_id = $_SESSION['id'];
+
+        if (count($cart->getItems()) == 0) {
+            http_response_code(403);
+            echo 'Cannot pay for an empty cart.';
+            exit;
+        }
+
         $order = new Order($conn);
         $order->user_id = $_SESSION["id"];
         $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];

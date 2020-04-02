@@ -5,7 +5,7 @@ require 'models/Item.php';
 
 session_start();
 
-if (!isset($_GET['id']) || empty($_GET['id'])) {
+if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['id'] != 0) {
     http_response_code(400);
     echo 'Item ID must be specified.';
     exit;
@@ -17,12 +17,12 @@ $conn = $db->connect();
 $item = new Item($conn);
 $item->item_id = $_GET['id'];
 
-if (!$item->getItem()) {
+if (!$item->exists()) {
     http_response_code(404);
     echo 'Could not find the specified item.';
     exit;
 }
-
+$item->getItem();
 $seller = new User($conn);
 $seller->user_id = $item->seller_id;
 $seller->getUser();

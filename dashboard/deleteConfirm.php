@@ -1,7 +1,10 @@
 
 <?php
+    //include classes
     include '../models/User.php';
     include_once '../config/Database.php';
+
+    session_start();
 
     $db = new Database();
     $conn = $db->connect();
@@ -9,7 +12,7 @@
 
     if(!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false){
         http_response_code(403);
-        header("Location: login.php");
+        header("Location: ../login.php");
         exit;
     } else {
         $user = new User($conn);
@@ -28,13 +31,13 @@
         exit;
     } else {
         $user->user_id = $_GET["id"];
-        if ($user->exists()) {
+        if ($user->existsById()) {
             $user->deleteUser();
             header("Location: accountManage.php");
+            exit;
         } else {
             http_response_code(404);
             echo 'The specified user was not found.';
+            exit;
         }
     }
-
-?>

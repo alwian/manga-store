@@ -167,8 +167,10 @@ include "dashboard_sidebar.php";
                 <!-- /.container-fluid -->";
             }
 
-            if ($user->type == "seller") {
-                echo "<!-- Row Heading -->
+
+                            //quick button for seller
+                            if($user->type == "seller"){
+                                echo "<!-- Row Heading -->
                             <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">
                                 <h5>Store Management</h5>
                             </div>
@@ -230,8 +232,6 @@ include "dashboard_sidebar.php";
                                             </a>
                                            
                                         </div>
-                
-                           
                                     </div>";
             }
             ?>

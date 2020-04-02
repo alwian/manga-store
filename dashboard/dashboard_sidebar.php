@@ -41,7 +41,7 @@
                             <div id=\"collapseTwo\" class=\"collapse\" data-parent=\"#accordionSidebar\">
                                 <div class=\"bg-white py-2 collapse-inner rounded\">
                                     <a class=\"collapse-item\" href=\"accountManage.php\">Account Management</a>
-                                    <a class=\"collapse-item\" href=\"#\">Search User</a>
+                                    <a class=\"collapse-item\" href=\"searchUser.php\">Search User</a>
                                 </div>
                             </div>
                         </div>";

@@ -1,6 +1,7 @@
 <?php
-require_once "dashboard_header.php";
-require_once "dashboard_sidebar.php";
+    //include header and sidebar
+    require_once "dashboard_header.php";
+    require_once "dashboard_sidebar.php";
 
 $user = new User($conn);
 $user->user_id = $_SESSION['id'];
@@ -25,28 +26,33 @@ if ($user->type !== 'admin') {
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">Accounts Table</h1>
                 <p></p>
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary text-center">Accounts Table</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>User ID</th>
-                                        <th>Email Address</th>
-                                        <th>Name</th>
-                                        <th>User Role</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
+            <!-- Data Table -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary text-center">Accounts Table</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Email Address</th>
+                                <th>Name</th>
+                                <th>User Role</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    //create a user object
                                     $user = new User($conn);
+                                    //get all the user in database
                                     $users = $user->getUsers();
+                                    //loop each user
                                     foreach ($users as $u) {
+                                        //set user ID
                                         $user->user_id = $u['user_id'];
+                                        //get user information
                                         $user->getUser();
 
                                         echo "<tr>
@@ -85,10 +91,29 @@ if ($user->type !== 'admin') {
                                             </div>
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                 </div>';
                             }
                             ?>
                         </div>
+=======
+                                </div>
+                                <!--display user information-->
+                                <td>$user->email</td>
+                                <td>$user->first_name&nbsp;$user->last_name</td>
+                                <td>$user->type &nbsp;&nbsp;&nbsp;
+                                <!--set user role-->
+                                <a href='userRoleChange.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i>Edit&nbsp;&nbsp&nbsp;&nbsp</a>
+                                <!--delete user-->
+                                <a href='dashboard/accountManage.php?id=$user->user_id' data-toggle='modal' data-target='#deleteConfirm$user->user_id'><i class=\"fas fa-trash text-danger\"></i>Delete</a>
+                                </td>
+                      </tr>
+                      ";
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+>>>>>>> 8484952c2aecb0d203e3f5186001cca675687cb8
                     </div>
                 </div>
 

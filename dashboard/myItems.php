@@ -15,7 +15,7 @@ if ($user->type !== 'seller') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['operation']) && $_POST['operation'] === 'Delete' && isset($_POST['itemId']) && !empty($_POST['itemId']))  {
+    if (isset($_POST['operation']) && $_POST['operation'] === 'Delete' && isset($_POST['itemId']) && (!empty($_POST['itemId']) || $_POST['itemId'] == 0))  {
         $item = new Item($conn);
         $item->item_id = $_POST['itemId'];
         $item->getItem();

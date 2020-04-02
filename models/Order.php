@@ -134,7 +134,7 @@ class Order
      * @return false|string|null When invalid json is found, The result of the query, When an error occurs with the database.
      */
     public function getSoldItems(){
-        $query = "SELECT item_id, order_id, quantity FROM sold_items WHERE order_id = :order_id";
+        $query = "SELECT item_id, order_id, quantity FROM sold_items WHERE order_id = :order_id ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':order_id', $this->order_id);
         try {
