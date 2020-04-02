@@ -45,24 +45,6 @@ class User
     public $password;
 
     /**
-     * The phone number of the user.
-     * @var string
-     */
-    public $phone;
-
-    /**
-     * The name of the image associated with this user.
-     * @var string
-     */
-    public $image;
-
-    /**
-     * The bio of the user.
-     * @var string
-     */
-    public $bio;
-
-    /**
      * The type of user.
      * @var string
      */
@@ -89,7 +71,7 @@ class User
         $query = "INSERT INTO $this->table (first_name, last_name, email, password, type) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         try {
-            $stmt->execute(array($this->first_name, $this->last_name, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $this->phone, $this->image, $this->bio, $this->type));
+            $stmt->execute(array($this->first_name, $this->last_name, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $this->type));
             $this->user_id = $this->conn->lastInsertId(); // Get the ID of the new user.
             return $this->user_id;
         } catch (PDOException $e) {
@@ -180,7 +162,7 @@ class User
      */
     public function getUser()
     {
-        $query = "SELECT first_name, last_name, email, phone, image, bio, type FROM $this->table WHERE user_id = :user_id";
+        $query = "SELECT first_name, last_name, email, type FROM $this->table WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':user_id', $this->user_id);
         try {
@@ -189,9 +171,6 @@ class User
                 $stmt->bindColumn('first_name', $this->first_name);
                 $stmt->bindColumn('last_name', $this->last_name);
                 $stmt->bindColumn('email', $this->email);
-                $stmt->bindColumn('phone', $this->phone);
-                $stmt->bindColumn('image', $this->image);
-                $stmt->bindColumn('bio', $this->bio);
                 $stmt->bindColumn('type', $this->type);
                 $stmt->fetch(PDO::FETCH_BOUND);
                 return false;
