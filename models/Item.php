@@ -1,24 +1,87 @@
 <?php
 class Item
 {
+    /**
+     * The table gonna be searched from database
+     * @var string
+     */
     private $table = 'items';
+
+    /**
+     * Database connection for the class to utilise.
+     * @var PDO object
+     */
     private $conn;
 
+    /**
+     * The ID of this item in the database.
+     * @var int
+     */
     public $item_id;
+
+    /**
+     * The seller_ID of this item in the database.
+     * @var int
+     */
     public $seller_id;
+
+    /**
+     * The ID of this order in the database.
+     * @var int
+     */
     public $name;
+
+    /**
+     * The author of this item in the database.
+     * @var int
+     */
     public $author;
+
+    /**
+     * The price of this item in the database.
+     * @var int
+     */
     public $price;
+
+    /**
+     * The stock of this item in the database.
+     * @var int
+     */
     public $stock;
+
+    /**
+     * The image of this item in the database.
+     * @var int
+     */
     public $image;
+
+    /**
+     * The description of this item in the database.
+     * @var int
+     */
     public $description;
+
+    /**
+     * The number of pages of this item in the database.
+     * @var int
+     */
     public $number_pages;
 
+    /**
+     * Order constructor.
+     * @param $conn Database connection for the class to utilise.
+     */
     function __construct($conn)
     {
         $this->conn = $conn;
     }
 
+
+    /**
+     * This function is add a time to "items" table
+     *
+     * @return bool|null Whether the item details are correct, an error occurred during database interaction.
+     */
     public function addItem() {
         $query = "INSERT INTO $this->table (seller_id, name, author, number_pages, price, stock, image, description) VALUES (:seller_id, :name, :author, :number_pages, :price, :stock, :image, :description)";
         $stmt = $this->conn->prepare($query);
@@ -40,6 +103,12 @@ class Item
         }
     }
 
+
+    /**
+     * This function is get top 10 items has been sold the most from 'sold_items' table
+     *
+     * @return bool|null Whether the item details are correct, an error occurred during database interaction.
+     */
     public function getTopTen() {
         $query = "SELECT item_id, SUM(quantity) as total_ordered FROM sold_items GROUP BY item_id ORDER BY total_ordered DESC LIMIT 10";
         $stmt = $this->conn->prepare($query);
@@ -53,6 +122,12 @@ class Item
         }
     }
 
+
+    /**
+     * This function is check if the item'id or item's name existed in the 'items' table
+     *
+     * @return bool|null Whether the item details are correct, an error occurred during database interaction.
+     */
     public function exists() {
         $query = "SELECT * FROM $this->table WHERE item_id = :item_id OR name = :name";
         $stmt = $this->conn->prepare($query);
@@ -72,6 +147,12 @@ class Item
         }
     }
 
+
+    /**
+     * This function is delete a specific item from its item_id
+     *
+     * @return bool|null Whether the item details are correct, an error occurred during database interaction.
+     */
     public function deleteItem() {
         $query = "DELETE FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
@@ -86,6 +167,14 @@ class Item
         }
     }
 
+
+    /**
+     * This function is get a item object from its item_id
+     *
+     * and set all the information to this item object
+     *
+     * @return bool|null Whether the item details are correct, an error occurred during database interaction.
+     */
     public function getItem() {
         $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, number_pages FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
@@ -113,6 +202,12 @@ class Item
         }
     }
 
+
+    /**
+     * This function is update the information of a specific item from its ID
+     *
+     * @return bool|null Whether the item details are correct, an error occurred during database interaction.
+     */
     public function update() {
         $query = "UPDATE $this->table SET name = :name, author = :author, number_pages = :num_pages, price = :price, stock = :stock, image = :image, description = :description WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);

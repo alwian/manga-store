@@ -1,7 +1,16 @@
 <?php
 class User
 {
+    /**
+     * The table gonna be searched from database
+     * @var string
+     */
     private $table = 'users';
+
+    /**
+     * Database connection for the class to utilise.
+     * @var PDO object
+     */
     private $conn;
 
     /**
@@ -109,7 +118,7 @@ class User
     /**
      * Checks whether a user exists.
      *
-     * Uses the users email to check their existence.
+     * Uses the users ID to check their existence.
      *
      * @return bool|null Whether the user exists, an error occurred during database interaction.
      */
@@ -159,6 +168,9 @@ class User
 
     /**
      * This function is for get user object.
+     *
+     * Can get a specific user with its ID and set all the user information from database
+     *
      * @return bool|null Whether the user details were found, an error occurred during database interaction.
      */
     public function getUser() {
@@ -187,8 +199,11 @@ class User
     }
 
     /**
-     * This function gets all users.
-     * @return array|null All userrs, an error occurred during database interaction.
+     * This function gets all users from database with all the information
+     *
+     * data are saved in array
+     *
+     * @return array|null All users, an error occurred during database interaction.
      */
     public function getUsers() {
         $query = "SELECT * FROM $this->table";
@@ -205,11 +220,11 @@ class User
 
 
     /**
-     * This function is for delete user from admin's dashboard
+     * This function is for delete user from admin's dashboard from specific ID
      *
      * User can be delete from Account management Table
      *
-     *@return bool|null Whether the users details are correct, an error occurred during database interaction.
+     *@return bool|null Whether the users ID is correct, an error occurred during database interaction.
      */
     public function deleteUser(){
         $query = "DELETE FROM $this->table WHERE user_id = :user_id";
@@ -230,10 +245,9 @@ class User
     /**
      * This function is for user to apply to be a seller
      *
-     * After user click on the apply to be a seller it will send the request
-     * to 'seller_requests' table
+     * After user click on the apply to be a seller it will send the request to 'seller_requests' table
      *
-     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     * @return bool|null Whether the users ID is not correct, an error occurred during database interaction.
      */
     public function applyToBeSeller(){
         $query = "SELECT user_id FROM seller_requests WHERE user_id = :user_id";
@@ -262,7 +276,7 @@ class User
      * After user click on the apply to be a seller it will be
      * displayed in "Apply To Be Seller List" page in dashboard
      *
-     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     * @return bool|null Whether the users details is not correct, an error occurred during database interaction.
      */
     public function displayAppliedUser(){
         $query = "SELECT * FROM seller_requests";
@@ -279,10 +293,11 @@ class User
     /**
      * This function is delete records from seller_requests list
      *
-     * After click on the delete on the acceptApplying page
-     * Records will be deleted
+     * After click on the "delete" button on the acceptApplying page
      *
-     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     * Records will be deleted from database
+     *
+     * @return bool|null Whether the users ID is not correct, an error occurred during database interaction.
      */
     public function deleteUserFromSellerApllyList(){
         $query = "DELETE FROM seller_requests WHERE user_id = :user_id";
@@ -299,12 +314,12 @@ class User
     }
 
     /**
-     * This function is change user role
+     * This function is for changing user role from user ID
      *
      * could be change to 'admin' 'consumer' 'seller'
      *
      *
-     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     * @return bool|null Whether the users ID is not correct, an error occurred during database interaction.
      */
     public function changeUserRole(){
         $query = "UPDATE users SET type = '$this->type' WHERE user_id = :user_id";
@@ -320,6 +335,13 @@ class User
         }
     }
 
+
+    /**
+     * This function is for getting all the items sold by a specific user
+     *
+     *
+     * @return bool|null Whether the users ID is not correct, an error occurred during database interaction.
+     */
     public function getItems() {
         $query = "SELECT * FROM items WHERE seller_id = :user_id";
         $stmt = $this->conn->prepare($query);

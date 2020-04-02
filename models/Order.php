@@ -1,18 +1,59 @@
 <?php
 class Order
 {
+    /**
+     * The table gonna be searched from database
+     * @var string
+     */
     private $table = 'orders';
+
+    /**
+     * The table gonna be searched from database
+     * @var string
+     */
     private $sold = 'sold_items';
+
+    /**
+     * Database connection for the class to utilise.
+     * @var PDO object
+     */
     private $conn;
 
+    /**
+     * The ID of this order in the database.
+     * @var int
+     */
     public $order_id;
+
+    /**
+     * The time of this order in the database.
+     * @var timestamp
+     */
     public $order_time;
+
+    /**
+     * The ID of the user in the database.
+     * @var int
+     */
     public $user_id;
+
+    /**
+     * The ID of this item in the database.
+     * @var int
+     */
     public $item_id;
 
+    /**
+     * The Shipping info of this order in the database.
+     * @var String
+     */
     public $shipping_info;
 
 
+    /**
+     * Order constructor.
+     * @param $conn Database connection for the class to utilise.
+     */
     function __construct($conn)
     {
         $this->conn = $conn;
@@ -77,7 +118,7 @@ class Order
 
 
     /**
-     * This function is get a order from 'orders' table with a specific order number
+     * This function is get a order from 'orders' table from a specific order number
      *
      * @return bool|null Whether the order details are correct, an error occurred during database interaction.
      */
@@ -99,6 +140,12 @@ class Order
         }
     }
 
+
+    /**
+     * This function is get a order from 'orders' table from a specific User ID
+     *
+     * @return bool|null Whether the order details are correct, an error occurred during database interaction.
+     */
     public function getOrdersForUser() {
         $query = "SELECT * FROM $this->table WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
@@ -113,6 +160,12 @@ class Order
         }
     }
 
+
+    /**
+     * This function is get a item from 'Items' table from a specific Seller ID
+     *
+     * @return bool|null Whether the order details are correct, an error occurred during database interaction.
+     */
     public function isOwnedByUser() {
         $query = "SELECT * FROM $this->table WHERE order_id = :order_id AND user_id = :user_id";
         $stmt = $this->conn->prepare($query);
@@ -131,6 +184,7 @@ class Order
 
     /**
      * This function is for get the Item_ID from Order_ID in 'sold_items' table
+     *
      * @return false|string|null When invalid json is found, The result of the query, When an error occurs with the database.
      */
     public function getSoldItems(){
@@ -168,6 +222,12 @@ class Order
         }
     }
 
+
+    /**
+     * This function is for check a order from order weather it is exists
+     *
+     * @return bool|null Whether the order details were found, an error occurred during database interaction.
+     */
     public function exists() {
         $query = "SELECT * FROM $this->table WHERE order_id = :order_id";
         $stmt = $this->conn->prepare($query);
