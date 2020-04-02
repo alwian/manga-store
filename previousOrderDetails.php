@@ -6,13 +6,14 @@ require_once 'models/Order.php';
 
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+// Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized.
     header("Location: login.php");
     exit;
-} else if (!isset($_GET['id']) || empty($_GET['id'])) {
-    http_response_code(400);
+    // Make sure an id has been specified.
+} else if (!isset($_GET['id']) || (empty($_GET['id']) && $_GET['id'] != 0)) {
+    http_response_code(400); // Bad request.
     echo 'Order ID must be specified.';
     exit;
 } else {
@@ -23,12 +24,12 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     $order->order_id = $_GET['id'];
     $order->user_id = $_SESSION['id'];
 
-    if (!$order->exists()) {
-        http_response_code(404);
+    if (!$order->exists()) { // Make sure the spe
+        http_response_code(404); // Not Found.
         echo 'Could not find the specified order.';
         exit;
-    } else if (!$order->isOwnedByUser()) {
-        http_response_code(403);
+    } else if (!$order->isOwnedByUser()) { // Make sure the user owns the order they try too look at.
+        http_response_code(401); // Unauthorized.
         echo 'You do not have permission to access this order.';
         exit;
     }
@@ -43,72 +44,67 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 <head>
     <!--Import stylesheets-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="css/style.css">
 
     <title>Cart</title>
 </head>
 
 <body>
-    <?php
-    require_once 'header.php';
-    ?>
-    </br>
-    <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
-        </br>
-        <h2 class="text-center" id="cart-header">Order History</h2></br></br>
-        <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
-            <table class="table table-dark table-striped table-hover " style="margin-bottom:0;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">ID#</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">QTY</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $order = new Order($conn);
-                    $order->order_id = $_GET['id'];
-                    $item = new Item($conn);
-                    $total = 0;
-                    $totalSum = 0;
-                    foreach ($order->getSoldItems() as $i) {
-                        $item->item_id = $i['item_id'];
-                        $quantity =  $i['quantity'];
-                        $item->getItem();
-                        echo "<tr>";
-                        echo "<td>$item->item_id</td>";
-                        echo "<td>$item->name</td>";
-                        echo "<td>$item->price</td>";
-                        echo "<td>$quantity</td>";
-                        echo "<td>$total</td>";
-                        $total = $total + $item->price * $quantity;
-                        $totalSum += $total;
-                    }
+<?php
+require_once 'header.php';
+?>
+<br>
+<div class="container col-1w"
+     style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
+    <br>
+    <h2 class="text-center" id="cart-header">Order History</h2><br><br>
+    <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
+        <table class="table table-dark table-striped table-hover thead-dark" style="margin-bottom:0;">
+            <tr>
+                <th scope="col">ID#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">QTY</th>
+                <th scope="col">Amount</th>
+                <th scope="col"></th>
+            </tr>
+            <?php
+            $order = new Order($conn);
+            $order->order_id = $_GET['id'];
+            $item = new Item($conn);
+            $total = 0;
+            $totalSum = 0;
+            foreach ($order->getSoldItems() as $i) { // Go through each item in the order.
+                $item->item_id = $i['item_id'];
+                $quantity = $i['quantity'];
+                $item->getItem(); // Get item details and display the item.
+                echo "<tr>";
+                echo "<td>$item->item_id</td>";
+                echo "<td>$item->name</td>";
+                echo "<td>$item->price</td>";
+                echo "<td>$quantity</td>";
+                echo "<td>$total</td>";
+                echo "<td></td>";
+                echo "</tr>";
+                $total = $total + $item->price * $quantity;
+                $totalSum += $total;
+            }
 
-                    echo "<thead class=\"thead-dark\">
-                            <tr>
+            echo "<tr>
                                 <th scope=\"col\">Total: $ $totalSum</th>
                                 <th scope=\"col\"> &emsp; &emsp;</th>
                                 <th scope=\"col\"> &emsp;</th>
                                 <th scope=\"col\"> &emsp;</th>
                                 <th scope=\"col\"> &emsp;</th>
-                                <th scope=\"col\">
-                                 
-                                </th>
-                            </tr>
-                            </thead>";
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                                <th scope=\"col\"></th>
+                            </tr>";
+            ?>
+        </table>
     </div>
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</div>
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

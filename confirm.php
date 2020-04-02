@@ -6,9 +6,9 @@ include_once 'models/Order.php';
 
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+// Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized
     header("Location: login.php");
     exit;
 }
@@ -20,14 +20,15 @@ $order->user_id = $_SESSION['id'];
 
 // Check if the the form been submitted.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Make sure all fields have been filled.
     if ((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
         && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))
     ) {
         $cart = new Cart($conn);
         $cart->user_id = $_SESSION['id'];
 
-        if (count($cart->getItems()) == 0) {
-            http_response_code(403);
+        if (count($cart->getItems()) == 0) { // Make sure there is stuff in the cart.
+            http_response_code(400); // Bad Request.
             echo 'Cannot pay for an empty cart.';
             exit;
         }
@@ -36,14 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order->user_id = $_SESSION["id"];
         $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
         $shipping = $order->shipping_info;
-        $order->addToOrder();
+        $order->addToOrder(); // Add all items and shipping info ti the order.
     } else {
-        http_response_code(400);
+        http_response_code(400); // Bad Request.
         echo "Could not process your order, ensure all fields are filled on the checkout page.";
         exit;
     }
 } else {
-    http_response_code(400);
+    http_response_code(400); // Bad Request.
     echo 'Invalid request type.';
     exit;
 }
@@ -58,78 +59,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Import Stylesheets-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="css/style.css">
+    <title>Order Confirmed</title>
 </head>
 
 <body>
-    <?php require "header.php"; //load header to top of page 
-    ?>
-    <h1 class="text-center" style="margin-top:1rem">Thank you for your purchase. We have received your order.</h1><br><br>
-    <!-- Container to display order details after submitting order-->
-    <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
-        </br>
-        <h2 class="text-center" id="cart-header">Here's your order:</h2></br></br>
-        <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
-            <table class="table table-dark table-striped table-hover " style="margin-bottom:0;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">ID#</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">QTY</th>
-                        <th scope="col">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $totalSum = 0;
-                    $count = 0;
-                    // For each item in the order print the item details to the table
-                    foreach ($order->getSoldItems() as $current_item) {
-                        $item = new Item($conn);
-                        $item->item_id = $current_item['item_id'];
-                        $quantity = $current_item['quantity'];
+<?php require "header.php"; //load header to top of page
+?>
+<h1 class="text-center" style="margin-top:1rem">Thank you for your purchase. We have received your order.</h1><br><br>
+<!-- Container to display order details after submitting order-->
+<div class="container col-1w"
+     style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
+    <br>
+    <h2 class="text-center" id="cart-header">Here's your order:</h2><br><br>
+    <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
+        <table class="table table-dark table-striped table-hover thead-dark" style="margin-bottom:0;">
+            <tr>
+                <th scope="col">ID#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">QTY</th>
+                <th scope="col">Amount</th>
+            </tr>
+            <?php
+            $totalSum = 0;
+            $count = 0;
+            // For each item in the order print the item details to the table
+            foreach ($order->getSoldItems() as $current_item) {
+                $item = new Item($conn);
+                $item->item_id = $current_item['item_id'];
+                $quantity = $current_item['quantity'];
 
-                        if ($item->getItem()) {
-                            $amount = $quantity * $item->price;
-                            $totalSum += $amount;
+                if ($item->getItem()) { // Get item details.
+                    $amount = $quantity * $item->price;
+                    $totalSum += $amount; // Create totals for each item / entire cart.
 
 
-                            echo "<tr>
+                    echo "<tr>
                                         <td>$item->item_id</td>
                                         <td>$item->name</td>
                                         <td>$item->price</td>
                                         <td>$quantity</td>
                                         <td>$amount</td>
                                         </tr>";
-                        } else {
-                            echo 'Item unavailable.';
-                        }
-                    }
-                    echo "<thead class=\"thead-dark\">
-                            <tr>
+                } else {
+                    echo 'Item unavailable.';
+                }
+            }
+            echo "<tr>
                                 <th scope=\"col\">Total: $ $totalSum</th>
                                 <th scope=\"col\"> &emsp; &emsp;</th>
                                 <th scope=\"col\"> &emsp;</th>
                                 <th scope=\"col\"> &emsp;</th>
                                 <th scope=\"col\"></th>
-                            </tr>
-                            </thead>";
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        </br>
-        <!-- Display the shipping information-->
-        <div class="container" id="shipping-details">
-            <h5>Shipping to:</h5>
-            <h5><?php echo "$shipping"  ?></h5>
-        </div>
+                            </tr>";
+            ?>
+        </table>
     </div>
-    <!-- Import scripts -->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <br>
+    <!-- Display the shipping information-->
+    <div class="container" id="shipping-details">
+        <h5>Shipping to:</h5>
+        <h5><?php echo "$shipping" ?></h5>
+    </div>
+</div>
+<!-- Import scripts -->
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 <?php
+
 class Order
 {
     /**
@@ -59,22 +60,23 @@ class Order
         $this->conn = $conn;
     }
 
-    /** Function to add new order to the 'orders' table and add shipping information to 'shipping_information' and items to 'sold_items' 
-     * 
+    /** Function to add new order to the 'orders' table and add shipping information to 'shipping_information' and items to 'sold_items'
+     *
      * @return bool|null Whether there was a error when connecting to the database and could find all tables
-    */
-    public function addToOrder(){
+     */
+    public function addToOrder()
+    {
         $query = "INSERT INTO $this->table (user_id, shipping_info) VALUES (:user_id, :shipping_info)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
         $stmt->bindParam(":shipping_info", $this->shipping_info);
-        try{
+        try {
             $stmt->execute();
             $new_order = $this->conn->lastInsertId();
             $cart = new Cart($this->conn);
             $cart->user_id = $this->user_id;
             $query = "INSERT INTO $this->sold VALUES (:item_id, :order_id, :quantity)";
-            foreach ($cart->getItems() as $product){
+            foreach ($cart->getItems() as $product) {
 
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(":item_id", $product["item_id"]);
@@ -92,8 +94,7 @@ class Order
             }
             $this->order_id = $new_order;
             return true;
-        }
-        catch(PDOException $e){
+        } catch (PDOException $e) {
             //echo $e->getMessage();
             return null;
         }
@@ -104,7 +105,8 @@ class Order
      *
      * @return bool|null Whether the order details are correct, an error occurred during database interaction.
      */
-    public function getOrders(){
+    public function getOrders()
+    {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
         try {
@@ -122,7 +124,8 @@ class Order
      *
      * @return bool|null Whether the order details are correct, an error occurred during database interaction.
      */
-    public function getOrder(){
+    public function getOrder()
+    {
         $query = "SELECT * FROM $this->table WHERE order_id = :order_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':order_id', $this->order_id);
@@ -187,7 +190,8 @@ class Order
      *
      * @return false|string|null When invalid json is found, The result of the query, When an error occurs with the database.
      */
-    public function getSoldItems(){
+    public function getSoldItems()
+    {
         $query = "SELECT item_id, order_id, quantity FROM sold_items WHERE order_id = :order_id ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':order_id', $this->order_id);
@@ -205,7 +209,8 @@ class Order
      * This function is for delete a order from order id in 'orders table'
      * @return bool|null Whether the order details were found, an error occurred during database interaction.
      */
-    public function deleteOrder(){
+    public function deleteOrder()
+    {
         $query = "DELETE FROM sold_items WHERE order_id = :order_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":order_id", $this->order_id);

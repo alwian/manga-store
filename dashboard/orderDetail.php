@@ -45,16 +45,16 @@ require_once "dashboard_sidebar.php";
                             $total = 0;
 
                             //get the order id from url
-                            if(isset($_GET["id"])){
+                            if (isset($_GET["id"])) {
                                 //set order's id from url
-                                 $order->order_id = $_GET["id"];
-                                 //get items from order
-                                 $soldItems = $order->getSoldItems();
-                                 //for each item in order
-                                foreach ($soldItems as $i){
+                                $order->order_id = $_GET["id"];
+                                //get items from order
+                                $soldItems = $order->getSoldItems();
+                                //for each item in order
+                                foreach ($soldItems as $i) {
                                     //print each item information
                                     $item->item_id = $i['item_id'];
-                                    $quantity =  $i['quantity'];
+                                    $quantity = $i['quantity'];
                                     $item->getItem();
                                     if ($user->type === 'seller' && $item->seller_id != $_SESSION['id']) {
                                         continue;
@@ -64,7 +64,7 @@ require_once "dashboard_sidebar.php";
                                     echo "<td>$item->name</td>";
                                     echo "<td>$item->price</td>";
                                     echo "<td>$quantity</td>";
-                                    $total = $total + $item->price*$quantity;
+                                    $total = $total + $item->price * $quantity;
                                 }
                             }
 

@@ -3,25 +3,24 @@ include_once "config/Database.php";
 include_once "models/User.php";
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+$db = new Database();
+$user = new User($db->connect());
+$user->user_id = $_SESSION['id'];
+$user->getUser();
+
+// If the user isn't logged in take them to the login page.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized.
     header("Location: login.php");
     exit;
 } else {
-    $user = new User($conn);
-    $user->user_id = $_SESSION['id'];
-    $user->getUser();
-    if ($user->type !== 'consumer') {
-        http_response_code(403);
+    if ($user->type !== 'consumer') { // Make sure the user is a consumer.
+        http_response_code(401); // Forbidden.
         echo 'You do not have permission to access this page.';
         exit;
     }
 }
 
-$db = new Database();
-$user = new User($db->connect());
-$user->user_id = $_SESSION['id'];
-$user->getUser();
-$user->applyToBeSeller();
+$user->applyToBeSeller(); // Create the seller request.
 header("Location: index.php");
+exit;

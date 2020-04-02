@@ -4,32 +4,40 @@ include "dashboard_sidebar.php";
 require_once "../models/User.php";
 require_once "../models/Item.php";
 
-$user = new User($conn);
+$user = new User($conn); // Connection comes from header.
 $user->user_id = $_SESSION['id'];
 
 $user->getUser();
-if ($user->type !== 'seller') {
-    http_response_code(403);
+if ($user->type !== 'seller') { // Make sure the user is a seller.
+    http_response_code(401); // Unauthorized.
     echo 'You must be a seller to access this page.';
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['operation']) && $_POST['operation'] === 'Delete' && isset($_POST['itemId']) && (!empty($_POST['itemId']) || $_POST['itemId'] == 0))  {
+    // Make sure all fields have been submitted.
+    if (isset($_POST['operation']) && $_POST['operation'] === 'Delete' && isset($_POST['itemId']) && (!empty($_POST['itemId']) || $_POST['itemId'] == 0)) {
         $item = new Item($conn);
         $item->item_id = $_POST['itemId'];
-        $item->getItem();
-        if ($item->seller_id === $_SESSION['id']) {
-            if ($item->deleteItem() === null) {
-                http_response_code(304);
-                echo 'There was a problem deleting the item.';
-                exit;
+
+        if ($item->exists()) {
+            $item->getItem();
+            if ($item->seller_id === $_SESSION['id']) { // Make sure the seller owns the item they are trying to delete.
+                if ($item->deleteItem() === null) { // Try deleting the item.
+                    http_response_code(304); // Not Modified.
+                    echo 'There was a problem deleting the item.';
+                    exit;
+                } else {
+                    unlink("../data/product-images/$item->image"); // Delete the image for the delete item.
+                }
             } else {
-                unlink("../data/product-images/$item->image");
+                http_response_code(401); // Unauthorized.
+                echo 'You do not own this item.';
+                exit;
             }
         } else {
-            http_response_code(403);
-            echo 'You do not own this item.';
+            http_response_code(404); // Not Found.
+            echo 'The specified item could not be found.';
             exit;
         }
     }
@@ -65,12 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php
                 $totalSum = 0;
                 $count = 0;
-                $items = $user->getItems();
+                $items = $user->getItems(); // Get all items for the logged in user.
                 if ($items !== null) {
-                    foreach ($items as $current_item) {
+                    foreach ($items as $current_item) { // Go through each item.
                         $item = new Item($conn);
                         $item->item_id = $current_item['item_id'];
-                        if ($item->getItem()) {
+                        if ($item->getItem()) { // If item details are found, display the item.
                             echo "<tr xmlns=\"http://www.w3.org/1999/html\">
                               <td>$item->item_id</td>
                               <td>$item->name</td>

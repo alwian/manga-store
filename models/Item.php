@@ -1,4 +1,5 @@
 <?php
+
 class Item
 {
     /**
@@ -229,7 +230,9 @@ class Item
         }
 
     }
-    public function getItems() {
+
+    public function getItems()
+    {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
 
