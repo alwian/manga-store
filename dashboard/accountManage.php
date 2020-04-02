@@ -91,29 +91,10 @@ if ($user->type !== 'admin') {
                                             </div>
                                         </div>
                                     </div>
-<<<<<<< HEAD
                                 </div>';
                             }
                             ?>
                         </div>
-=======
-                                </div>
-                                <!--display user information-->
-                                <td>$user->email</td>
-                                <td>$user->first_name&nbsp;$user->last_name</td>
-                                <td>$user->type &nbsp;&nbsp;&nbsp;
-                                <!--set user role-->
-                                <a href='userRoleChange.php?id=$user->user_id'><i class=\"fas fa-edit text-primary\"></i>Edit&nbsp;&nbsp&nbsp;&nbsp</a>
-                                <!--delete user-->
-                                <a href='dashboard/accountManage.php?id=$user->user_id' data-toggle='modal' data-target='#deleteConfirm$user->user_id'><i class=\"fas fa-trash text-danger\"></i>Delete</a>
-                                </td>
-                      </tr>
-                      ";
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
->>>>>>> 8484952c2aecb0d203e3f5186001cca675687cb8
                     </div>
                 </div>
 

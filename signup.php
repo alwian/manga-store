@@ -109,23 +109,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <meter max="4" id="password-strength-meter"></meter>
                         <p id="password-strength-text"></p>
                     </div>
-<<<<<<< HEAD
-                    <div class="form-group">
-                        <div id="password">
-                            <label for="InputPassword">Password</label>
-                            <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
-                            <meter value="0" max="4" id="password-strength-meter"></meter>
-                            <p id="password-strength-text"></p>
-                        </div>
-                        <div id="verify">
-                            <label for="InputVerifyPassword">Verify Password</label>
-                            <input type="password" class="form-control" id="InputVerifyPassword" name="verify" placeholder="Re-enter Password">
-                        </div>
-=======
                     <div id="verify">
                         <label for="InputVerifyPassword">Verify Password</label>
                         <input type="password" class="form-control" id="InputVerifyPassword" name="verify" placeholder="Re-enter Password">
->>>>>>> 8484952c2aecb0d203e3f5186001cca675687cb8
                     </div>
                 </div>
             </div>
@@ -135,21 +121,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </form>
 </div>
 
-<<<<<<< HEAD
     <!--JavaScript at end of body for optimized loading-->
     <script  src="js/jquery-3.4.1.js"></script>
     <script  src="js/bootstrap.min.js"></script>
     <!--CDN Link for Password Strength Checker Tool-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
     <script  src="js/strength.js"></script>
-=======
-<!--JavaScript at end of body for optimized loading-->
-<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script> -->
-<!--CDN Link for Password Strength Checker Tool-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
-<script type="text/javascript" src="js/strength.js"></script>
->>>>>>> 8484952c2aecb0d203e3f5186001cca675687cb8
 </body>
 </html>
