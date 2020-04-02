@@ -4,9 +4,9 @@ require_once "models/Item.php";
 
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+// Make sure the user is already logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized.
     header("Location: login.php");
     exit;
 }
@@ -43,7 +43,7 @@ require "header.php" //load header to the top of page;
         <?php
         //print all items that are sold most
         $item = new Item($conn);
-        if ($recommended = $item->getTopTen()) {
+        if ($recommended = $item->getTopTen()) { // Go through and display top 10 most purchased items.
             foreach ($recommended as $i) {
                 $item->item_id = $i['item_id'];
                 $item->getItem();
@@ -56,7 +56,7 @@ require "header.php" //load header to the top of page;
     <div class="items">
         <?php
         //print all items
-        if ($items = $item->getItems()) {
+        if ($items = $item->getItems()) { // Go through and display entire catalog.
             foreach ($items as $i) {
                 $item->item_id = $i['item_id'];
                 $item->getItem();

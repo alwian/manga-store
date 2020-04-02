@@ -3,19 +3,19 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-$user = new User($conn);
+$user = new User($conn); // Connection comes from dashboard header.
 $user->user_id = $_SESSION['id'];
 $user->getUser();
-if ($user->type !== 'admin') {
-    http_response_code(403);
+if ($user->type !== 'admin') { // Make sure the user is an admin.
+    http_response_code(401); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_GET["id"]) || !isset($_GET["type"]) || empty($_GET['id']) || empty($_GET['type'])) {
-        http_response_code(200);
+    if (!isset($_GET["id"]) || !isset($_GET["type"]) || (empty($_GET['id'] && $_GET['id'] != 0)) || empty($_GET['type'])) {
+        http_response_code(400); // Bad request.
         echo 'ID and type are required.';
         exit;
     } else {

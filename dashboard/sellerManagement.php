@@ -2,21 +2,21 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-if ($user->type !== 'admin') {
-    http_response_code(403);
+if ($user->type !== 'admin') { // Make sure the user is an admin.
+    http_response_code(401); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }
 
-if (isset($_GET["id"]) && !empty($_GET['id'])) {
+if (isset($_GET["id"]) && (!empty($_GET['id']) || $_GET['user_id'] == 0)) {
     $user = new User($db->connect());
     $user->user_id = $_GET["id"];
-    if ($user->existsById()) {
+    if ($user->existsById()) { // If the specified user exists.
         $user->type = "consumer";
-        $user->changeUserRole();
+        $user->changeUserRole(); // Make them a consumer.
         header("Location: displayAllOrders.php");
     } else {
-        http_response_code(404);
+        http_response_code(404); // Not Found.
         echo 'The specified user could not be found.';
         exit;
     }

@@ -9,16 +9,16 @@ require_once "../models/Item.php";
 $db = new Database();
 $conn = $db->connect();
 
-if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) { // Make sure the user is logged in.
+    http_response_code(401); // Unauthorized.
     header("Location: ../login.php");
     exit;
 } else {
     $user = new User($conn);
     $user->user_id = $_SESSION['id'];
     $user->getUser();
-    if ($user->type !== 'admin' && $user->type !== 'seller') {
-        http_response_code(403);
+    if ($user->type !== 'admin' && $user->type !== 'seller') { // Make sure the user is an admin or seller.
+        http_response_code(401); // Unauthorized.
         echo 'You do not have permission to access this page.';
         exit;
     }

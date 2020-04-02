@@ -6,13 +6,14 @@ require_once 'models/Order.php';
 
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+// Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized.
     header("Location: login.php");
     exit;
-} else if (!isset($_GET['id']) || empty($_GET['id'])) {
-    http_response_code(400);
+    // Make sure an id has been specified.
+} else if (!isset($_GET['id']) || (empty($_GET['id']) && $_GET['id'] != 0)) {
+    http_response_code(400); // Bad request.
     echo 'Order ID must be specified.';
     exit;
 } else {
@@ -23,12 +24,12 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     $order->order_id = $_GET['id'];
     $order->user_id = $_SESSION['id'];
 
-    if (!$order->exists()) {
-        http_response_code(404);
+    if (!$order->exists()) { // Make sure the spe
+        http_response_code(404); // Not Found.
         echo 'Could not find the specified order.';
         exit;
-    } else if (!$order->isOwnedByUser()) {
-        http_response_code(403);
+    } else if (!$order->isOwnedByUser()) { // Make sure the user owns the order they try too look at.
+        http_response_code(401); // Unauthorized.
         echo 'You do not have permission to access this order.';
         exit;
     }
@@ -74,10 +75,10 @@ require_once 'header.php';
             $item = new Item($conn);
             $total = 0;
             $totalSum = 0;
-            foreach ($order->getSoldItems() as $i) {
+            foreach ($order->getSoldItems() as $i) { // Go through each item in the order.
                 $item->item_id = $i['item_id'];
                 $quantity = $i['quantity'];
-                $item->getItem();
+                $item->getItem(); // Get item details and display the item.
                 echo "<tr>";
                 echo "<td>$item->item_id</td>";
                 echo "<td>$item->name</td>";

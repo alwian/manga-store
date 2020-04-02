@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+// Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized.
     header("Location: login.php");
     exit;
 }
@@ -23,7 +23,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 </head>
 
 <body>
-<?php require "header.php"; //load header to top of page
+<?php require "header.php"; // Load header to top of page
 ?>
 <!-- Container to hold form -->
 <div class="page-container">

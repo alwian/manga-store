@@ -3,13 +3,14 @@ include_once 'config/Database.php';
 include_once 'models/Cart.php';
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+// Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized.
     header("Location: login.php");
     exit;
+    // Make sure all fields are filled.
 } else if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['item_id'] != 0) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request.
     echo "Item id is required.";
     exit;
 }
@@ -23,5 +24,5 @@ $itemId = $_GET["id"];
 $cart = new Cart($conn);
 $cart->item_id = $itemId;
 $cart->user_id = $_SESSION['id'];
-$cart->deleteItem();
+$cart->deleteItem(); // Delete the item from the cart.
 header("Location: cart.php");

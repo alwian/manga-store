@@ -5,7 +5,7 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized.
     header("Location: index.php");
     exit;
 }
@@ -33,15 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['Logged'] = true;
                 header("Location: index.php");
             } else {
-                http_response_code(401);
+                http_response_code(401); // Unauthorized.
                 $errorMsg = "Login failed, incorrect email or password.";
             }
         } else {
-            http_response_code(401);
+            http_response_code(401); // Unauthorised.
             $errorMsg = "Login failed, incorrect email or password.";
         }
     } else {
-        http_response_code(400);
+        http_response_code(400); // Bad Request.
         $errorMsg = "All fields required.";
     }
 }

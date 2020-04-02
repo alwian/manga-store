@@ -5,8 +5,9 @@ require 'models/Item.php';
 
 session_start();
 
+// Make sure an item id is specified.
 if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['id'] != 0) {
-    http_response_code(400);
+    http_response_code(400); // Bad request.
     echo 'Item ID must be specified.';
     exit;
 }
@@ -17,8 +18,8 @@ $conn = $db->connect();
 $item = new Item($conn);
 $item->item_id = $_GET['id'];
 
-if (!$item->exists()) {
-    http_response_code(404);
+if (!$item->exists()) { // Make sure the specified item exists.
+    http_response_code(404); // Not Found.
     echo 'Could not find the specified item.';
     exit;
 }
@@ -80,6 +81,7 @@ $content = <<<EOD
                     <br>
 EOD;
 if ($item->stock > 0) {
+    // If there is stock, display add to cart button and quantity selector.
     $content .= "<form class=\"forms\" action=\"cart.php\" method=\"post\">
                         <label for=\"selectQuantity\">Quantity:</label>
                         <input type=\"number\" name=\"quantity\" id=\"selectQuantity\" value=\"1\"/>

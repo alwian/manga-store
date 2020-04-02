@@ -18,12 +18,12 @@
             require_once "config/Database.php";
             require_once "models/User.php";
 
-            //if logged in show specific buttons on navigation bar
+            // if logged in show specific buttons on navigation bar
             if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
                 $db = new Database();
                 $user = new User($db->connect());
                 $user->user_id = $_SESSION["id"];
-                $user->getUser();
+                $user->getUser(); // Get user details to use in the header.
                 echo "
                 <div class=\"btn-group \">
                     <button type=\"button\" class=\"btn btn-primary col- dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
