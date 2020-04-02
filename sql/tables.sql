@@ -337,6 +337,7 @@ CREATE TABLE IF NOT EXISTS `orders`
     order_id   INT AUTO_INCREMENT NOT NULL,
     user_id    INT                NOT NULL,
     order_time TIMESTAMP          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    shipping_info VARCHAR(128)    NOT NULL,
     PRIMARY KEY (order_id),
     CONSTRAINT `fk_orders_users`
         FOREIGN KEY (user_id) REFERENCES users (user_id)
