@@ -2,7 +2,16 @@
 
 class Cart
 {
+    /**
+     * The table gonna be searched from database
+     * @var string
+     */
     private $table = 'cart_items';
+
+    /**
+     * Database connection for the class to utilise.
+     * @var PDO object
+     */
     private $conn;
 
     /**
