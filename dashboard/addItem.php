@@ -5,18 +5,18 @@ require_once "../models/Item.php";
 
 $error = '';
 
-$user = new User($conn);
+$user = new User($conn); // Connection comes from dashboard header.
 $user->user_id = $_SESSION['id'];
 $user->getUser();
-if ($user->type !== 'seller') {
-    http_response_code(403);
+if ($user->type !== 'seller') { // Make sure the user is a seller.
+    http_response_code(401); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (
+    if ( // Make sure all fields are filled.
         isset($_POST['itemName']) && isset($_POST['itemAuthor']) && isset($_POST['itemPages']) && isset($_POST['itemPrice']) && isset($_POST['itemStock']) && isset($_POST['itemDescription']) &&
         !empty($_POST['itemName']) && !empty($_POST['itemAuthor']) && !empty($_POST['itemPages']) && !empty($_POST['itemPrice']) && !empty($_POST['itemStock']) && !empty($_POST['itemDescription'])
     ) {
@@ -24,48 +24,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $item->seller_id = $_SESSION['id'];
         $item->name = $_POST['itemName'];
 
+        // Make sure an image was uploaded.
         if (file_exists($_FILES['itemImage']['tmp_name']) && is_uploaded_file($_FILES['itemImage']['tmp_name'])) {
-            if (!$item->exists()) {
+            if (!$item->exists()) { // Make sure the item name is not taken.
                 $item->author = $_POST['itemAuthor'];
                 $item->price = $_POST['itemPrice'];
                 $item->stock = $_POST['itemStock'];
                 $item->description = $_POST['itemDescription'];
                 $item->number_pages = $_POST['itemPages'];
 
-                $target_dir = "../data/product-images/";
-                $unique_filename = uniqid('uploaded-', true)
+                $target_dir = "../data/product-images/"; // Where uploaded images go.
+                $unique_filename = uniqid('uploaded-', true) // Generate unique ID for the image.
                     . '.' . strtolower(pathinfo($_FILES['itemImage']['name'], PATHINFO_EXTENSION));
-                $target_file = $target_dir . $unique_filename;
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                $target_file = $target_dir . $unique_filename; // Path for the uploaded image to be stored.
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION)); // Get the file type.
                 $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
-                if ($check !== false) {
-                    $error = 'Image is too big';
+                if ($check !== false) { // Make sure the item is an image.
                     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                        $error = "Sorry, only JPG, JPEG & PNG files are allowed.";
+                        http_response_code(415); // Unsupported Media Type.
+                        $error = "Sorry, only JPG, JPEG & PNG files are allowed."; // Check the file extension.
                     } else {
+                        // Try moving the file to a permanent location.
                         if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
                             $item->image = $unique_filename;
-                            $item_id = $item->addItem();
+                            $item_id = $item->addItem(); // If the move was successful create the new item.
                             if ($item_id !== null) {
-                                header("Location: ../page.php?id=$item_id");
+                                header("Location: ../page.php?id=$item_id"); // Go to the item page.
                             } else {
-                                unlink($target_file);
+                                http_response_code(500); // Server error.
+                                unlink($target_file); // If creating the item failed, delete the uploaded image.
                                 $error = "There was an error adding the item.";
                             }
                         } else {
+                            http_response_code(500); //  Server error.
                             $error = "Sorry, there was an error uploading your file.";
                         }
                     }
                 } else {
+                    http_response_code(415); // Unsupported Media Type.
                     $error = "File is not an image.";
                 }
             } else {
+                http_response_code(409); // Conflict.
                 $error = 'Item name already exists.';
             }
         } else {
+            http_response_code(413); // Payload Too Large.
             $error = 'Image is too big';
         }
     } else {
+        http_response_code(400); // Bad Request.
         $error = "All fields not filled.";
     }
 }

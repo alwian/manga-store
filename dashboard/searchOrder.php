@@ -2,8 +2,8 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-if ($user->type !== 'admin') {
-    http_response_code(403);
+if ($user->type !== 'admin') { // Make sure the user is an admin.
+    http_response_code(401); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }
@@ -11,8 +11,15 @@ if ($user->type !== 'admin') {
 if (isset($_GET["id"]) && isset($_GET["type"])) {
     $order = new Order($db->connect());
     $order->order_id = $_GET["id"];
-    $order->deleteOrder();
-    header("Location: searchOrder.php");
+    if ($order->exists()) {
+        $order->deleteOrder();
+        header("Location: searchOrder.php");
+    } else {
+        http_response_code(404); // Not Found;
+        echo 'Could not find the specified order.';
+        exit;
+    }
+
 }
 ?>
 

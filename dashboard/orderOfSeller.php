@@ -2,8 +2,8 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-if ($user->type !== 'seller') {
-    http_response_code(403);
+if ($user->type !== 'seller') { // Make sure the user is a seller.
+    http_response_code(401); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }

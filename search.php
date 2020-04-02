@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 $mysql = new Database();
 $conn = $mysql->connect();
-$query = "SELECT * from `items` where UPPER(name) like UPPER(:name) ";
+$query = "SELECT * from `items` where UPPER(name) like UPPER(:name) "; // Get all items like search query.
 ?>
 <!DOCTYPE html>
 <html lang="en">

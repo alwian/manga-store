@@ -9,33 +9,33 @@ $db = new Database();
 $conn = $db->connect();
 $user = new User($conn);
 
-if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) { // Make sure the user is logged in.
+    http_response_code(401); // Unauthorized.
     header("Location: ../login.php");
     exit;
 } else {
     $user = new User($conn);
     $user->user_id = $_SESSION['id'];
     $user->getUser();
-    if ($user->type !== 'admin') {
-        http_response_code(403);
+    if ($user->type !== 'admin') { // Make sure the user is an admin.
+        http_response_code(401); // Unauthorized.
         echo 'You do not have permission to access this page.';
         exit;
     }
 }
 
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    http_response_code(400);
+if (!isset($_GET['id']) || empty($_GET['id'])) { // Make sure an ID was specified.
+    http_response_code(400); // Bad Request.
     echo 'ID is required.';
     exit;
 } else {
     $user->user_id = $_GET["id"];
-    if ($user->existsById()) {
-        $user->deleteUser();
+    if ($user->existsById()) { // Make sure the specified user exists.
+        $user->deleteUser(); // Delete the user.
         header("Location: accountManage.php");
         exit;
     } else {
-        http_response_code(404);
+        http_response_code(404); // Not Found.
         echo 'The specified user was not found.';
         exit;
     }

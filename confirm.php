@@ -6,9 +6,9 @@ include_once 'models/Order.php';
 
 session_start();
 
-// If the user is already logged in, take them to the homepage.
+// Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(403);
+    http_response_code(401); // Unauthorized
     header("Location: login.php");
     exit;
 }
@@ -20,14 +20,15 @@ $order->user_id = $_SESSION['id'];
 
 // Check if the the form been submitted.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Make sure all fields have been filled.
     if ((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
         && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))
     ) {
         $cart = new Cart($conn);
         $cart->user_id = $_SESSION['id'];
 
-        if (count($cart->getItems()) == 0) {
-            http_response_code(403);
+        if (count($cart->getItems()) == 0) { // Make sure there is stuff in the cart.
+            http_response_code(400); // Bad Request.
             echo 'Cannot pay for an empty cart.';
             exit;
         }
@@ -36,14 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order->user_id = $_SESSION["id"];
         $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
         $shipping = $order->shipping_info;
-        $order->addToOrder();
+        $order->addToOrder(); // Add all items and shipping info ti the order.
     } else {
-        http_response_code(400);
+        http_response_code(400); // Bad Request.
         echo "Could not process your order, ensure all fields are filled on the checkout page.";
         exit;
     }
 } else {
-    http_response_code(400);
+    http_response_code(400); // Bad Request.
     echo 'Invalid request type.';
     exit;
 }
@@ -90,9 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $item->item_id = $current_item['item_id'];
                 $quantity = $current_item['quantity'];
 
-                if ($item->getItem()) {
+                if ($item->getItem()) { // Get item details.
                     $amount = $quantity * $item->price;
-                    $totalSum += $amount;
+                    $totalSum += $amount; // Create totals for each item / entire cart.
 
 
                     echo "<tr>

@@ -1,43 +1,46 @@
 <?php
 require_once "dashboard_header.php";
 
-if ($user->type !== 'admin') {
-    http_response_code(403);
+if ($user->type !== 'admin') { // Make sure the user is an admin.
+    http_response_code(401); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Make sure all fields are filled.
     if (isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && (!empty($_POST['userID']) || $_POST['userID'] == 0)) {
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
-        if ($user->existsById()) {
+        if ($user->existsById()) { // Make sure the specified user exists.
+            // Make sure the specified role is valid,
             if ($_POST['userRole'] !== 'consumer' && $_POST['userRole'] !== 'seller' && $_POST['userRole'] !== 'admin') {
-                http_response_code(422);
+                http_response_code(422); // Unprocessable Entity.
                 echo 'User role is invalid.';
                 exit;
             } else {
                 $user->type = $_POST["userRole"];
-                $user->changeUserRole();
+                $user->changeUserRole(); // Set the user to the desired role.
                 header("Location: accountManage.php");
                 exit;
             }
         } else {
-            http_response_code(404);
+            http_response_code(404); // Not Found.
             echo 'The specified user does not exist';
             exit;
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Make sure all fields have been filled.
     if (!isset($_GET['id']) && (empty($_GET['id'] && $_GET['id'] != 0))) {
-        http_response_code(400);
+        http_response_code(400); // Bad Request.
         echo 'id is required.';
         exit;
     } else {
         $user = new User($conn);
         $user->user_id = $_GET['id'];
-        if (!$user->existsById()) {
-            http_response_code(404);
+        if (!$user->existsById()) { // Make sure the user exists.
+            http_response_code(404); // Not Found.
             echo 'Could not find the specified user.';
             exit;
         }
