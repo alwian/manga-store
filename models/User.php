@@ -86,7 +86,7 @@ class User
      */
     public function create()
     {
-        $query = "INSERT INTO $this->table (first_name, last_name, email, password, phone, image, bio, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO $this->table (first_name, last_name, email, password, type) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute(array($this->first_name, $this->last_name, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $this->phone, $this->image, $this->bio, $this->type));
