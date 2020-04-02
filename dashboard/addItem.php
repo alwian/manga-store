@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     } else {
                         // Try moving the file to a permanent location.
                         if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
+                            chmod($target_file, 755); // Set permissions for image.
                             $item->image = $unique_filename;
                             $item_id = $item->addItem(); // If the move was successful create the new item.
                             if ($item_id !== null) {
