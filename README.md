@@ -4,6 +4,23 @@ Group project for CSCI 3172 - Web-Centric Computing
 
 Manga Store Site:
 
+# LOGIN DETAILS:
+
+Admin account test: 
+
+    ---> email: admin@manga.com
+    ---> pw: admin
+
+Seller account test:
+
+    ---> email: seller@manga.com
+    ---> pw: seller
+
+Consumer user account test:
+
+    ---> email: user@manga.com
+    ---> pw: user
+
 # PAGES: 
 
 LOGIN: Enter email and password from an associated account. This will grant access to the site.
@@ -30,3 +47,4 @@ ORDER HISTORY: Displays all orders previously placed by the user.
 HEADER: Page header carried across all pages in the site.
 --------
 
+# Dashboard Pages
