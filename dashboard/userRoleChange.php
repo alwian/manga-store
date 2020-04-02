@@ -8,7 +8,7 @@ if ($user->type !== 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && (!empty($_POST['userID']) || $_POST['userID'] == 0)) {
+    if (isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && (!empty($_POST['userID']) || $_POST['userID'] == 0)) {
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
         if ($user->existsById()) {
@@ -84,7 +84,7 @@ require_once "dashboard_sidebar.php";
                             <?php
                             //create a new user obj
                             $user = new User($conn);
-                            if($_SERVER['REQUEST_METHOD'] === 'POST'){
+                            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $user->user_id = $_POST["userID"];
                             } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 $user->user_id = $_GET["id"];
@@ -92,7 +92,7 @@ require_once "dashboard_sidebar.php";
 
                             //get user information and print
                             $user->getUser();
-                                echo "<tr>
+                            echo "<tr>
                                 <td>$user->user_id</td>                               
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>

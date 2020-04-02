@@ -11,10 +11,11 @@
 
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
                 <?php
 
-                            echo " <span class=\"mr-2 d-none d-lg-inline text-white \">$user->first_name $user->last_name&nbsp;&nbsp;</span>";
+                echo " <span class=\"mr-2 d-none d-lg-inline text-white \">$user->first_name $user->last_name&nbsp;&nbsp;</span>";
 
                 ?>
 

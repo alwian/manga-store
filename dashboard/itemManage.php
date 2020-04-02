@@ -137,65 +137,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!-- Content Wrapper -->
-<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-    <!-- Main Content -->
-    <div id="content">
-        <?php
-        include "dashboard_topbar.php";
-        ?>
+        <!-- Main Content -->
+        <div id="content">
+            <?php
+            include "dashboard_topbar.php";
+            ?>
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
 
-            <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Update Item</h1>
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Update Item</h1>
+                </div>
+
+                <form action="itemManage.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" value="<?php echo $item->item_id; ?>" name="itemId"/>
+                    <div class="form-group">
+                        <label for="itemName">Item Name</label>
+                        <input class="form-control" type="text" id="itemName" name="itemName"
+                               value="<?php echo $item->name; ?>" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemAuthor">Author</label>
+                        <input class="form-control" type="text" id="itemAuthor" name="itemAuthor"
+                               value="<?php echo $item->author; ?>" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPages">Number of pages</label>
+                        <input class="form-control" type="text" id="itemPages" name="itemPages"
+                               value="<?php echo $item->number_pages; ?>" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPrice">Price</label>
+                        <input class="form-control" type="number" id="itemPrice" name="itemPrice"
+                               value="<?php echo $item->price; ?>" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemStock">Stock</label>
+                        <input class="form-control" type="number" id="itemStock" name="itemStock"
+                               value="<?php echo $item->stock; ?>" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemImage">Image</label>
+                        <input class="form-control" type="file" id="itemImage" name="itemImage"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Description</label>
+                        <textarea class="form-control" id="itemDescription" name="itemDescription"
+                                  required><?php echo $item->description; ?></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                    <?php echo "<p class='text-danger'>$error</p>" ?>
+                </form>
+
             </div>
-
-            <form action="itemManage.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" value="<?php echo $item->item_id; ?>" name="itemId" />
-                <div class="form-group">
-                    <label for="itemName">Item Name</label>
-                    <input class="form-control" type="text" id="itemName" name="itemName" value="<?php echo $item->name; ?>" required />
-                </div>
-                <div class="form-group">
-                    <label for="itemAuthor">Author</label>
-                    <input class="form-control" type="text" id="itemAuthor" name="itemAuthor" value="<?php echo $item->author; ?>" required />
-                </div>
-                <div class="form-group">
-                    <label for="itemPages">Number of pages</label>
-                    <input class="form-control" type="text" id="itemPages" name="itemPages" value="<?php echo $item->number_pages; ?>" required />
-                </div>
-                <div class="form-group">
-                    <label for="itemPrice">Price</label>
-                    <input class="form-control" type="number" id="itemPrice" name="itemPrice" value="<?php echo $item->price; ?>" required />
-                </div>
-                <div class="form-group">
-                    <label for="itemStock">Stock</label>
-                    <input class="form-control" type="number" id="itemStock" name="itemStock" value="<?php echo $item->stock; ?>" required />
-                </div>
-                <div class="form-group">
-                    <label for="itemImage">Image</label>
-                    <input class="form-control" type="file" id="itemImage" name="itemImage" />
-                </div>
-                <div class="form-group">
-                    <label for="itemDescription">Description</label>
-                    <textarea class="form-control" id="itemDescription" name="itemDescription" required><?php echo $item->description; ?></textarea>
-                </div>
-                <button class="btn btn-primary" type="submit">Update</button>
-                <?php echo "<p class='text-danger'>$error</p>" ?>
-            </form>
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- /.container-fluid -->
+        <!-- End of Main Content -->
 
     </div>
-    <!-- End of Main Content -->
-
-</div>
-<!-- End of Page Wrapper -->
+    <!-- End of Page Wrapper -->
 <?php
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";

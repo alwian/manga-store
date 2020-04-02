@@ -15,7 +15,7 @@ if ($user->type !== 'seller') {
     <!-- Main Content -->
     <div id="content">
         <?php
-            require_once "dashboard_topbar.php";
+        require_once "dashboard_topbar.php";
         ?>
 
         <!-- Begin Page Content -->
@@ -44,12 +44,12 @@ if ($user->type !== 'seller') {
                             //create a order obj
                             $order = new Order($conn);
                             //get all the orders
-                            $orders=$order->getOrders();
+                            $orders = $order->getOrders();
                             //create a item obj
                             $item = new Item($conn);
 
                             //for each order in orders
-                            foreach ($orders as $o){
+                            foreach ($orders as $o) {
                                 //set order id
                                 $order->order_id = $o['order_id'];
                                 //get order information
@@ -59,19 +59,19 @@ if ($user->type !== 'seller') {
                                 //get all items from the order
                                 $soldItems = $order->getSoldItems();
                                 //for each item in this order
-                                foreach ($soldItems as $i){
+                                foreach ($soldItems as $i) {
                                     //set item id
                                     $item->item_id = $i['item_id'];
                                     //get item information
                                     $item->getItem();
                                     //if the item seller equals seller's id then set hasProduct to true
-                                    if($item->seller_id ==  $_SESSION['id']){
+                                    if ($item->seller_id == $_SESSION['id']) {
                                         $hasProduct = true;
                                     }
                                 }
 
                                 //if the order has a product of seller then print order information
-                                if ($hasProduct){
+                                if ($hasProduct) {
                                     echo "<tr>";
                                     echo "<td>$order->order_id</td>";
                                     echo "<td>$order->order_time</td>";

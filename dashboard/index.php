@@ -3,27 +3,27 @@ include "dashboard_header.php";
 include "dashboard_sidebar.php";
 ?>
 
-<!-- Content Wrapper -->
-<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-    <!-- Main Content -->
-    <div id="content">
-        <?php
-        include "dashboard_topbar.php";
-        ?>
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-            <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Quick Buttons</h1>
-            </div>
-
+        <!-- Main Content -->
+        <div id="content">
             <?php
-            //index of dashboard(quick buttons) for admin
-            if ($user->type == "admin") {
-                echo "<!-- Row Heading -->
+            include "dashboard_topbar.php";
+            ?>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Quick Buttons</h1>
+                </div>
+
+                <?php
+                //index of dashboard(quick buttons) for admin
+                if ($user->type == "admin") {
+                    echo "<!-- Row Heading -->
                                     <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">
                                         <h5>User Management</h5>
                                     </div>
@@ -165,12 +165,12 @@ include "dashboard_sidebar.php";
 
                 </div>
                 <!-- /.container-fluid -->";
-            }
+                }
 
 
-                            //quick button for seller
-                            if($user->type == "seller"){
-                                echo "<!-- Row Heading -->
+                //quick button for seller
+                if ($user->type == "seller") {
+                    echo "<!-- Row Heading -->
                             <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">
                                 <h5>Store Management</h5>
                             </div>
@@ -233,21 +233,16 @@ include "dashboard_sidebar.php";
                                            
                                         </div>
                                     </div>";
-            }
-            ?>
+                }
+                ?>
 
 
-
-
-
-
+            </div>
+            <!-- End of Main Content -->
 
         </div>
-        <!-- End of Main Content -->
-
     </div>
-</div>
-<!-- End of Page Wrapper -->
+    <!-- End of Page Wrapper -->
 <?php
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";

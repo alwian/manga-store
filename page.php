@@ -34,22 +34,22 @@ $seller->getUser();
 
 <head>
     <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer" />
+    <meta name="referrer" content="no-referrer"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $item->name; ?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import bootstrap.css-->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-        <?php
-        require "header.php";
+<?php
+require "header.php";
 
-        //page info
-        $content = <<<EOD
+//page info
+$content = <<<EOD
             '<div class="item-container col-10 col-sm-10 col-" id="item-page">
                 <div class="col-md-9 col-sm-12 col-" id="item-info">
                     <h2 id="page-title">{$item->name}</h2>
@@ -79,19 +79,19 @@ $seller->getUser();
                     <h3 id="price_value">&#36;{$item->price}</h3>
                     <br>
 EOD;
-            if ($item->stock > 0) {
-                $content .= "<form class=\"forms\" action=\"cart.php\" method=\"post\">
+if ($item->stock > 0) {
+    $content .= "<form class=\"forms\" action=\"cart.php\" method=\"post\">
                         <label for=\"selectQuantity\">Quantity:</label>
                         <input type=\"number\" name=\"quantity\" id=\"selectQuantity\" value=\"1\"/>
                         <input type=\"hidden\" name=\"item_id\" value=\"{$_GET['id']}\"/>
                         <button class=\"btn btn-primary\" id=\"cart-btn\" type=\"submit\">Add to Cart</button>";
-            }
+}
 
-            $content .= "</form></div></div>";
-            echo $content;
-        ?>
-        <!-- Import scripts -->
-        <script src="js/jquery-3.4.1.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-    </body>
+$content .= "</form></div></div>";
+echo $content;
+?>
+<!-- Import scripts -->
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+
 class User
 {
     private $table = 'users';
@@ -74,7 +75,8 @@ class User
      *
      * @return int|null The ID of the created user, Indicates an error creating the user, usually because the user exists.
      */
-    public function create() {
+    public function create()
+    {
         $query = "INSERT INTO $this->table (first_name, last_name, email, password, phone, image, bio, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         try {
@@ -94,7 +96,8 @@ class User
      *
      * @return bool|null Whether the user exists, an error occurred during database interaction.
      */
-    public function existsByEmail() {
+    public function existsByEmail()
+    {
         $query = "SELECT email FROM $this->table WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         try {
@@ -113,7 +116,8 @@ class User
      *
      * @return bool|null Whether the user exists, an error occurred during database interaction.
      */
-    public function existsById() {
+    public function existsById()
+    {
         $query = "SELECT user_id FROM $this->table WHERE user_id = ?";
         $stmt = $this->conn->prepare($query);
         try {
@@ -126,13 +130,14 @@ class User
     }
 
     /**
- * Checks whether a set of credentials is correct.
- *
- * Uses the given email and password to check if the provided login details are correct.
- *
- * @return bool|null Whether the users details are correct, an error occurred during database interaction.
- */
-    public function checkLogin() {
+     * Checks whether a set of credentials is correct.
+     *
+     * Uses the given email and password to check if the provided login details are correct.
+     *
+     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
+     */
+    public function checkLogin()
+    {
         $query = "SELECT user_id, email, password  FROM $this->table WHERE email = ?";
         $stmt = $this->conn->prepare($query);
         try {
@@ -161,7 +166,8 @@ class User
      * This function is for get user object.
      * @return bool|null Whether the user details were found, an error occurred during database interaction.
      */
-    public function getUser() {
+    public function getUser()
+    {
         $query = "SELECT first_name, last_name, email, phone, image, bio, type FROM $this->table WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':user_id', $this->user_id);
@@ -190,7 +196,8 @@ class User
      * This function gets all users.
      * @return array|null All userrs, an error occurred during database interaction.
      */
-    public function getUsers() {
+    public function getUsers()
+    {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
         try {
@@ -203,15 +210,15 @@ class User
     }
 
 
-
     /**
      * This function is for delete user from admin's dashboard
      *
      * User can be delete from Account management Table
      *
-     *@return bool|null Whether the users details are correct, an error occurred during database interaction.
+     * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
-    public function deleteUser(){
+    public function deleteUser()
+    {
         $query = "DELETE FROM $this->table WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
@@ -235,7 +242,8 @@ class User
      *
      * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
-    public function applyToBeSeller(){
+    public function applyToBeSeller()
+    {
         $query = "SELECT user_id FROM seller_requests WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
@@ -264,7 +272,8 @@ class User
      *
      * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
-    public function displayAppliedUser(){
+    public function displayAppliedUser()
+    {
         $query = "SELECT * FROM seller_requests";
         $stmt = $this->conn->prepare($query);
         try {
@@ -284,7 +293,8 @@ class User
      *
      * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
-    public function deleteUserFromSellerApllyList(){
+    public function deleteUserFromSellerApllyList()
+    {
         $query = "DELETE FROM seller_requests WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
@@ -306,7 +316,8 @@ class User
      *
      * @return bool|null Whether the users details are correct, an error occurred during database interaction.
      */
-    public function changeUserRole(){
+    public function changeUserRole()
+    {
         $query = "UPDATE users SET type = '$this->type' WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':user_id', $this->user_id);
@@ -320,7 +331,8 @@ class User
         }
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         $query = "SELECT * FROM items WHERE seller_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);

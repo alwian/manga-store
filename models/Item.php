@@ -1,4 +1,5 @@
 <?php
+
 class Item
 {
     private $table = 'items';
@@ -19,7 +20,8 @@ class Item
         $this->conn = $conn;
     }
 
-    public function addItem() {
+    public function addItem()
+    {
         $query = "INSERT INTO $this->table (seller_id, name, author, number_pages, price, stock, image, description) VALUES (:seller_id, :name, :author, :number_pages, :price, :stock, :image, :description)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':seller_id', $this->seller_id);
@@ -40,7 +42,8 @@ class Item
         }
     }
 
-    public function getTopTen() {
+    public function getTopTen()
+    {
         $query = "SELECT item_id, SUM(quantity) as total_ordered FROM sold_items GROUP BY item_id ORDER BY total_ordered DESC LIMIT 10";
         $stmt = $this->conn->prepare($query);
 
@@ -53,7 +56,8 @@ class Item
         }
     }
 
-    public function exists() {
+    public function exists()
+    {
         $query = "SELECT * FROM $this->table WHERE item_id = :item_id OR name = :name";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
@@ -72,7 +76,8 @@ class Item
         }
     }
 
-    public function deleteItem() {
+    public function deleteItem()
+    {
         $query = "DELETE FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
@@ -86,7 +91,8 @@ class Item
         }
     }
 
-    public function getItem() {
+    public function getItem()
+    {
         $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, number_pages FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
@@ -113,7 +119,8 @@ class Item
         }
     }
 
-    public function update() {
+    public function update()
+    {
         $query = "UPDATE $this->table SET name = :name, author = :author, number_pages = :num_pages, price = :price, stock = :stock, image = :image, description = :description WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $this->name);
@@ -134,7 +141,9 @@ class Item
         }
 
     }
-    public function getItems() {
+
+    public function getItems()
+    {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
 

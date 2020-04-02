@@ -1,7 +1,7 @@
 <?php
-    //include header and sidebar
-    require_once "dashboard_header.php";
-    require_once "dashboard_sidebar.php";
+//include header and sidebar
+require_once "dashboard_header.php";
+require_once "dashboard_sidebar.php";
 
 $user = new User($conn);
 $user->user_id = $_SESSION['id'];
@@ -26,36 +26,36 @@ if ($user->type !== 'admin') {
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">Accounts Table</h1>
                 <p></p>
-            <!-- Data Table -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary text-center">Accounts Table</h6>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Email Address</th>
-                                <th>Name</th>
-                                <th>User Role</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                <!-- Data Table -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center">Accounts Table</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Email Address</th>
+                                    <th>Name</th>
+                                    <th>User Role</th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                 <?php
-                                    //create a user object
-                                    $user = new User($conn);
-                                    //get all the user in database
-                                    $users = $user->getUsers();
-                                    //loop each user
-                                    foreach ($users as $u) {
-                                        //set user ID
-                                        $user->user_id = $u['user_id'];
-                                        //get user information
-                                        $user->getUser();
+                                //create a user object
+                                $user = new User($conn);
+                                //get all the user in database
+                                $users = $user->getUsers();
+                                //loop each user
+                                foreach ($users as $u) {
+                                    //set user ID
+                                    $user->user_id = $u['user_id'];
+                                    //get user information
+                                    $user->getUser();
 
-                                        echo "<tr>
+                                    echo "<tr>
                                                 <td>$user->user_id</td>
                                                 
                                                 <td>$user->email</td>
@@ -66,8 +66,8 @@ if ($user->type !== 'admin') {
                                                 </td>
                                             </tr>
                                             ";
-                                    }
-                                    ?>
+                                }
+                                ?>
                                 </tbody>
                             </table>
                             <!-- Delete Modal-->
@@ -105,8 +105,8 @@ if ($user->type !== 'admin') {
         <!-- End of Main Content -->
 
     </div>
-<!-- End of Page Wrapper -->
-</div>
+    <!-- End of Page Wrapper -->
+    </div>
 <?php
 include "dashboard_logoutModal.php";
 include "dashboard_footer.php";
