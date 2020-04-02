@@ -67,11 +67,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <div class="page-container">
     <h2>Login</h2>
 
-<<<<<<< HEAD
-    <!--JavaScript at end of body for optimized loading-->
-    <script  src="js/jquery-3.4.1.js"></script>
-    <script  src="js/bootstrap.min.js"></script>
-=======
     <form class="forms" action="login.php" method="post">
         <div class="form-group form-login">
             <label for="InputEmail">Email address</label>
@@ -90,7 +85,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
->>>>>>> 8484952c2aecb0d203e3f5186001cca675687cb8
 </body>
 
 </html>
