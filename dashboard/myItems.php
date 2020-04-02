@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             echo "<tr xmlns=\"http://www.w3.org/1999/html\">
                               <td>$item->item_id</td>
                               <td>$item->name</td>
-                              <td><a href='ItemManage.php?itemId=$item->item_id'><span class='material-icons text-info'>Edit</span></a></td>
+                              <td><a href='itemManage.php?itemId=$item->item_id'><span class='material-icons text-info'>Edit</span></a></td>
                               <form action='myItems.php' method='post'>
                                 <input type='hidden' value='$item->item_id' name='itemId' />
                                 <td><input class='material-icons text-danger' style=\"background:none; border-width:0;\" type='submit' value='Delete' name='operation'/></td>
