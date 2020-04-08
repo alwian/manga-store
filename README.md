@@ -4,6 +4,25 @@ Group project for CSCI 3172 - Web-Centric Computing
 
 Manga Store Site: https://web.cs.dal.ca/~popoola/project/
 
+```
+# LOGIN DETAILS:
+
+Admin account test: 
+
+    ---> email: admin@manga.com
+    ---> pw: admin
+
+Seller account test:
+
+    ---> email: seller@manga.com
+    ---> pw: seller
+
+Consumer user account test:
+
+    ---> email: user@manga.com
+    ---> pw: user
+```
+
 # PAGES: 
 
 LOGIN: Enter email and password from an associated account. This will grant access to the site.
@@ -66,7 +85,7 @@ HEADER: Page header carried across all pages in the site.
                 - the information of the order
                 - 'view' button: it will direct to ORDERDETAIL page, and displays all the items from this order
                 - 'delete' button: it will delete this order from the database
-   
+
    6.SEARCHORDER: This page belong to user who's type is 'admin', it will display a specific order information after input a order ID
             includes:
                 - the information of the order
@@ -79,27 +98,27 @@ HEADER: Page header carried across all pages in the site.
    1.MYITEMS: This page belong to user who's type is 'seller', it display all the item belong to logged seller
             includes:
                 - the id of the item
-                - the name of the item
-                - 'view' button: it will direct to ITEMMANAGE page, and displays all the information of the item
+                                - the name of the item
+                                - 'view' button: it will direct to ITEMMANAGE page, and displays all the information of the item
                         - as a seller could edit the information of the item, after click on the 'update' button, the information of the item will be updated
-                - 'delete' button: it will delete this item from the database
-                
-                
+                                - 'delete' button: it will delete this item from the database
+
+
    2.ADDITEM: This page contain a form that seller could create a new item after fill in the information of the item and click on 'submit'
                includes:
                    - a form to fill in the information of the item
-                   - 'submit' button: it will add the new item into database
-   
+                                      - 'submit' button: it will add the new item into database
+
    3.ORDEROFSELLER: This page will display all the orders that contain at least one product that from the logged seller
                   includes:
                       - the order id and order information
                       - 'view' button: it will direct to orderDetail page that displays all the information of the items that belong to logged seller
-   
 
-   
-            
 
-        
+
+​            
+
+​        
 
 
 
