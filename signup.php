@@ -10,17 +10,59 @@ if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
     exit;
 }
 
-$errorMsg = null;
+$first_name_value = null;
+$last_name_value = null;
+$email_value = null;
+$password_value = null;
+$verify_value = null;
+
+$first_name_error = null;
+$last_name_error = null;
+$email_error = null;
+$password_error = null;
+$verify_error = null;
+
+$form_submitted = $_SERVER["REQUEST_METHOD"] == "POST";
 
 // Check if the the form been submitted.
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check all the required information has been set and is not empty.
-    if (isset($_POST['first_name']) && !empty($_POST['first_name'])
-        && isset($_POST['last_name']) && !empty($_POST['last_name'])
-        && isset($_POST['email']) && !empty($_POST['email'])
-        && isset($_POST['password']) && !empty($_POST['password'])
-        && isset($_POST['verify']) && !empty($_POST['verify'])) {
-        // Connect to db
+if ($form_submitted) {
+    $all_fields_completed = true;
+    if (!isset($_POST['first_name']) || empty($_POST['first_name'])) {
+        $first_name_error = "Required";
+        $all_fields_completed = false;
+    } else {
+        $first_name_value = $_POST['first_name'];
+    }
+
+    if (!isset($_POST['last_name']) || empty($_POST['last_name'])) {
+        $last_name_error = "Required.";
+        $all_fields_completed = false;
+    } else {
+        $first_name_value = $_POST['last_name'];
+    }
+
+    if (!isset($_POST['email']) || empty($_POST['email'])) {
+        $email_error = "Required.";
+        $all_fields_completed = false;
+    } else {
+        $first_name_value = $_POST['email'];
+    }
+
+    if (!isset($_POST['password']) || empty($_POST['password'])) {
+        $password_error = "Required.";
+        $all_fields_completed = false;
+    } else {
+        $first_name_value = $_POST['password'];
+    }
+
+    if (!isset($_POST['verify']) || empty($_POST['verify'])) {
+        $verify_error = "Required.";
+        $all_fields_completed = false;
+    } else {
+        $first_name_value = $_POST['verify'];
+    }
+
+    if ($all_fields_completed) {
         $db = new Database();
         $user = new User($db->connect());
         // Check if the email is already registered
@@ -47,15 +89,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             } else {
                 http_response_code(400); // Bad request.
-                $errorMsg = "Password and verify password do not match.";
+                $verify_error = "Does not match the entered password.";
             }
         } else {
             http_response_code(409); // Conflict.
-            $errorMsg = "This email is already in use.";
+            $email_error = "This email is already in use.";
         }
     } else {
         http_response_code(400); // Bad request.
-        $errorMsg = "All fields required.";
     }
 }
 
@@ -85,13 +126,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                     <div id="firstname">
                         <label for="InputFirstName">First Name</label>
-                        <input type="text" class="form-control" id="InputFirstName" name="first_name"
-                               placeholder="First name">
+                        <input type="text" class="form-control <?php if ($form_submitted) echo $first_name_error != null ? 'is-invalid' : 'is-valid'?>" id="InputFirstName" name="first_name"
+                               placeholder="First name" value="<?php echo $first_name_value?>">
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
+                        <div class="invalid-feedback">
+                            <?php echo $first_name_error?>
+                        </div>
                     </div>
                     <div id="lastname">
                         <label for="InputLastName">Last Name</label>
-                        <input type="text" class="form-control" id="InputLastName" name="last_name"
-                               placeholder="Last name">
+                        <input type="text" class="form-control <?php if ($form_submitted) echo $last_name_error != null ? 'is-invalid' : 'is-valid'?>" id="InputLastName" name="last_name"
+                               placeholder="Last name" <?php echo $last_name_value?>>
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
+                        <div class="invalid-feedback">
+                            <?php echo $last_name_error?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,30 +152,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                     <div id="email">
                         <label for="InputEmail">Email address</label>
-                        <input type="email" class="form-control" id="InputEmail" name="email"
-                               aria-describedby="emailHelp" placeholder="Email">
+                        <input type="email" class="form-control <?php if ($form_submitted) echo $email_error != null ? 'is-invalid' : 'is-valid'?>" id="InputEmail" name="email"
+                               aria-describedby="emailHelp" placeholder="Email" <?php echo $email_value?>>
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                             else.</small>
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
+                        <div class="invalid-feedback">
+                            <?php echo $email_error?>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div id="password">
                         <label for="InputPassword">Password</label>
-                        <input type="password" class="form-control" id="InputPassword" name="password"
-                               placeholder="Password">
+                        <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password"
+                               placeholder="Password" <?php echo $password_value?>>
                         <meter max="4" id="password-strength-meter"></meter>
                         <p id="password-strength-text"></p>
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
+                        <div class="invalid-feedback">
+                            <?php echo $password_error?>
+                        </div>
                     </div>
                     <div id="verify">
                         <label for="InputVerifyPassword">Verify Password</label>
-                        <input type="password" class="form-control" id="InputVerifyPassword" name="verify"
-                               placeholder="Re-enter Password">
+                        <input type="password" class="form-control <?php if ($form_submitted) echo $verify_error != null ? 'is-invalid' : 'is-valid'?>" id="InputVerifyPassword" name="verify"
+                               placeholder="Re-enter Password" <?php echo $verify_value?>>
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
+                        <div class="invalid-feedback">
+                            <?php echo $verify_error?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary" id="signup-button">Submit</button>
-        <p class="form-text text-danger"><?php echo $errorMsg; ?></p>
     </form>
 </div>
 
