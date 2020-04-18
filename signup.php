@@ -10,10 +10,6 @@ if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
     exit;
 }
 
-$first_name_value = null;
-$last_name_value = null;
-$email_value = null;
-$password_value = null;
 $verify_value = null;
 
 $first_name_error = null;
@@ -23,80 +19,75 @@ $password_error = null;
 $verify_error = null;
 
 $form_submitted = $_SERVER["REQUEST_METHOD"] == "POST";
+$db = new Database();
+$user = new User($db->connect());
 
 // Check if the the form been submitted.
 if ($form_submitted) {
-    $all_fields_completed = true;
     if (!isset($_POST['first_name']) || empty($_POST['first_name'])) {
         $first_name_error = "Required";
-        $all_fields_completed = false;
+        http_response_code(400);
     } else {
-        $first_name_value = $_POST['first_name'];
+        $user->first_name = $_POST['first_name'];
     }
 
     if (!isset($_POST['last_name']) || empty($_POST['last_name'])) {
         $last_name_error = "Required.";
-        $all_fields_completed = false;
+        http_response_code(400);
     } else {
-        $first_name_value = $_POST['last_name'];
+        $user->last_name = $_POST['last_name'];
     }
 
     if (!isset($_POST['email']) || empty($_POST['email'])) {
         $email_error = "Required.";
-        $all_fields_completed = false;
+        http_response_code(400);
     } else {
-        $first_name_value = $_POST['email'];
+        $user->email = $_POST['email'];
+        if (!filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
+            $email_error = "Invalid email address provided.";
+            http_response_code(400);
+        } else if ($user->existsByEmail()) {
+            $email_error = "This email is already in use.";
+            http_response_code(409);
+        }
+
     }
 
     if (!isset($_POST['password']) || empty($_POST['password'])) {
         $password_error = "Required.";
-        $all_fields_completed = false;
+        http_response_code(400);
     } else {
-        $first_name_value = $_POST['password'];
+        $user->password = $_POST['password'];
+        if (!preg_match("\"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{14,})\"", $user->password)) {
+            $password_error = "Must meet the strength requirement.";
+            http_response_code(400);
+        }
     }
 
     if (!isset($_POST['verify']) || empty($_POST['verify'])) {
         $verify_error = "Required.";
-        $all_fields_completed = false;
+        http_response_code(400);
     } else {
-        $first_name_value = $_POST['verify'];
+        $verify_value = $_POST['verify'];
+        if ($verify_value != $user->password) {
+            $verify_error = "Does not match the entered password.";
+        }
     }
 
-    if ($all_fields_completed) {
-        $db = new Database();
-        $user = new User($db->connect());
-        // Check if the email is already registered
-        $user->email = $_POST['email'];
-        if ($user->existsByEmail() == null) {
-            // Check if the password and re-enter are the same.
-            if ($_POST['password'] == $_POST['verify']) {
-                // Set the user details.
-                $user->first_name = $_POST['first_name'];
-                $user->last_name = $_POST['last_name'];
-                $user->password = $_POST['password'];
-                $user->type = "consumer";
-                // Create a new account
-                if ($user->create() != null) {
-                    $_SESSION['id'] = $user->user_id;
-                    $_SESSION['userType'] = $user->type;
-                    $_SESSION['user_first_name'] = $user->first_name;
-                    $_SESSION['user_last_name'] = $user->last_name;
-                    $_SESSION['Logged'] = true;
-                    header("Location: index.php");
-                } else {
-                    http_response_code(500); // Server error.
-                    $errorMsg = "Something went wrong on our end.";
-                }
-            } else {
-                http_response_code(400); // Bad request.
-                $verify_error = "Does not match the entered password.";
-            }
+    if ($first_name_error == null && $last_name_error == null && $email_error == null && $password_error == null && $verify_error == null) {
+        $user->type = "consumer";
+        // Create a new account
+        if ($user->create() != null) {
+            $_SESSION['id'] = $user->user_id;
+            $_SESSION['userType'] = $user->type;
+            $_SESSION['user_first_name'] = $user->first_name;
+            $_SESSION['user_last_name'] = $user->last_name;
+            $_SESSION['Logged'] = true;
+            header("Location: index.php");
         } else {
-            http_response_code(409); // Conflict.
-            $email_error = "This email is already in use.";
+            http_response_code(500); // Server error.
+            $errorMsg = "Something went wrong on our end.";
         }
-    } else {
-        http_response_code(400); // Bad request.
     }
 }
 
@@ -127,7 +118,7 @@ if ($form_submitted) {
                     <div id="firstname">
                         <label for="InputFirstName">First Name</label>
                         <input type="text" class="form-control <?php if ($form_submitted) echo $first_name_error != null ? 'is-invalid' : 'is-valid'?>" id="InputFirstName" name="first_name"
-                               placeholder="First name" value="<?php echo $first_name_value?>">
+                               placeholder="First name" value="<?php echo $user->first_name?>">
                         <div class="valid-feedback">
                             Looks Good!
                         </div>
@@ -138,7 +129,7 @@ if ($form_submitted) {
                     <div id="lastname">
                         <label for="InputLastName">Last Name</label>
                         <input type="text" class="form-control <?php if ($form_submitted) echo $last_name_error != null ? 'is-invalid' : 'is-valid'?>" id="InputLastName" name="last_name"
-                               placeholder="Last name" <?php echo $last_name_value?>>
+                               placeholder="Last name" value="<?php echo $user->last_name?>">
                         <div class="valid-feedback">
                             Looks Good!
                         </div>
@@ -153,7 +144,7 @@ if ($form_submitted) {
                     <div id="email">
                         <label for="InputEmail">Email address</label>
                         <input type="email" class="form-control <?php if ($form_submitted) echo $email_error != null ? 'is-invalid' : 'is-valid'?>" id="InputEmail" name="email"
-                               aria-describedby="emailHelp" placeholder="Email" <?php echo $email_value?>>
+                               aria-describedby="emailHelp" placeholder="Email" value="<?php echo $user->email?>">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                             else.</small>
                         <div class="valid-feedback">
@@ -168,7 +159,7 @@ if ($form_submitted) {
                     <div id="password">
                         <label for="InputPassword">Password</label>
                         <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password"
-                               placeholder="Password" <?php echo $password_value?>>
+                               placeholder="Password" value="<?php echo $user->password?>">
                         <meter max="4" id="password-strength-meter"></meter>
                         <p id="password-strength-text"></p>
                         <div class="valid-feedback">
@@ -180,8 +171,8 @@ if ($form_submitted) {
                     </div>
                     <div id="verify">
                         <label for="InputVerifyPassword">Verify Password</label>
-                        <input type="password" class="form-control <?php if ($form_submitted) echo $verify_error != null ? 'is-invalid' : 'is-valid'?>" id="InputVerifyPassword" name="verify"
-                               placeholder="Re-enter Password" <?php echo $verify_value?>>
+                        <input type="password" class="form-control <?php if ($form_submitted) echo $verify_error != null  || $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputVerifyPassword" name="verify"
+                               placeholder="Re-enter Password" value="<?php echo $verify_value?>">
                         <div class="valid-feedback">
                             Looks Good!
                         </div>
@@ -193,6 +184,7 @@ if ($form_submitted) {
             </div>
         </div>
         <button type="submit" class="btn btn-primary" id="signup-button">Submit</button>
+        <p class="text-danger"><?php if (isset($errorMsg)) echo $errorMsg;?></p>
     </form>
 </div>
 
