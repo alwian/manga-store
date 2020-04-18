@@ -138,8 +138,6 @@ if ($form_submitted) {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="right-forms">
                 <div class="form-group">
                     <div id="email">
                         <label for="InputEmail">Email address</label>
