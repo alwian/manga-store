@@ -2,8 +2,11 @@
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
 
-$db = new Database();
-$conn = $db->connect();
+if ($user->type !== 'seller') { // Make sure the user is a seller.
+    http_response_code(401); // Unauthorized.
+    echo 'You do not have permission to access this page.';
+    exit;
+}
 ?>
 
 <!-- Content Wrapper -->
@@ -38,29 +41,41 @@ $conn = $db->connect();
                             <tbody>
                             <?php
 
+                            //create a order obj
                             $order = new Order($conn);
-
-                            $orders=$order->getOrders();
+                            //get all the orders
+                            $orders = $order->getOrders();
+                            //create a item obj
                             $item = new Item($conn);
 
-                            foreach ($orders as $o){
+                            //for each order in orders
+                            foreach ($orders as $o) {
+                                //set order id
                                 $order->order_id = $o['order_id'];
+                                //get order information
                                 $order->getOrder();
+                                //a boolean to check if the order has a product of seller
                                 $hasProduct = false;
+                                //get all items from the order
                                 $soldItems = $order->getSoldItems();
-                                foreach ($soldItems as $i){
+                                //for each item in this order
+                                foreach ($soldItems as $i) {
+                                    //set item id
                                     $item->item_id = $i['item_id'];
+                                    //get item information
                                     $item->getItem();
-                                    if($item->seller_id ==  $_SESSION['id']){
+                                    //if the item seller equals seller's id then set hasProduct to true
+                                    if ($item->seller_id == $_SESSION['id']) {
                                         $hasProduct = true;
                                     }
                                 }
 
-                                if ($hasProduct){
+                                //if the order has a product of seller then print order information
+                                if ($hasProduct) {
                                     echo "<tr>";
                                     echo "<td>$order->order_id</td>";
                                     echo "<td>$order->order_time</td>";
-                                    echo "<td><a href='orderDetailOfSeller.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
+                                    echo "<td><a href='orderDetail.php?id=$order->order_id'><i class=\"fas fa - trash text - danger\"></i>View</a></td>";
                                     echo "</tr>";
                                 }
                             }

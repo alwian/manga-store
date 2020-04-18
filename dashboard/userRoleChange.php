@@ -1,17 +1,51 @@
 <?php
 require_once "dashboard_header.php";
 
-$db = new Database();
-$conn = $db->connect();
+if ($user->type !== 'admin') { // Make sure the user is an admin.
+    http_response_code(401); // Unauthorized.
+    echo 'You do not have permission to access this page.';
+    exit;
+}
 
-    if(isset($_POST["userRole"]) && $_POST["userRole"]){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Make sure all fields are filled.
+    if (isset($_POST["userRole"]) && !empty($_POST["userRole"]) && isset($_POST['userID']) && (!empty($_POST['userID']) || $_POST['userID'] == 0)) {
         $user = new User($conn);
         $user->user_id = $_POST["userID"];
-        $user->type = $_POST["userRole"];
-        $user->changeUserRole();
-        header("Location: accountManage.php");
-        exit;
+        if ($user->existsById()) { // Make sure the specified user exists.
+            // Make sure the specified role is valid,
+            if ($_POST['userRole'] !== 'consumer' && $_POST['userRole'] !== 'seller' && $_POST['userRole'] !== 'admin') {
+                http_response_code(422); // Unprocessable Entity.
+                echo 'User role is invalid.';
+                exit;
+            } else {
+                $user->type = $_POST["userRole"];
+                $user->changeUserRole(); // Set the user to the desired role.
+                header("Location: accountManage.php");
+                exit;
+            }
+        } else {
+            http_response_code(404); // Not Found.
+            echo 'The specified user does not exist';
+            exit;
+        }
     }
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Make sure all fields have been filled.
+    if (!isset($_GET['id']) && (empty($_GET['id'] && $_GET['id'] != 0))) {
+        http_response_code(400); // Bad Request.
+        echo 'id is required.';
+        exit;
+    } else {
+        $user = new User($conn);
+        $user->user_id = $_GET['id'];
+        if (!$user->existsById()) { // Make sure the user exists.
+            http_response_code(404); // Not Found.
+            echo 'Could not find the specified user.';
+            exit;
+        }
+    }
+}
 
 require_once "dashboard_sidebar.php";
 
@@ -51,21 +85,23 @@ require_once "dashboard_sidebar.php";
                             </thead>
                             <tbody>
                             <?php
+                            //create a new user obj
                             $user = new User($conn);
-                            if(isset($_POST["userRole"])){
+                            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $user->user_id = $_POST["userID"];
-                            }else{
+                            } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 $user->user_id = $_GET["id"];
                             }
 
+                            //get user information and print
                             $user->getUser();
-                                echo "<tr>
+                            echo "<tr>
                                 <td>$user->user_id</td>                               
                                 <td>$user->email</td>
                                 <td>$user->first_name&nbsp;$user->last_name</td>
                                      <td>
-                                         <form method='post'>
-                                                <input type='hidden' value='$user->user_id' name='userID'/>
+                                         <form action='userRoleChange.php' method='post'>
+                                               <input type='hidden' value='$user->user_id' name='userID'/>
                                                <div class=\"input-group\">
                                                   <select name='userRole' class=\"custom-select\" id=\"inputGroupSelect04\" aria-label=\"Example select with button addon\">
                                                     <option value=$user->type selected>Select A Role($user->type)</option>

@@ -1,35 +1,37 @@
 /* For mobile phones: */
+
 [class*="col-"] {
     width: 100%;
 }
-  
+
 @media only screen and (min-width: 300px) {
     /* For tablets: */
-    .item-container#item-page{
+    .item-container#item-page {
         flex-direction: column;
     }
 }
 
 @media only screen and (min-width: 768px) {
     /* For desktop: */
-    .item-container#item-page{
+    .item-container#item-page {
         flex-direction: row;
     }
 }
 
-.navbar{
+.navbar {
     background-color: #121212;
 }
 
-.navbar a{
-    color: rgba(239, 239, 239, 0.8);;
+.navbar a {
+    color: rgba(239, 239, 239, 0.8);
+    ;
 }
 
-.navbar a:hover{
+.navbar a:hover {
     color: rgba(239, 239, 239, 1);
 }
 
-.navbar-toggler{
+.navbar-toggler {
     color: rgba(239, 239, 239, .5);
     border: 1px solid rgba(239, 239, 239, .5);
     font-size: .8rem;
@@ -37,42 +39,42 @@
     line-height: 1rem;
 }
 
-.navbar-toggler:hover{
+.navbar-toggler:hover {
     color: rgba(239, 239, 239, 1);
     border: 1px solid rgba(239, 239, 239, 1);
 }
 
-li.nav-item{
-    margin-left:.5rem;
+li.nav-item {
+    margin-left: .5rem;
 }
 
-input{
+input {
     border-radius: .8em 0 0 .8em;
     border: 0px;
     padding-left: 1em;
 }
 
-.btn-search{
+.btn-search {
     background-color: #252525;
     border-radius: 0 .8em .8em 0;
     padding: .2em;
 }
 
-.btn-search:active{
+.btn-search:active {
     background-color: #353535;
 }
 
-#search-img{
+#search-img {
     fill: #fff;
 }
 
-#pay-button{
-    display:flex;
+#pay-button {
+    display: flex;
     justify-content: end;
     margin-right: 8rem;
 }
 
-button#paypal-button{
+button#paypal-button {
     background-image: url("https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif");
     background-repeat: no-repeat;
     background-size: contain;
@@ -80,34 +82,23 @@ button#paypal-button{
     height: 5rem;
 }
 
-.card{
+.card {
     margin: 1.25rem;
 }
 
-div.buttons{
+div.buttons {
     display: flex;
     flex-direction: column;
     margin: auto;
     padding: auto;
 }
 
-.page-container{
+.item-container {
     display: flex;
-    flex-direction: column;
-    align-content: center;
-}
-
-.page-container h2{
-    margin-left: 2rem;
-    margin-top: 2rem;
-}
-
-.item-container{
-    display:flex;
     flex-direction: row;
 }
 
-.items{
+.items {
     width: 100%;
     display: -ms-flexbox;
     display: flex;
@@ -116,59 +107,61 @@ div.buttons{
     justify-content: center;
 }
 
-.card .btn-primary{
+.card .btn-primary {
     width: 100%;
     margin-top: 1rem;
 }
 
-.btn-primary{
+.btn-primary {
     background-color: darkblue;
     border-color: darkblue;
 }
 
-.forms{
+.forms {
     width: 80%;
     margin: auto;
     display: flex;
     flex-direction: column;
 }
 
-#form-inputs{
-    width:100%;
+#form-inputs {
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
 
-#right-forms, #left-forms{
+#right-forms,
+#left-forms {
     width: 50%;
     align-content: center;
 }
 
-.form-group{
-    width:80%;
-    margin-left:auto;
+.form-group {
+    width: 80%;
+    margin-left: auto;
 }
 
-.form-group > div input, .form-group > div select{
+.form-group>div input,
+.form-group>div select {
     width: 80%;
 }
 
-.form-group{
+.form-group {
     margin-top: 2rem;
 }
 
-#login-button{
+#login-button {
     width: 80%;
     margin: auto;
 }
 
-#signup-button{
+#signup-button {
     width: 20%;
     margin: auto;
     margin-top: 5rem;
 }
 
-label{
+label {
     font-size: 1.2rem;
     font-weight: bold;
 }
@@ -176,32 +169,52 @@ label{
 meter {
     /* Reset the default appearance */
     -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
-            
+    -moz-appearance: none;
+    appearance: none;
     margin: 0 auto 1em;
     width: 80%;
     height: .5em;
-    
     /* Applicable only to Firefox */
     background: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 meter::-webkit-meter-bar {
     background: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-meter[value="1"]::-webkit-meter-optimum-value { background: red; }
-meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
-meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
-meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+meter[value="1"]::-webkit-meter-optimum-value {
+    background: red;
+}
 
-meter[value="1"]::-moz-meter-bar { background: red; }
-meter[value="2"]::-moz-meter-bar { background: yellow; }
-meter[value="3"]::-moz-meter-bar { background: orange; }
-meter[value="4"]::-moz-meter-bar { background: green; }
+meter[value="2"]::-webkit-meter-optimum-value {
+    background: yellow;
+}
+
+meter[value="3"]::-webkit-meter-optimum-value {
+    background: orange;
+}
+
+meter[value="4"]::-webkit-meter-optimum-value {
+    background: green;
+}
+
+meter[value="1"]::-moz-meter-bar {
+    background: red;
+}
+
+meter[value="2"]::-moz-meter-bar {
+    background: yellow;
+}
+
+meter[value="3"]::-moz-meter-bar {
+    background: orange;
+}
+
+meter[value="4"]::-moz-meter-bar {
+    background: green;
+}
 
 .feedback {
     color: #9ab;
@@ -211,7 +224,7 @@ meter[value="4"]::-moz-meter-bar { background: green; }
     margin-top: 1em;
 }
 
-#item-page{
+#item-page {
     height: 100%;
     margin: auto;
     border: .25rem rgb(241, 241, 241) solid;
@@ -220,33 +233,33 @@ meter[value="4"]::-moz-meter-bar { background: green; }
     flex-direction: row;
 }
 
-#page-title{
+#page-title {
     margin: 0;
 }
 
-em{
+em {
     color: grey;
 }
 
-#item-details{
+#item-details {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
 }
 
-#page-image{
-    width:25%;
+#page-image {
+    width: 25%;
 }
 
-#page-image img{
+#page-image img {
     width: 100%;
 }
 
-#page-extras{
+#page-extras {
     padding-left: 2rem;
     width: 75%;
 }
 
-#item-purchase{
+#item-purchase {
     height: 50%;
     margin-left: auto;
     border: .25rem rgb(241, 241, 241) solid;
@@ -255,32 +268,35 @@ em{
     text-align: center;
 }
 
-#selectQuantity{
+#selectQuantity {
     margin: auto;
     width: 50%;
-    border: 2px lightgrey  solid;
+    border: 2px lightgrey solid;
     border-radius: 0;
 }
 
-#cart-btn{
+#cart-btn {
     background-color: goldenrod;
     border-color: white;
     margin-top: 2rem;
     margin-left: 0;
 }
 
-#cart-btn:hover{
+#cart-btn:hover {
     background-color: gold;
     color: black;
 }
 
-th{
+th {
     border-top: none !important;
     border-bottom: none !important;
 }
 
-.form-group.form-login{
+.form-group.form-login {
     margin-left: auto;
     margin-right: auto;
+}
 
+h2 {
+    margin: 1rem;
 }
