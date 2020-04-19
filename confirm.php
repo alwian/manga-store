@@ -14,8 +14,8 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 }
 
 if (!isset($_SESSION['order_id']) || empty($_SESSION['order_id'])) {
-    echo 'You must place an order before you can access this page';
     http_response_code(401);
+    header("Location: checkout.php");
     exit;
 }
 

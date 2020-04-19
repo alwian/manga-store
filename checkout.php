@@ -32,16 +32,18 @@ $shipping_details = array(
 $db = new Database();
 $conn = $db->connect();
 
+$cart = new Cart($conn);
+$cart->user_id = $_SESSION['id'];
+
+if (count($cart->getItems()) == 0) {
+    http_response_code(400);
+    header("Location: cart.php");
+    exit;
+}
+
 $form_submitted = $_SERVER["REQUEST_METHOD"] == "POST";
 // Check if the the form been submitted.
 if ($form_submitted) {
-    $cart = new Cart($conn);
-    $cart->user_id = $_SESSION['id'];
-
-    if ($cart->getItems() < 1) {
-        $cart_error = "Cannot checkout with an empty cart.";
-    }
-
     if (!isset($_POST['address']) || empty($_POST['address'])) {
         $shipping_address_error = "Required.";
         http_response_code(400);
@@ -119,18 +121,24 @@ if ($form_submitted) {
                 <div class="form-group">
                     <div id="address">
                         <label for="InputAddress">Shipping Address</label>
-                        <input type="text" class="form-control" id="InputAddress" name="address" placeholder="Address">
+                        <input type="text" class="form-control <?php if ($form_submitted) echo $shipping_address_error != null ? 'is-invalid' : 'is-valid'?>" id="InputAddress" name="address" placeholder="Address" value="<?php echo $shipping_details['shipping_address'];?>" required>
                     </div>
                     <div id="city">
                         <label for="InputCity">City</label>
-                        <input type="text" class="form-control" id="InputCity" name="city" placeholder="City">
+                        <input type="text" class="form-control <?php if ($form_submitted) echo $city_error != null ? 'is-invalid' : 'is-valid'?>" id="InputCity" name="city" placeholder="City" value="<?php echo $shipping_details['city'];?>" required>
                     </div>
                     <div id="country">
                         <label for="SelectCountry">Country</label>
-                        <select class="form-control" id="SelectCountry" name="country">
-                            <option>Canada</option>
-                            <option>England</option>
-                            <option>United States</option>
+                        <select class="form-control <?php if ($form_submitted) echo $country_error != null ? 'is-invalid' : 'is-valid'?>" id="SelectCountry" name="country" required>
+                            <?php
+                            foreach (array("Canada", "England", "United States") as $country) {
+                                if ($shipping_details['country'] == $country) {
+                                    echo "<option selected>$country</option>";
+                                } else {
+                                    echo "<option>$country</option>";
+                                }
+                            }
+                            ?>
                         </select>
                     </div>
                 </div>
@@ -139,11 +147,11 @@ if ($form_submitted) {
                 <div class="form-group">
                     <div id="state">
                         <label for="InputState">State</label>
-                        <input type="text" class="form-control" id="InputState" name="state" placeholder="State">
+                        <input type="text" class="form-control <?php if ($form_submitted) echo $state_error != null ? 'is-invalid' : 'is-valid'?>" id="InputState" name="state" placeholder="State" value="<?php echo $shipping_details['state'];?>" required>
                     </div>
                     <div id="zip">
                         <label for="InputZip">Zip</label>
-                        <input type="text" class="form-control" id="InputZip" name="zip" placeholder="Zip">
+                        <input type="text" class="form-control <?php if ($form_submitted) echo $zip_error != null ? 'is-invalid' : 'is-valid'?>" id="InputZip" name="zip" placeholder="Zip" value="<?php echo $shipping_details['zip'];?>" required>
                     </div>
                 </div>
             </div>
