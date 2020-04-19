@@ -130,9 +130,9 @@ div.buttons {
     flex-direction: row;
 }
 
-#right-forms,
 #left-forms {
-    width: 50%;
+    width: 75%;
+    margin: auto;
     align-content: center;
 }
 
