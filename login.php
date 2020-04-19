@@ -74,7 +74,7 @@ if ($form_submitted) {
         <div class="form-group form-login">
             <label for="InputEmail">Email address</label>
             <input type="email" class="form-control <?php if ($form_submitted) echo $email_error != null ? 'is-invalid' : 'is-valid'?>" id="InputEmail" name="email" aria-describedby="emailHelp"
-                   placeholder="Email" value="<?php echo $user->email;?>">
+                   placeholder="Email" value="<?php echo $user->email;?>" required>
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             <div class="invalid-feedback">
                 <?php echo $email_error?>
@@ -82,7 +82,7 @@ if ($form_submitted) {
         </div>
         <div class="form-group form-login">
             <label for="InputPassword">Password</label>
-            <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password" placeholder="Password"  value="<?php echo $user->password;?>">
+            <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password" placeholder="Password"  value="<?php echo $user->password;?>" required>
             <div class="invalid-feedback">
                 <?php echo $password_error?>
             </div>
