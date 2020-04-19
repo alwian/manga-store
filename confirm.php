@@ -13,42 +13,18 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     exit;
 }
 
+if (!isset($_SESSION['order_id']) || empty($_SESSION['order_id'])) {
+    http_response_code(401);
+    header("Location: checkout.php");
+    exit;
+}
+
 $db = new Database();
 $conn = $db->connect();
 $order = new Order($conn);
 $order->user_id = $_SESSION['id'];
-
-// Check if the the form been submitted.
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Make sure all fields have been filled.
-    if ((isset($_POST['address']) && !empty($_POST['address'])) && (isset($_POST['country']) && !empty($_POST['country'])) && (isset($_POST['city']) && !empty($_POST['city']))
-        && (isset($_POST['state']) && !empty($_POST['state'])) && (isset($_POST['zip']) && !empty($_POST['zip']))
-    ) {
-        $cart = new Cart($conn);
-        $cart->user_id = $_SESSION['id'];
-
-        if (count($cart->getItems()) == 0) { // Make sure there is stuff in the cart.
-            http_response_code(400); // Bad Request.
-            echo 'Cannot pay for an empty cart.';
-            exit;
-        }
-
-        $order = new Order($conn);
-        $order->user_id = $_SESSION["id"];
-        $order->shipping_info = $_POST["address"] . ", " . $_POST["city"] . ", " . $_POST["state"] . ", " . $_POST["zip"] . ", " . $_POST["country"];
-        $shipping = $order->shipping_info;
-        $order->addToOrder(); // Add all items and shipping info ti the order.
-    } else {
-        http_response_code(400); // Bad Request.
-        echo "Could not process your order, ensure all fields are filled on the checkout page.";
-        exit;
-    }
-} else {
-    http_response_code(400); // Bad Request.
-    echo 'Invalid request type.';
-    exit;
-}
-
+$order->order_id = $_SESSION['order_id'];
+$order->getOrder();
 ?>
 
 <!DOCTYPE html>
@@ -121,12 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Display the shipping information-->
     <div class="container" id="shipping-details">
         <h5>Shipping to:</h5>
-        <h5><?php echo "$shipping" ?></h5>
+        <h5><?php echo $order->shipping_info?></h5>
     </div>
 </div>
 <!-- Import scripts -->
 <script src="js/jquery-3.4.1.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
-
 </html>

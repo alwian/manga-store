@@ -90,8 +90,9 @@ require_once 'header.php'; //Load header at top of page
             <?php
             $totalSum = 0;
             $count = 0;
+            $cart_items = $cart->getItems();
             //For every item in cart fetch the item details and print to the table
-            foreach ($cart->getItems() as $current_item) {
+            foreach ($cart_items as $current_item) {
                 $item = new Item($conn);
                 $item->item_id = $current_item['item_id'];
                 $quantity = $current_item['quantity'];
@@ -111,6 +112,8 @@ require_once 'header.php'; //Load header at top of page
                                 </tr>";
                 }
             }
+
+            if (count($cart_items) > 0) {
             echo "<tr>
                             <th scope=\"col\">Total: $$totalSum</th>
                             <th scope=\"col\"> &emsp; &emsp;</th>
@@ -123,6 +126,7 @@ require_once 'header.php'; //Load header at top of page
                                 </form>
                             </th>
                         </tr>";
+            }
             ?>
         </table>
     </div>

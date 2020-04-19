@@ -73,11 +73,11 @@ class Order
         try {
             $stmt->execute();
             $new_order = $this->conn->lastInsertId();
+            $this->order_id = $new_order;
             $cart = new Cart($this->conn);
             $cart->user_id = $this->user_id;
             $query = "INSERT INTO $this->sold VALUES (:item_id, :order_id, :quantity)";
             foreach ($cart->getItems() as $product) {
-
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindParam(":item_id", $product["item_id"]);
                 $stmt->bindParam(":order_id", $new_order);
@@ -134,6 +134,7 @@ class Order
             if ($stmt->rowCount() == 1) {
                 $stmt->bindColumn('user_id', $this->user_id);
                 $stmt->bindColumn('order_time', $this->order_time);
+                $stmt->bindColumn('shipping_info', $this->shipping_info);
                 $stmt->fetch(PDO::FETCH_BOUND);
                 return false;
             }
@@ -199,7 +200,7 @@ class Order
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            //echo $e->getMessage();
+            echo $e->getMessage();
             return null;
         }
     }
