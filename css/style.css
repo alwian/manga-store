@@ -98,6 +98,10 @@ div.buttons {
     flex-direction: row;
 }
 
+.comments-wrapper {
+    margin: auto;
+}
+
 .items {
     width: 100%;
     display: -ms-flexbox;

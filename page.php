@@ -28,7 +28,7 @@ if ($form_submitted) {
 }
 
 
-if ($form_submitted) {
+if ($form_submitted && isset($_POST['add_cart_submit'])) {
     $item = new Item($conn);
     $item->item_id = $_POST['item_id'];
     if ($item->exists()) {
@@ -69,13 +69,17 @@ if ($form_submitted) {
             http_response_code(500); // Server Error.
             echo 'There was an error adding the item.';
             exit;
-        } else {
-
         }
     }
 }
 $item_id = $form_submitted ? $_POST['item_id'] : $_GET['id'];
 
+if ($form_submitted && isset($_POST['commentSubmit'])) {
+    if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+        header('Location: login.php');
+        exit;
+    }
+}
 
 $db = new Database();
 $conn = $db->connect();
@@ -116,7 +120,7 @@ require "header.php";
 
 //page info
 $content = <<<EOD
-            '<div class="item-container col-10 col-sm-10 col-" id="item-page">
+            <div class="item-container col-10 col-sm-10 col-" id="item-page">
                 <div class="col-md-9 col-sm-12 col-" id="item-info">
                     <h2 id="page-title">{$item->name}</h2>
                     <h5 id="page-author">Author: <em>{$item->author}</em></h5>
@@ -146,8 +150,9 @@ $content = <<<EOD
                     <br>
 EOD;
 
-$valid_quantity = $quantity_error == null ? 'is-valid' : 'is-invalid';
-$default_value = $form_submitted ? $_POST['quantity'] : 0;
+
+$valid_quantity = $form_submitted && isset($_POST['add_cart_submit']) ? $quantity_error == null ? 'is-valid' : 'is-invalid' : '';
+$default_value = $form_submitted && isset($_POST['add_cart_submit']) ? $_POST['quantity'] : 0;
 if ($item->stock > 0) {
     // If there is stock, display add to cart button and quantity selector.
     $content .= "<form class=\"forms\" action=\"page.php?id={$item_id}\" method=\"post\">
@@ -157,7 +162,7 @@ if ($item->stock > 0) {
                             {$quantity_error}
                         </div>
                         <input type=\"hidden\" name=\"item_id\" value=\"{$item_id}\"/>
-                        <button class=\"btn btn-primary\" id=\"cart-btn\" type=\"submit\">Add to Cart</button>";
+                        <button class=\"btn btn-primary\" id=\"cart-btn\" name=\"add_cart_submit\" type=\"submit\">Add to Cart</button>";
 
     if ($form_submitted && $quantity_error == null) {
         $content .= "<div class='valid-feedback'>
@@ -169,6 +174,68 @@ if ($item->stock > 0) {
 $content .= "</form></div></div>";
 echo $content;
 ?>
+<div class="comments-wrapper col-8 col-sm-8 col-">
+    <div style="margin: 0" class="card my-4">
+        <h5 class="card-header">Leave a Review:</h5>
+        <div class="card-body">
+            <!-- Redirect to current page when submitting form. -->
+            <form action="<?php echo $_SERVER["REQUEST_URI"] ?>" method="post">
+                <!-- Place to enter comment content -->
+                <div class="form-group" style="width: 100%">
+                    <textarea class="form-control" rows="3" name="new_comment"></textarea>
+                </div>
+                <input type="hidden" name="item_id" value="<?php echo $item_id;?>"/>
+                <!-- Submit button for comment form -->
+                <button type="submit" name="commentSubmit" class="btn btn-primary">Submit</button>
+            </form>
+            <?php
+            // Check if new form was submitted.
+            if ($form_submitted && isset($_POST['commentSubmit'])) {
+                // Extract comment info.
+                $new_comment = $_POST["new_comment"];
+                // Check if comment was entered.
+                $all_fields_filled = !empty($new_comment);
+                if ($all_fields_filled) {
+                    // Prepare statement for adding new comment,
+                    $stmt = $conn->prepare("INSERT INTO reviews (item_id, user_id, comment_text) VALUES (:item_id, :user_id, :comment_text)");
+                    // Attach comment info to the statement.
+                    $stmt->bindParam(':item_id', $item_id);
+                    $stmt->bindParam(':user_id', $_SESSION['id']);
+                    $stmt->bindParam(':comment_text', $new_comment);
+                    try {
+                        $stmt->execute();
+                    } catch (PDOException $e) {
+                        echo $e->getMessage();
+                    }
+                } else {
+                    echo '<br/><span class="text-danger">You need to enter a comment.</span><br/>';
+                }
+            }
+            ?>
+        </div>
+    </div>
+    <div>
+        <?php
+        $query = "SELECT u.first_name, u.last_name, r.comment_text FROM users u, reviews r WHERE r.item_id = :item_id AND u.user_id = r.user_id ORDER BY comment_id DESC";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam("item_id", $item_id);
+        $stmt->execute();
+        $stmt->bindColumn('first_name', $first_name);
+        $stmt->bindColumn('last_name', $last_name);
+        $stmt->bindColumn('comment_text', $text);
+
+        while ($stmt->fetch(PDO::FETCH_BOUND)) {
+            $commenter_name = $first_name . ' ' . $last_name;
+            echo "<div class=\"media mb-4\">
+                            <div class=\"media-body\">
+                                <h5 class=\"mt-0\">$commenter_name</h5>
+                                $text
+                            </div>
+                        </div><br><hr>";
+        }
+        ?>
+    </div>
+</div>
 <!-- Import scripts -->
 <script src="js/jquery-3.4.1.js"></script>
 <script src="js/bootstrap.min.js"></script>
