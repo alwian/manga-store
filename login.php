@@ -10,39 +10,42 @@ if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
     exit;
 }
 
-$errorMsg = null;
+$verify_value = null;
 
-// Check if the the form been submitted.
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check all the required information has been set and is not empty.
-    if (isset($_POST['email']) && !empty($_POST['email'])
-        && isset($_POST['password']) && !empty($_POST['password'])
-    ) {
-        // Connect to db
-        $db = new Database();
-        $user = new User($db->connect());
-        // Check if the email is exists.
-        $user->email = $_POST['email'];
-        if ($user->existsByEmail() != null) {
-            // Check if the password matches the database.
-            $user->password = $_POST['password'];
-            // Check the password is correct.
-            if ($user->checkLogin()) {
-                $user->getUser();
-                $_SESSION['id'] = $user->user_id;
-                $_SESSION['Logged'] = true;
-                header("Location: index.php");
-            } else {
-                http_response_code(401); // Unauthorized.
-                $errorMsg = "Login failed, incorrect email or password.";
-            }
-        } else {
-            http_response_code(401); // Unauthorised.
-            $errorMsg = "Login failed, incorrect email or password.";
-        }
+$email_error = null;
+$password_error = null;
+
+
+$form_submitted = $_SERVER["REQUEST_METHOD"] == "POST";
+$db = new Database();
+$user = new User($db->connect());
+
+if ($form_submitted) {
+    if (!isset($_POST['email']) || empty($_POST['email'])) {
+        $email_error = "Required.";
+        http_response_code(400);
     } else {
-        http_response_code(400); // Bad Request.
-        $errorMsg = "All fields required.";
+        $user->email = $_POST['email'];
+    }
+
+    if (!isset($_POST['password']) || empty($_POST['password'])) {
+        $password_error = "Required.";
+        http_response_code(400);
+    } else {
+        $user->password = $_POST['password'];
+    }
+
+    if ($email_error == null && $password_error == null) {
+        if ($user->checkLogin()) {
+            $user->getUser();
+            $_SESSION['id'] = $user->user_id;
+            $_SESSION['Logged'] = true;
+            header("Location: index.php");
+        } else {
+            $email_error = "Email or Password is incorrect.";
+            $password_error = "Email or Password is incorrect.";
+            http_response_code(401);
+        }
     }
 }
 ?>
@@ -70,16 +73,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form class="forms" action="login.php" method="post">
         <div class="form-group form-login">
             <label for="InputEmail">Email address</label>
-            <input type="email" class="form-control" id="InputEmail" name="email" aria-describedby="emailHelp"
-                   placeholder="Email">
+            <input type="email" class="form-control <?php if ($form_submitted) echo $email_error != null ? 'is-invalid' : 'is-valid'?>" id="InputEmail" name="email" aria-describedby="emailHelp"
+                   placeholder="Email" value="<?php echo $user->email;?>" required>
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div class="invalid-feedback">
+                <?php echo $email_error?>
+            </div>
         </div>
         <div class="form-group form-login">
             <label for="InputPassword">Password</label>
-            <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
+            <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password" placeholder="Password"  value="<?php echo $user->password;?>" required>
+            <div class="invalid-feedback">
+                <?php echo $password_error?>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary" id="login-button">Submit</button>
-        <p class="form-text text-danger"><?php echo $errorMsg; ?></p>
     </form>
 </div>
 
