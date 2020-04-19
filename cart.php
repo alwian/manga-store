@@ -22,37 +22,6 @@ $db = new Database();
 $conn = $db->connect();
 $cart = new Cart($conn);
 $cart->user_id = $_SESSION['id'];
-
-// Check if the the form been submitted.
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Make sure all fields were filled.
-    if (isset($_POST['quantity']) && !empty($_POST['quantity']) && isset($_POST['item_id']) && (!empty($_POST['item_id']) || $_POST['item_id'] == 0)) {
-        $cart->item_id = $_POST["item_id"];
-        $cart->quantity = $_POST["quantity"];
-
-        $item = new Item($conn);
-        $item->item_id = $_POST['item_id'];
-        $item->getItem();
-        if ($item->exists()) { // Make sure the item exists.
-            if ($item->stock >= $cart->quantity) { // Make sure there is enough stock.
-                if (!$cart->addItem()) { // Try adding the item.
-                    http_response_code(500); // Server Error.
-                    echo 'There was an error adding the item.';
-                    exit;
-                }
-            } else {
-                http_response_code(400); // Bad Request.
-                echo 'We do not have that many items in stock.';
-                exit;
-            }
-
-        } else {
-            http_response_code(404); // Not Found.
-            echo 'Could not add item, item does not exist.';
-            exit;
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>

@@ -2,21 +2,86 @@
 require 'config/Database.php';
 require 'models/User.php';
 require 'models/Item.php';
+require 'models/Cart.php';
 
 session_start();
 
+$db = new Database();
+$conn = $db->connect();
+
+$quantity_error = null;
+$form_submitted = $_SERVER['REQUEST_METHOD'] == 'POST';
+
 // Make sure an item id is specified.
-if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['id'] != 0) {
-    http_response_code(400); // Bad request.
-    echo 'Item ID must be specified.';
-    exit;
+if ($form_submitted) {
+    if (!isset($_POST['item_id']) || (empty($_POST['item_id']) && $_POST['item_id'] != 0)) {
+        http_response_code(400); // Bad request.
+        echo 'Item ID must be specified.';
+        exit;
+    }
+} else {
+    if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['id'] != 0) {
+        http_response_code(400); // Bad request.
+        echo 'Item ID must be specified.';
+        exit;
+    }
 }
+
+
+if ($form_submitted) {
+    $item = new Item($conn);
+    $item->item_id = $_POST['item_id'];
+    if ($item->exists()) {
+        if (!isset($_POST['quantity']) || (empty($_POST['quantity']) && $_POST['quantity'] != 0)) {
+            http_response_code(400);
+            $quantity_error = "Required.";
+        } else {
+            $item->getItem();
+            if ($_POST['quantity'] <= 0) {
+                http_response_code(400);
+                $quantity_error = "Quantity must be greater than 0.";
+            } else {
+                $cart = new Cart($conn);
+                $cart->user_id = $_SESSION['id'];
+                $cart_items = $cart->getItems();
+                $quantity_in_cart = 0;
+                foreach ($cart_items as $cart_item) {
+                    if ($cart_item['item_id'] == $_POST['item_id']) {
+                        $quantity_in_cart = $cart_item['quantity'];
+                        break;
+                    }
+                }
+                if ($quantity_in_cart > 0 && $quantity_in_cart + $_POST['quantity'] > $item->stock) {
+                    http_response_code(400);
+                    $quantity_error = "Adding this many to the copies in your cart exceeds this item's stock.";
+                } else if ($_POST['quantity'] > $item->stock) {
+                    http_response_code(400);
+                    $quantity_error = "There is not enough items in stock for your chosen quantity.";
+                }
+            }
+        }
+    }
+
+    if ($quantity_error == null) {
+        $cart->item_id = $_POST['item_id'];
+        $cart->quantity = $_POST['quantity'];
+        if (!$cart->addItem()) { // Try adding the item.
+            http_response_code(500); // Server Error.
+            echo 'There was an error adding the item.';
+            exit;
+        } else {
+
+        }
+    }
+}
+$item_id = $form_submitted ? $_POST['item_id'] : $_GET['id'];
+
 
 $db = new Database();
 $conn = $db->connect();
 
 $item = new Item($conn);
-$item->item_id = $_GET['id'];
+$item->item_id = $item_id;
 
 if (!$item->exists()) { // Make sure the specified item exists.
     http_response_code(404); // Not Found.
@@ -80,13 +145,25 @@ $content = <<<EOD
                     <h3 id="price_value">&#36;{$item->price}</h3>
                     <br>
 EOD;
+
+$valid_quantity = $quantity_error == null ? 'is-valid' : 'is-invalid';
+$default_value = $form_submitted ? $_POST['quantity'] : 0;
 if ($item->stock > 0) {
     // If there is stock, display add to cart button and quantity selector.
-    $content .= "<form class=\"forms\" action=\"cart.php\" method=\"post\">
+    $content .= "<form class=\"forms\" action=\"page.php?id={$item_id}\" method=\"post\">
                         <label for=\"selectQuantity\">Quantity:</label>
-                        <input type=\"number\" name=\"quantity\" id=\"selectQuantity\" value=\"1\"/>
-                        <input type=\"hidden\" name=\"item_id\" value=\"{$_GET['id']}\"/>
+                        <input type=\"number\" class='{$valid_quantity}' name=\"quantity\" id=\"selectQuantity\" value=\"{$default_value}\" required/>
+                        <div class='invalid-feedback'>
+                            {$quantity_error}
+                        </div>
+                        <input type=\"hidden\" name=\"item_id\" value=\"{$item_id}\"/>
                         <button class=\"btn btn-primary\" id=\"cart-btn\" type=\"submit\">Add to Cart</button>";
+
+    if ($form_submitted && $quantity_error == null) {
+        $content .= "<div class='valid-feedback'>
+                            Item(s) added to cart!
+                        </div>";
+    }
 }
 
 $content .= "</form></div></div>";
