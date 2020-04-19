@@ -118,10 +118,7 @@ if ($form_submitted) {
                     <div id="firstname">
                         <label for="InputFirstName">First Name</label>
                         <input type="text" class="form-control <?php if ($form_submitted) echo $first_name_error != null ? 'is-invalid' : 'is-valid'?>" id="InputFirstName" name="first_name"
-                               placeholder="First name" value="<?php echo $user->first_name?>">
-                        <div class="valid-feedback">
-                            Looks Good!
-                        </div>
+                               placeholder="First name" value="<?php echo $user->first_name?>" required>
                         <div class="invalid-feedback">
                             <?php echo $first_name_error?>
                         </div>
@@ -129,10 +126,7 @@ if ($form_submitted) {
                     <div id="lastname">
                         <label for="InputLastName">Last Name</label>
                         <input type="text" class="form-control <?php if ($form_submitted) echo $last_name_error != null ? 'is-invalid' : 'is-valid'?>" id="InputLastName" name="last_name"
-                               placeholder="Last name" value="<?php echo $user->last_name?>">
-                        <div class="valid-feedback">
-                            Looks Good!
-                        </div>
+                               placeholder="Last name" value="<?php echo $user->last_name?>" required>
                         <div class="invalid-feedback">
                             <?php echo $last_name_error?>
                         </div>
@@ -142,12 +136,9 @@ if ($form_submitted) {
                     <div id="email">
                         <label for="InputEmail">Email address</label>
                         <input type="email" class="form-control <?php if ($form_submitted) echo $email_error != null ? 'is-invalid' : 'is-valid'?>" id="InputEmail" name="email"
-                               aria-describedby="emailHelp" placeholder="Email" value="<?php echo $user->email?>">
+                               aria-describedby="emailHelp" placeholder="Email" value="<?php echo $user->email?>" required>
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                             else.</small>
-                        <div class="valid-feedback">
-                            Looks Good!
-                        </div>
                         <div class="invalid-feedback">
                             <?php echo $email_error?>
                         </div>
@@ -157,12 +148,9 @@ if ($form_submitted) {
                     <div id="password">
                         <label for="InputPassword">Password</label>
                         <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password"
-                               placeholder="Password" value="<?php echo $user->password?>">
+                               placeholder="Password" value="<?php echo $user->password?>" required>
                         <meter max="4" id="password-strength-meter"></meter>
                         <p id="password-strength-text"></p>
-                        <div class="valid-feedback">
-                            Looks Good!
-                        </div>
                         <div class="invalid-feedback">
                             <?php echo $password_error?>
                         </div>
@@ -170,10 +158,7 @@ if ($form_submitted) {
                     <div id="verify">
                         <label for="InputVerifyPassword">Verify Password</label>
                         <input type="password" class="form-control <?php if ($form_submitted) echo $verify_error != null  || $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputVerifyPassword" name="verify"
-                               placeholder="Re-enter Password" value="<?php echo $verify_value?>">
-                        <div class="valid-feedback">
-                            Looks Good!
-                        </div>
+                               placeholder="Re-enter Password" value="<?php echo $verify_value?>" required>
                         <div class="invalid-feedback">
                             <?php echo $verify_error?>
                         </div>
