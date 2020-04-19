@@ -30,16 +30,15 @@
                     Hi, $user->first_name
                     </button>
                     <div class=\"dropdown-menu\">
-                        <a class=\"dropdown-item text-black-50\" href=\"orderHistory.php\">Order History</a>";
+                        <a  class=\"dropdown-item text-black-50\" href=\"library.php\">Library</a>
+                        <a class=\"dropdown-item text-black-50\" href=\"orderHistory.php\">Order History</a>
+                        <a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
 
                 if ($user->type != "consumer") {
-
-                    echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
                     echo "<a  class=\"dropdown-item text-black-50\" href=\"dashboard/index.php\">Dashboard</a>                         
                                                 ";
                 };
                 if ($user->type == "consumer") {
-                    echo "<a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
                     echo "<a  class=\"dropdown-item text-black-50\" href=\"applyBecomeSeller.php\">Apply To Be Seller</a>";
                 };
 
