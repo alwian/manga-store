@@ -269,13 +269,13 @@ class Item
         $content = <<<EOD
         <div class="card col-xl-2 col-lg-2 col-md-3 col-sm-4 col-">
             <img src="data/product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
-            <div class="card-body">
-                <h5 class="card-title col-xl-12">{$this->name}</h5>
+            <div class="card-body" style="padding-left: 0; padding-right:0;">
+                <h6 class="card-title lead">{$this->name}</h6>
                 <div class="buttons">
                     
 EOD;
         if ($this->owned == True) {
-            $content .= "<form action=\"read.php?id={$this->item_id}\" method=\"get\">
+            $content .= "<form action=\"read.php\" method=\"get\" style=\"margin-top: 20%;\">
                             <input type=\"hidden\" name=\"id\" value=\"$this->item_id\"/>
                             <button type=\"submit\" class=\"btn btn-primary\">Read Comic</button>
                         </form>";
@@ -293,10 +293,6 @@ EOD;
                             </form>";
             }
         }
-
-
-
-
 
         $content .= "</div></div></div>";
         echo $content;

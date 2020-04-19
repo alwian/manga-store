@@ -38,21 +38,23 @@ $conn = $db->connect();
         <br>
         <h2 class="text-center" id="cart-header">Order History</h2><br><br>
         <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
-            <?php
-            $order = new Order($conn);
-            $order->user_id = $_SESSION['id'];
-            $item = new Item($conn);
-            //for each order the user has placed, show order details
-            foreach ($order->getOrdersForUser() as $o) {
-                $order->order_id = $o['order_id'];
-                foreach($order->getSoldItems() as $product){
-                    $item->item_id = $product['item_id'];
-                    $item->owned = True;
-                    $item->getItem();
-                    $item->displayCard();
+            <div class="items">
+                <?php
+                $order = new Order($conn);
+                $order->user_id = $_SESSION['id'];
+                $item = new Item($conn);
+                //for each order the user has placed, show order details
+                foreach ($order->getOrdersForUser() as $o) {
+                    $order->order_id = $o['order_id'];
+                    foreach ($order->getSoldItems() as $product) {
+                        $item->item_id = $product['item_id'];
+                        $item->owned = True;
+                        $item->getItem();
+                        $item->displayCard();
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
         </div>
     </div>
     <!--Import scripts-->

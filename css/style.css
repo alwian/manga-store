@@ -300,3 +300,15 @@ th {
 h2 {
     margin: 1rem;
 }
+
+#viewer {
+    padding-top: 2.5rem;
+}
+
+#book {
+    height: 100rem;
+    width: 50%;
+    margin: auto;
+    background-color: lightgrey;
+    margin-top: 2.5rem;
+}
