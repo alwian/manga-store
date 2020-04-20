@@ -4,6 +4,8 @@ include_once 'models/Cart.php';
 include_once 'models/Item.php';
 require_once 'models/Order.php';
 
+session_set_cookie_params("Session", "/", null, true, true);
+session_name("MANGALOGIN");
 session_start();
 
 // Make sure the user is logged in.

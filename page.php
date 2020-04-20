@@ -4,6 +4,8 @@ require 'models/User.php';
 require 'models/Item.php';
 require 'models/Cart.php';
 
+session_set_cookie_params("Session", "/", null, true, true);
+session_name("MANGALOGIN");
 session_start();
 
 $db = new Database();

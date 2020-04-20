@@ -1,6 +1,9 @@
 <?php
 require_once 'config/Database.php';
 require_once 'models/User.php';
+
+session_set_cookie_params("Session", "/", null, true, true);
+session_name("MANGALOGIN");
 session_start();
 
 // If the user is already logged in, take them to the homepage.

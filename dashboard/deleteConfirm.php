@@ -3,6 +3,8 @@
 include '../models/User.php';
 include_once '../config/Database.php';
 
+session_set_cookie_params("Session", "/", null, true, true);
+session_name("MANGALOGIN");
 session_start();
 
 $db = new Database();

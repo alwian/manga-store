@@ -1,10 +1,13 @@
 <?php
 //include all the class
-session_start();
 require_once "../config/Database.php";
 require_once "../models/User.php";
 require_once "../models/Order.php";
 require_once "../models/Item.php";
+
+session_set_cookie_params("Session", "/", null, true, true);
+session_name("MANGALOGIN");
+session_start();
 
 $db = new Database();
 $conn = $db->connect();

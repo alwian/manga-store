@@ -1,7 +1,10 @@
 <?php
-session_start();
 include 'config/Database.php';
 include 'models/Item.php';
+
+session_set_cookie_params("Session", "/", null, true, true);
+session_name("MANGALOGIN");
+session_start();
 
 // Make sure the user is already logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {

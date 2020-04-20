@@ -2,6 +2,8 @@
 require_once "config/Database.php";
 require_once "models/Item.php";
 
+session_set_cookie_params("Session", "/", null, true, true);
+session_name("MANGALOGIN");
 session_start();
 
 // Make sure the user is already logged in.
