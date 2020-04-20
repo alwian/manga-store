@@ -304,3 +304,38 @@ th {
 h2 {
     margin: 1rem;
 }
+
+#viewer {
+    padding-top: 2.5rem;
+}
+
+.book {
+    height: 100rem;
+    width: 50%;
+    margin: auto;
+    background-color: lightgrey;
+    margin-top: 2.5rem;
+}
+
+#controls {
+    width: 10%;
+    top: 7.5rem;
+    right: 10rem;
+    position: fixed;
+    color: lightgrey;
+}
+
+#controls hr {
+    background-color: lightgrey;
+}
+
+#pageForm {
+    display: flex;
+    flex-direction: column;
+    color: lightgrey;
+}
+
+#top {
+    margin-top: 1rem;
+    width: 100%;
+}

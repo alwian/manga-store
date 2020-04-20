@@ -69,6 +69,12 @@ class Item
     public $number_pages;
 
     /**
+     * Boolean which indicates if the user owns the item
+     * @var bool
+     */
+    public $owned;
+
+    /**
      * Order constructor.
      * @param $conn Database connection for the class to utilise.
      */
@@ -83,7 +89,8 @@ class Item
      *
      * @return bool|null Whether the item details are correct, an error occurred during database interaction.
      */
-    public function addItem() {
+    public function addItem()
+    {
         $query = "INSERT INTO $this->table (seller_id, name, author, number_pages, price, stock, image, description) VALUES (:seller_id, :name, :author, :number_pages, :price, :stock, :image, :description)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':seller_id', $this->seller_id);
@@ -110,7 +117,8 @@ class Item
      *
      * @return bool|null Whether the item details are correct, an error occurred during database interaction.
      */
-    public function getTopTen() {
+    public function getTopTen()
+    {
         $query = "SELECT item_id, SUM(quantity) as total_ordered FROM sold_items GROUP BY item_id ORDER BY total_ordered DESC LIMIT 10";
         $stmt = $this->conn->prepare($query);
 
@@ -129,7 +137,8 @@ class Item
      *
      * @return bool|null Whether the item details are correct, an error occurred during database interaction.
      */
-    public function exists() {
+    public function exists()
+    {
         $query = "SELECT * FROM $this->table WHERE item_id = :item_id OR name = :name";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
@@ -154,7 +163,8 @@ class Item
      *
      * @return bool|null Whether the item details are correct, an error occurred during database interaction.
      */
-    public function deleteItem() {
+    public function deleteItem()
+    {
         $query = "DELETE FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
@@ -176,7 +186,8 @@ class Item
      *
      * @return bool|null Whether the item details are correct, an error occurred during database interaction.
      */
-    public function getItem() {
+    public function getItem()
+    {
         $query = "SELECT item_id, seller_id, name, author, price, stock, image, description, number_pages FROM $this->table WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":item_id", $this->item_id);
@@ -209,7 +220,8 @@ class Item
      *
      * @return bool|null Whether the item details are correct, an error occurred during database interaction.
      */
-    public function update() {
+    public function update()
+    {
         $query = "UPDATE $this->table SET name = :name, author = :author, number_pages = :num_pages, price = :price, stock = :stock, image = :image, description = :description WHERE item_id = :item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $this->name);
@@ -228,7 +240,6 @@ class Item
             // $e->getMessage();
             return null;
         }
-
     }
 
     public function getItems()
@@ -251,7 +262,6 @@ class Item
         $this->image = $record['image'];
         $this->description = $record['description'];
         $this->item_id = $record['item_id'];
-
     }
 
     public function displayCard()
@@ -259,20 +269,29 @@ class Item
         $content = <<<EOD
         <div class="card col-xl-2 col-lg-2 col-md-3 col-sm-4 col-">
             <img src="data/product-images/{$this->image}" class="card-img-top" alt="{$this->name}" style="width: 100%;">
-            <div class="card-body">
-                <h5 class="card-title col-xl-12">{$this->name}</h5>
+            <div class="card-body" style="padding-left: 0; padding-right:0;">
+                <h6 class="card-title lead">{$this->name}</h6>
                 <div class="buttons">
-                    <form action="page.php?id={$this->item_id}" method="get">
-                        <input type="hidden" name="id" value="$this->item_id"/>
-                        <button type="submit" class="btn btn-primary">View</button>
-                    </form>
+                    
 EOD;
-        if ($this->stock > 0) {
-            $content .= "<form action=\"cart.php\" method=\"post\">
-                        <input type=\"hidden\" name=\"item_id\" value=\"$this->item_id\">
-                        <input type=\"hidden\" name=\"quantity\" value=\"1\"/>
-                        <button type=\"submit\" class=\"btn btn-primary\" style=\"left: 5rem;\">Buy Now</button>
-                    </form>";
+        if ($this->owned == True) {
+            $content .= "<form action=\"read.php\" method=\"get\" style=\"margin-top: 20%;\">
+                            <input type=\"hidden\" name=\"id\" value=\"$this->item_id\"/>
+                            <button type=\"submit\" class=\"btn btn-primary\">Read Comic</button>
+                        </form>";
+        } else {
+            $content .= "<form action=\"page.php?id={$this->item_id}\" method=\"get\">
+                            <input type=\"hidden\" name=\"id\" value=\"$this->item_id\"/>
+                            <button type=\"submit\" class=\"btn btn-primary\">View</button>
+                        </form>";
+
+            if ($this->stock > 0) {
+                $content .= "<form action=\"cart.php\" method=\"post\">
+                                <input type=\"hidden\" name=\"item_id\" value=\"$this->item_id\">
+                                <input type=\"hidden\" name=\"quantity\" value=\"1\"/>
+                                <button type=\"submit\" class=\"btn btn-primary\" style=\"left: 5rem;\">Buy Now</button>
+                            </form>";
+            }
         }
 
         $content .= "</div></div></div>";
