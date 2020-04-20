@@ -1,8 +1,21 @@
 <?php
 session_start();
 include 'config/Database.php';
-include 'models/Book.php';
-$value = $_POST['search'];
+include 'models/Item.php';
+
+// Make sure the user is already logged in.
+if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
+    http_response_code(401); // Unauthorized.
+    header("Location: login.php");
+    exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $value = htmlspecialchars($_POST['search']);
+} else {
+    $value = "";
+}
+
 $mysql = new Database();
 $conn = $mysql->connect();
 $query = "SELECT * from `search_table` where UPPER(title) like UPPER(:title) ";
