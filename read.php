@@ -74,13 +74,44 @@ $seller->getUser();
     require "header.php";
     ?>
     <div class="container col-12 bg-dark" id="viewer">
-        <h2 style="color: lightgrey; margin: auto; width: 50%"><?php echo $item->name; ?></h2>
+        <h2 style="color: lightgrey; text-align:center;"><?php echo $item->name; ?></h2>
+        <div id="controls">
+            <h4 class="lead">Controls</h4>
+            <hr>
+            <form action="" id="pageForm">
+                <label for="pageselect" class="lead">Page Select:</label><br>
+                <select name="pageselect" class="pageSelect">
+                    <?php
+                    for ($i = 0; $i < $item->number_pages; $i++) {
+                        echo "<option class=\"option{$i}\">{$i}</a></option>";
+                    }
+                    ?>
+                </select>
+                <button type="button" class="btn btn-primary" style="margin-top:1rem;" name="pageButton" onclick="scrollPage()">Go to Page</button>
+            </form>
+            <hr>
+            <button class="btn btn-primary" id="top" onclick="scrollPageTop()">Back to Top</button>
+        </div>
         <?php
-            for($i = 0; $i < $item->number_pages; $i++){
-                echo "<div id=\"book\"> Page {$i} </div>";
-            }
+        for ($i = 0; $i < $item->number_pages; $i++) {
+            echo "<div class=\"book\" id=\"page{$i}\"> Page {$i} </div>";
+        }
         ?>
     </div>
+    <script>
+        function scrollPage() {
+            var page = $(".pageSelect option:selected").text();
+            document.querySelector("#page" + page).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollPageTop() {
+            document.querySelector("#viewer").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    </script>
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
