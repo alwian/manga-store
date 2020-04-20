@@ -83,7 +83,8 @@ $seller->getUser();
                 <select name="pageselect" class="pageSelect">
                     <?php
                     for ($i = 0; $i < $item->number_pages; $i++) {
-                        echo "<option class=\"option{$i}\">{$i}</a></option>";
+                        $n = $i+1;
+                        echo "<option>{$n}</option>";
                     }
                     ?>
                 </select>
@@ -94,7 +95,8 @@ $seller->getUser();
         </div>
         <?php
         for ($i = 0; $i < $item->number_pages; $i++) {
-            echo "<div class=\"book\" id=\"page{$i}\"> Page {$i} </div>";
+            $n = $i+1;
+            echo "<div class=\"book\" id=\"page{$n}\"> Page {$n} </div>";
         }
         ?>
     </div>
