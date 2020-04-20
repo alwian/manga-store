@@ -1,43 +1,51 @@
 <?php
+require_once 'config/Database.php';
+require_once 'models/User.php';
 session_start();
-include_once 'config/Database.php';
-include_once 'models/User.php';
 
 // If the user is already logged in, take them to the homepage.
-if(isset($_SESSION['Logged']) && $_SESSION['Logged'] == true){
+if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
+    http_response_code(401); // Unauthorized.
     header("Location: index.php");
+    exit;
 }
 
-$errorMsg = null;
+$verify_value = null;
 
-// Check if the the form been submitted.
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Check all the required information has been set and is not empty.
-    if(isset($_POST['email']) && !empty($_POST['email'])
-        && isset($_POST['password']) && !empty($_POST['password'])
-        ){
-        // Connect to db
-        $db = new Database();
-        $user = new User($db->connect());
-        // Check if the email is exists.
+$email_error = null;
+$password_error = null;
+
+
+$form_submitted = $_SERVER["REQUEST_METHOD"] == "POST";
+$db = new Database();
+$user = new User($db->connect());
+
+if ($form_submitted) {
+    if (!isset($_POST['email']) || empty($_POST['email'])) {
+        $email_error = "Required.";
+        http_response_code(400);
+    } else {
         $user->email = $_POST['email'];
-        if($user->exists()!=null){
-            // Check if the password matches the database.
-            $user->password = $_POST['password'];
-            // Check the password is correct.
-            if($user->checkLogin()){
-                $_SESSION['id'] = $user->user_id;
-                $_SESSION['Logged'] = true;
-                header("Location: index.php");
-            }else{
-                $errorMsg = "Login failed, incorrect email or password.";
-            }
+    }
 
-        }else{
-            $errorMsg = "Login failed, incorrect email or password.";
+    if (!isset($_POST['password']) || empty($_POST['password'])) {
+        $password_error = "Required.";
+        http_response_code(400);
+    } else {
+        $user->password = $_POST['password'];
+    }
+
+    if ($email_error == null && $password_error == null) {
+        if ($user->checkLogin()) {
+            $user->getUser();
+            $_SESSION['id'] = $user->user_id;
+            $_SESSION['Logged'] = true;
+            header("Location: index.php");
+        } else {
+            $email_error = "Email or Password is incorrect.";
+            $password_error = "Email or Password is incorrect.";
+            http_response_code(401);
         }
-    }else{
-        $errorMsg = "All fields required.";
     }
 }
 ?>
@@ -52,35 +60,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <title>Manga Store - Login</title>
     <!--Import materialize.css-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <?php require "header.php"; ?>
+<?php require "header.php"; ?>
 
-    <div class="page-container">
-        <h2>Login</h2>
+<div class="page-container">
+    <h2>Login</h2>
 
-        <form class="forms" action="login.php" method="post">
-            <div class="form-group">
-                <label for="InputEmail">Email address</label>
-                <input type="email" class="form-control" id="InputPassword" name="email" aria-describedby="emailHelp" placeholder="Email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <form class="forms" action="login.php" method="post">
+        <div class="form-group form-login">
+            <label for="InputEmail">Email address</label>
+            <input type="email" class="form-control <?php if ($form_submitted) echo $email_error != null ? 'is-invalid' : 'is-valid'?>" id="InputEmail" name="email" aria-describedby="emailHelp"
+                   placeholder="Email" value="<?php echo $user->email;?>" required>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div class="invalid-feedback">
+                <?php echo $email_error?>
             </div>
-            <div class="form-group">
-                <label for="InputPassword">Password</label>
-                <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
+        </div>
+        <div class="form-group form-login">
+            <label for="InputPassword">Password</label>
+            <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password" placeholder="Password"  value="<?php echo $user->password;?>" required>
+            <div class="invalid-feedback">
+                <?php echo $password_error?>
             </div>
-            <button type="submit" class="btn btn-primary" id="login-button">Submit</button>
-            <p class="form-text text-danger"><?php echo$errorMsg ?></p>
-        </form>
-    </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="login-button">Submit</button>
+    </form>
+</div>
 
-    <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+<!--JavaScript at end of body for optimized loading-->
+<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
 
 </html>
