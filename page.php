@@ -3,6 +3,7 @@ require 'config/Database.php';
 require 'models/User.php';
 require 'models/Item.php';
 require 'models/Cart.php';
+require 'models/Wishlist.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -22,7 +23,7 @@ if ($form_submitted) {
         exit;
     }
 } else {
-    if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['id'] != 0) {
+    if (!isset($_GET['id']) || (empty($_GET['id']) && $_GET['id'] != 0)) {
         http_response_code(400); // Bad request.
         echo 'Item ID must be specified.';
         exit;
@@ -72,6 +73,16 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
             echo 'There was an error adding the item.';
             exit;
         }
+    }
+} else if ($form_submitted && isset($_POST['add_wishlist_submit'])) {
+    $wishlist = new Wishlist($conn);
+    $wishlist->user_id = $_SESSION['id'];
+    $wishlist->item_id = $_POST['item_id'];
+    $added_sucessfully = $wishlist->addItem();
+    if ($added_sucessfully == null) {
+        http_response_code(409);
+        echo 'Could not add the item to your wishlist.';
+        exit;
     }
 }
 $item_id = $form_submitted ? $_POST['item_id'] : $_GET['id'];
@@ -172,9 +183,28 @@ if ($item->stock > 0) {
                         </div>";
     }
 }
+$content .= "</form>";
 
-$content .= "</form></div></div>";
+
+$already_in_wishlist = Wishlist::containsItem($conn, $_SESSION['id'], $item_id);
+if (!$already_in_wishlist) {
+    $content .= "<form action='page.php' method='post'>
+<input type=\"hidden\" name=\"item_id\" value=\"{$item_id}\"/>
+<button class=\"btn btn-primary mt-3\" id=\"cart - btn\" name=\"add_wishlist_submit\" type=\"submit\">Add to Wishlist</button>
+</form>";
+}
+
+if (isset($added_sucessfully) && $added_sucessfully != null) {
+    $content .= "
+                           <form>
+                           <input type='hidden' class='is-valid' />
+                            <div class='valid-feedback'>
+                                Item added to Wishlist!
+                            </div></form>";
+}
+
 echo $content;
+echo "</div></div>";
 ?>
 <div class="comments-wrapper col-8 col-sm-8 col-">
     <div style="margin: 0" class="card my-4">

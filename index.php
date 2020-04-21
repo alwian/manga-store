@@ -1,6 +1,7 @@
 <?php
 require_once "config/Database.php";
 require_once "models/Item.php";
+require_once "models/Wishlist.php";
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -16,6 +17,25 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 //create a connection to the database
 $db = new Database();
 $conn = $db->connect();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_wishlist_submit'])) {
+    if (!isset($_POST['item_id']) || (empty($_POST['item_id']) && $_POST['item_id'] != 0)) {
+        http_response_code(400);
+        echo 'Item ID is required.';
+        exit;
+    }
+
+    $wishlist = new Wishlist($conn);
+    $wishlist->user_id = $_SESSION['id'];
+    $wishlist->item_id = $_POST['item_id'];
+    $added_wishlist_sucessfully = $wishlist->addItem();
+    $item_added = $_POST['item_id'];
+    if ($added_wishlist_sucessfully == null) {
+        http_response_code(409);
+        echo 'Could not add the item to your wishlist.';
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +69,7 @@ require "header.php" //load header to the top of page;
             foreach ($recommended as $i) {
                 $item->item_id = $i['item_id'];
                 $item->getItem();
-                $item->displayCard();
+                $item->displayCard(isset($item_added) ? $item_added : null, isset($added_wishlist_sucessfully) && $added_wishlist_sucessfully != null ? true : false);
             }
         }
         ?>
@@ -62,7 +82,7 @@ require "header.php" //load header to the top of page;
             foreach ($items as $i) {
                 $item->item_id = $i['item_id'];
                 $item->getItem();
-                $item->displayCard();
+                $item->displayCard(isset($item_added) ? $item_added : null, isset($added_wishlist_sucessfully) && $added_wishlist_sucessfully != null ? true : false);
             }
         }
         ?>
