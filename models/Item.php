@@ -285,6 +285,11 @@ EOD;
                             <button type=\"submit\" class=\"btn btn-primary\">View</button>
                         </form>";
 
+            $content .= "<form action=\"index.php\" method=\"post\">
+                            <input type=\"hidden\" name=\"id\" value=\"$this->item_id\"/>
+                            <button type=\"submit\" class=\"btn btn-primary\">Add to Wishlist</button>
+                        </form>";
+
             if ($this->stock > 0) {
                 $content .= "<form action=\"cart.php\" method=\"post\">
                                 <input type=\"hidden\" name=\"item_id\" value=\"$this->item_id\">
