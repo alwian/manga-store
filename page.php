@@ -22,7 +22,7 @@ if ($form_submitted) {
         exit;
     }
 } else {
-    if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['id'] != 0) {
+    if (!isset($_GET['id']) || (empty($_GET['id']) && $_GET['id'] != 0)) {
         http_response_code(400); // Bad request.
         echo 'Item ID must be specified.';
         exit;
