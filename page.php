@@ -172,8 +172,12 @@ if ($item->stock > 0) {
                         </div>";
     }
 }
+$content .= "</form>";
 
-$content .= "</form></div></div>";
+$content .= "<form action='page.php' method='post'>
+<input type=\"hidden\" name=\"item_id\" value=\"{$item_id}\"/>
+<button class=\"btn btn-primary mt-3\" id=\"cart - btn\" name=\"add_wishlist_submit\" type=\"submit\">Add to Wishlist</button>
+</form></div></div>";
 echo $content;
 ?>
 <div class="comments-wrapper col-8 col-sm-8 col-">
