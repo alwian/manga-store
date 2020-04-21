@@ -32,6 +32,7 @@
                     <div class=\"dropdown-menu\">
                         <a  class=\"dropdown-item text-black-50\" href=\"library.php\">Library</a>
                         <a class=\"dropdown-item text-black-50\" href=\"orderHistory.php\">Order History</a>
+                        <a  class=\"dropdown-item text-black-50\" href=\"wishlist.php.php\">Wishlist</a>
                         <a  class=\"dropdown-item text-black-50\" href=\"cart.php\">Cart</a>";
 
                 if ($user->type != "consumer") {
