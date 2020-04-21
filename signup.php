@@ -52,7 +52,7 @@ if ($form_submitted) {
             http_response_code(Response::$BAD_REQUEST);
         } else if ($user->existsByEmail()) {
             $email_error = "This email is already in use.";
-            http_response_code(409);
+            http_response_code(Response::$CONFLICT);
         }
 
     }

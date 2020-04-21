@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_wishlist_submit
     $added_wishlist_sucessfully = $wishlist->addItem();
     $item_added = $_POST['item_id'];
     if ($added_wishlist_sucessfully == null) {
-        http_response_code(409);
+        http_response_code(Response::$CONFLICT);
         echo 'Could not add the item to your wishlist.';
         exit;
     }

@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = "File is not an image.";
                 }
             } else {
-                http_response_code(409); // Conflict.
+                http_response_code(Response::$CONFLICT); // Conflict.
                 $error = 'Item name already exists.';
             }
         } else {
