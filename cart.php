@@ -24,6 +24,17 @@ $db = new Database();
 $conn = $db->connect();
 $cart = new Cart($conn);
 $cart->user_id = $_SESSION['id'];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['buy_now_submit'])) {
+    if (!isset($_POST['item_id']) || (empty($_POST['item_id']) && $_POST['item_id'] != 0)) {
+        echo 'Item id is required.';
+        exit;
+    }
+
+    $cart->item_id = $_POST['item_id'];
+    $cart->quantity = 1;
+    $cart->addItem();
+}
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +103,7 @@ require_once 'header.php'; //Load header at top of page
                             <th scope=\"col\"> &emsp;</th>
                             <th scope=\"col\"> &emsp;</th>
                             <th scope=\"col\">
-                                <form action='checkout.php' Method='POST'>
+                                <form action='checkout.php' Method='get'>
                                     <button type='submit' class='btn' id='cart-btn'> Checkout</button>
                                 </form>
                             </th>
