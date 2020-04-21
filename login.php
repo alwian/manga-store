@@ -24,7 +24,7 @@ $db = new Database();
 $user = new User($db->connect());
 
 $user->ip = $_SERVER["REMOTE_ADDR"];
-$user->unlockAccount();
+$user->unlockAccount(); //Run deletion script, deletes attempts 10 minutes old
 
 if ($form_submitted) {
     if (!isset($_POST['email']) || empty($_POST['email'])) {
@@ -47,11 +47,10 @@ if ($form_submitted) {
             $_SESSION['id'] = $user->user_id;
             $_SESSION['Logged'] = true;
             header("Location: index.php");
-            $user->unlockAccount();
         } else {
             $email_error = "Email or Password is incorrect.";
             $password_error = "Email or Password is incorrect.";
-            if ($user->lockAccount()) {
+            if ($user->lockAccount()) { //login attempt script for counting unsuccessful attempts
                 echo "<div style='position: fixed; width: 60%; left:20%; top: 5rem; color:red; text-align: center;'>
                         <h2>Maximum attempts reached. Please retry in 10 minutes.</h2>
                     </div>";
@@ -103,15 +102,6 @@ if ($form_submitted) {
         </form>
     </div>
 
-    <script>
-        function lock() {
-            window.alert('You have failed to login. Timeout 5 seconds');
-            $('#login-button').attr('disabled', true);
-            setTimeout(function() {
-                $('#login-button').removeAttr('disabled', true)
-            }, 5000);
-        }
-    </script>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
