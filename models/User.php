@@ -51,6 +51,12 @@ class User
     public $type;
 
     /**
+     * The Users IP address
+     * @var string
+     */
+    public $ip;
+
+    /**
      * User constructor.
      * @param $conn Database connection for the class to utilise.
      */
@@ -222,7 +228,6 @@ class User
             //echo $e->getMessage();
             return null;
         }
-
     }
 
 
@@ -251,7 +256,6 @@ class User
             //echo $e->getMessage();
             return null;
         }
-
     }
 
 
@@ -330,7 +334,8 @@ class User
      *
      * @return bool|null Whether the users ID is not correct, an error occurred during database interaction.
      */
-    public function getItems() {
+    public function getItems()
+    {
         $query = "SELECT * FROM items WHERE seller_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
@@ -341,6 +346,56 @@ class User
         } catch (PDOException $e) {
             //echo $e->getMessage();
             return null;
+        }
+    }
+
+    /**
+     * This function adds the users IP to a table of addresses to measure login attempts
+     * 
+     * 
+     * @return bool|null True if login attempts has reached limit
+     */
+    public function lockAccount()
+    {
+        $query = "INSERT INTO `ip` (`address` ,`timestamp`)VALUES ('$this->ip',CURRENT_TIMESTAMP)";
+        $stmt = $this->conn->prepare($query);
+        try{
+            $stmt->execute();
+        } catch (PDOException $e){
+            return null;
+        }
+
+        $result = "SELECT COUNT(*) FROM `ip` WHERE `address` LIKE '$this->ip' AND `timestamp` > (now() - interval 10 minute)";
+        $stmt = $this->conn->prepare($result);
+        try{
+            $stmt->execute();
+            $count = $stmt->fetch(PDO::FETCH_NUM);
+
+            if($count[0]>3){
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (PDOException $e){
+            return null;
+        }
+    }
+
+    /**
+     *This function removes the ip address and unlocks the account
+     *
+     * 
+     * @return bool|null True if completed
+     */
+    public function unlockAccount(){
+        $query = "DELETE FROM `ip` WHERE `timestamp` < DATE_SUB(NOW(), INTERVAL 10 MINUTE)";
+        $stmt = $this->conn->prepare($query);
+        try{
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e){
+            return false;
         }
     }
 }
