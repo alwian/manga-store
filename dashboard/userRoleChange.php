@@ -1,5 +1,6 @@
 <?php
 require_once "dashboard_header.php";
+require_once '../util/Response.php';
 
 if ($user->type !== 'admin') { // Make sure the user is an admin.
     http_response_code(401); // Unauthorized.
@@ -33,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Make sure all fields have been filled.
     if (!isset($_GET['id']) && (empty($_GET['id'] && $_GET['id'] != 0))) {
-        http_response_code(400); // Bad Request.
+        http_response_code(Response::$BAD_REQUEST); // Bad Request.
         echo 'id is required.';
         exit;
     } else {

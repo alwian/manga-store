@@ -4,6 +4,7 @@ require 'models/User.php';
 require 'models/Item.php';
 require 'models/Cart.php';
 require 'models/Wishlist.php';
+require 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -18,13 +19,13 @@ $form_submitted = $_SERVER['REQUEST_METHOD'] == 'POST';
 // Make sure an item id is specified.
 if ($form_submitted) {
     if (!isset($_POST['item_id']) || (empty($_POST['item_id']) && $_POST['item_id'] != 0)) {
-        http_response_code(400); // Bad request.
+        http_response_code(Response::$BAD_REQUEST); // Bad request.
         echo 'Item ID must be specified.';
         exit;
     }
 } else {
     if (!isset($_GET['id']) || (empty($_GET['id']) && $_GET['id'] != 0)) {
-        http_response_code(400); // Bad request.
+        http_response_code(Response::$BAD_REQUEST); // Bad request.
         echo 'Item ID must be specified.';
         exit;
     }
@@ -36,12 +37,12 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
     $item->item_id = $_POST['item_id'];
     if ($item->exists()) {
         if (!isset($_POST['quantity']) || (empty($_POST['quantity']) && $_POST['quantity'] != 0)) {
-            http_response_code(400);
+            http_response_code(Response::$BAD_REQUEST);
             $quantity_error = "Required.";
         } else {
             $item->getItem();
             if ($_POST['quantity'] <= 0) {
-                http_response_code(400);
+                http_response_code(Response::$BAD_REQUEST);
                 $quantity_error = "Quantity must be greater than 0.";
             } else {
                 $cart = new Cart($conn);
@@ -55,10 +56,10 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
                     }
                 }
                 if ($quantity_in_cart > 0 && $quantity_in_cart + $_POST['quantity'] > $item->stock) {
-                    http_response_code(400);
+                    http_response_code(Response::$BAD_REQUEST);
                     $quantity_error = "Adding this many to the copies in your cart exceeds this item's stock.";
                 } else if ($_POST['quantity'] > $item->stock) {
-                    http_response_code(400);
+                    http_response_code(Response::$BAD_REQUEST);
                     $quantity_error = "There is not enough items in stock for your chosen quantity.";
                 }
             }
@@ -69,7 +70,7 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
         $cart->item_id = $_POST['item_id'];
         $cart->quantity = $_POST['quantity'];
         if (!$cart->addItem()) { // Try adding the item.
-            http_response_code(500); // Server Error.
+            http_response_code(Response::$INTERNAL_SERVER_ERROR); // Server Error.
             echo 'There was an error adding the item.';
             exit;
         }
@@ -80,7 +81,7 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
     $wishlist->item_id = $_POST['item_id'];
     $added_sucessfully = $wishlist->addItem();
     if ($added_sucessfully == null) {
-        http_response_code(409);
+        http_response_code(Response::$CONFLICT);
         echo 'Could not add the item to your wishlist.';
         exit;
     }
@@ -101,7 +102,7 @@ $item = new Item($conn);
 $item->item_id = $item_id;
 
 if (!$item->exists()) { // Make sure the specified item exists.
-    http_response_code(404); // Not Found.
+    http_response_code(Response::$NOT_FOUND); // Not Found.
     echo 'Could not find the specified item.';
     exit;
 }

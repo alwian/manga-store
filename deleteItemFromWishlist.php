@@ -1,6 +1,7 @@
 <?php
 include_once 'config/Database.php';
 include_once 'models/Wishlist.php';
+require_once 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -13,7 +14,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     exit;
     // Make sure all fields are filled.
 } else if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['item_id'] != 0) {
-    http_response_code(400); // Bad Request.
+    http_response_code(Response::$BAD_REQUEST); // Bad Request.
     echo "Item id is required.";
     exit;
 }

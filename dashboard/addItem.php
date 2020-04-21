@@ -2,6 +2,7 @@
 include "dashboard_header.php";
 include "dashboard_sidebar.php";
 require_once "../models/Item.php";
+require_once '../util/Response.php';
 
 $error = '';
 
@@ -73,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Image is too big';
         }
     } else {
-        http_response_code(400); // Bad Request.
+        http_response_code(Response::$BAD_REQUEST); // Bad Request.
         $error = "All fields not filled.";
     }
 }

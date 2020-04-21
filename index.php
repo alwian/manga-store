@@ -2,6 +2,7 @@
 require_once "config/Database.php";
 require_once "models/Item.php";
 require_once "models/Wishlist.php";
+require_once 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -20,7 +21,7 @@ $conn = $db->connect();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_wishlist_submit'])) {
     if (!isset($_POST['item_id']) || (empty($_POST['item_id']) && $_POST['item_id'] != 0)) {
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
         echo 'Item ID is required.';
         exit;
     }

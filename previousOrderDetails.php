@@ -3,6 +3,7 @@ include_once 'config/Database.php';
 include_once 'models/Cart.php';
 include_once 'models/Item.php';
 require_once 'models/Order.php';
+require_once 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -15,7 +16,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     exit;
     // Make sure an id has been specified.
 } else if (!isset($_GET['id']) || (empty($_GET['id']) && $_GET['id'] != 0)) {
-    http_response_code(400); // Bad request.
+    http_response_code(Response::$BAD_REQUEST); // Bad request.
     echo 'Order ID must be specified.';
     exit;
 } else {

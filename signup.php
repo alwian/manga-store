@@ -1,6 +1,7 @@
 <?php
 require_once 'config/Database.php';
 require_once 'models/User.php';
+require 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -8,7 +9,7 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     header("Location: index.php");
     exit;
 }
@@ -29,26 +30,26 @@ $user = new User($db->connect());
 if ($form_submitted) {
     if (!isset($_POST['first_name']) || empty($_POST['first_name'])) {
         $first_name_error = "Required";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->first_name = $_POST['first_name'];
     }
 
     if (!isset($_POST['last_name']) || empty($_POST['last_name'])) {
         $last_name_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->last_name = $_POST['last_name'];
     }
 
     if (!isset($_POST['email']) || empty($_POST['email'])) {
         $email_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->email = $_POST['email'];
         if (!filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
             $email_error = "Invalid email address provided.";
-            http_response_code(400);
+            http_response_code(Response::$BAD_REQUEST);
         } else if ($user->existsByEmail()) {
             $email_error = "This email is already in use.";
             http_response_code(409);
@@ -58,18 +59,18 @@ if ($form_submitted) {
 
     if (!isset($_POST['password']) || empty($_POST['password'])) {
         $password_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->password = $_POST['password'];
         if (!preg_match("\"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{14,})\"", $user->password)) {
             $password_error = "Must meet the strength requirement.";
-            http_response_code(400);
+            http_response_code(Response::$BAD_REQUEST);
         }
     }
 
     if (!isset($_POST['verify']) || empty($_POST['verify'])) {
         $verify_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $verify_value = $_POST['verify'];
         if ($verify_value != $user->password) {

@@ -1,6 +1,7 @@
 <?php
 require_once 'config/Database.php';
 require_once 'models/User.php';
+require_once 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -26,14 +27,14 @@ $user = new User($db->connect());
 if ($form_submitted) {
     if (!isset($_POST['email']) || empty($_POST['email'])) {
         $email_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->email = $_POST['email'];
     }
 
     if (!isset($_POST['password']) || empty($_POST['password'])) {
         $password_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->password = $_POST['password'];
     }

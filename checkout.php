@@ -3,6 +3,7 @@ require_once "config/Database.php";
 require_once "models/Order.php";
 require_once "models/Cart.php";
 require_once "models/Item.php";
+require_once 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -38,7 +39,7 @@ $cart = new Cart($conn);
 $cart->user_id = $_SESSION['id'];
 
 if (count($cart->getItems()) == 0) {
-    http_response_code(400);
+    http_response_code(Response::$BAD_REQUEST);
     header("Location: cart.php");
     exit;
 }
@@ -48,14 +49,14 @@ $form_submitted = $_SERVER["REQUEST_METHOD"] == "POST";
 if ($form_submitted) {
     if (!isset($_POST['address']) || empty($_POST['address'])) {
         $shipping_address_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['shipping_address'] = $_POST['address'];
     }
 
     if (!isset($_POST['country']) || empty($_POST['country'])) {
         $country_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['country'] = $_POST['country'];
         if ($shipping_details['country'] != "Canada" && $shipping_details['country'] != "England" && $shipping_details['country'] != "United States") {
@@ -65,21 +66,21 @@ if ($form_submitted) {
 
     if (!isset($_POST['city']) || empty($_POST['city'])) {
         $city_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['city'] = $_POST['city'];
     }
 
     if (!isset($_POST['state']) || empty($_POST['state'])) {
         $state_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['state'] = $_POST['state'];
     }
 
     if (!isset($_POST['zip']) || empty($_POST['zip'])) {
         $zip_error = "Required.";
-        http_response_code(400);
+        http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['zip'] = $_POST['zip'];
     }

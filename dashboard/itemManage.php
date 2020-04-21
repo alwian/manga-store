@@ -3,6 +3,7 @@ include "dashboard_header.php";
 include "dashboard_sidebar.php";
 require_once "../models/Item.php";
 require_once "../models/User.php";
+require_once '../util/Response.php';
 
 $user = new User($conn); // Connection comes from the dashboard header.
 $user->user_id = $_SESSION['id'];
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') { // If request was GET, make sure a v
     if (isset($_GET['itemId']) && (!empty($_GET['itemId']) || $_GET['itemId'] == 0)) {
         $id = $_GET['itemId'];
     } else {
-        http_response_code(400); // Bad Request.
+        http_response_code(Response::$BAD_REQUEST); // Bad Request.
         echo 'Item id is required.';
         exit;
     }
@@ -26,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') { // If request was GET, make sure a v
     if (isset($_POST['itemId']) && (!empty($_POST['itemId']) || $_POST['itemId'] == 0)) {
         $id = $_POST['itemId'];
     } else {
-        http_response_code(400); // Bad Request.
+        http_response_code(Response::$BAD_REQUEST); // Bad Request.
         echo 'Item id is required.';
         exit;
     }
 } else {
-    http_response_code(400); // Bad Request.
+    http_response_code(Response::$BAD_REQUEST); // Bad Request.
     echo 'Invalid Request method.';
     exit;
 }
@@ -138,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // If the page has been submitted.
             }
         }
     } else {
-        http_response_code(400); // Bad Request.
+        http_response_code(Response::$BAD_REQUEST); // Bad Request.
         $error = 'All fields must be filled besides image, we will use the current if one is not specified.';
     }
 }

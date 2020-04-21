@@ -2,6 +2,7 @@
 //add header and side bar
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
+require_once '../util/Response.php';
 
 $user = new User($conn); // Connection comes from dashboard header.
 $user->user_id = $_SESSION['id'];
@@ -15,7 +16,7 @@ if ($user->type !== 'admin') { // Make sure the user is an admin.
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_GET["id"]) || !isset($_GET["type"]) || (empty($_GET['id'] && $_GET['id'] != 0)) || empty($_GET['type'])) {
-        http_response_code(400); // Bad request.
+        http_response_code(Response::$BAD_REQUEST); // Bad request.
         echo 'ID and type are required.';
         exit;
     } else {

@@ -3,6 +3,7 @@ require 'config/Database.php';
 require 'models/User.php';
 require 'models/Item.php';
 require_once 'models/Order.php';
+require 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -17,7 +18,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 
 // Make sure an item id is specified.
 if ((!isset($_GET['id']) || empty($_GET['id'])) && $_GET['id'] != 0) {
-    http_response_code(400); // Bad request.
+    http_response_code(Response::$BAD_REQUEST); // Bad request.
     echo 'Item ID must be specified.';
     exit;
 }

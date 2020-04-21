@@ -2,6 +2,7 @@
 //include classes
 include '../models/User.php';
 include_once '../config/Database.php';
+require_once '../util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -27,7 +28,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) { // Make sure 
 }
 
 if (!isset($_GET['id']) || empty($_GET['id'])) { // Make sure an ID was specified.
-    http_response_code(400); // Bad Request.
+    http_response_code(Response::$BAD_REQUEST); // Bad Request.
     echo 'ID is required.';
     exit;
 } else {
