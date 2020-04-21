@@ -1,9 +1,10 @@
 <?php
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
+require_once '../util/Response.php';
 
 if ($user->type !== 'admin') { // Make sure the user is an admin.
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }

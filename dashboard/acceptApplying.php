@@ -8,7 +8,7 @@ $user = new User($conn); // Connection comes from dashboard header.
 $user->user_id = $_SESSION['id'];
 $user->getUser();
 if ($user->type !== 'admin') { // Make sure the user is an admin.
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }

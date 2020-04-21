@@ -10,7 +10,7 @@ $user->user_id = $_SESSION['id'];
 
 $user->getUser();
 if ($user->type !== 'seller') { // Make sure the user is a seller.
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }
@@ -42,7 +42,7 @@ $item->item_id = $id;
 if ($item->exists()) { // Make sure the specified item exists.
     $item->getItem();
     if (!($item->seller_id === $_SESSION['id'])) { // Make sure the user owns the item they are trying to modify.
-        http_response_code(401); // Unauthorized.
+        http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
         echo "You do not own this item.";
         exit;
     }

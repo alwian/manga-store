@@ -13,7 +13,7 @@ $conn = $db->connect();
 $user = new User($conn);
 
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) { // Make sure the user is logged in.
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     header("Location: ../login.php");
     exit;
 } else {
@@ -21,7 +21,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) { // Make sure 
     $user->user_id = $_SESSION['id'];
     $user->getUser();
     if ($user->type !== 'admin') { // Make sure the user is an admin.
-        http_response_code(401); // Unauthorized.
+        http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
         echo 'You do not have permission to access this page.';
         exit;
     }

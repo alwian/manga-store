@@ -3,13 +3,14 @@ include "dashboard_header.php";
 include "dashboard_sidebar.php";
 require_once "../models/User.php";
 require_once "../models/Item.php";
+require_once '../util/Response.php';
 
 $user = new User($conn); // Connection comes from header.
 $user->user_id = $_SESSION['id'];
 
 $user->getUser();
 if ($user->type !== 'seller') { // Make sure the user is a seller.
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     echo 'You must be a seller to access this page.';
     exit;
 }
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     unlink("../data/product-images/$item->image"); // Delete the image for the delete item.
                 }
             } else {
-                http_response_code(401); // Unauthorized.
+                http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
                 echo 'You do not own this item.';
                 exit;
             }

@@ -11,7 +11,7 @@ session_start();
 
 // Make sure the user is already logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     header("Location: login.php");
     exit;
 }

@@ -1,12 +1,13 @@
 <?php
 require_once "dashboard_header.php";
 require_once "dashboard_sidebar.php";
+require_once '../util/Response.php';
 
 $user = new User($conn); // Connection comes header.
 $user->user_id = $_SESSION['id'];
 $user->getUser();
 if ($user->type !== 'admin') { // Make sure the user is an admin.
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     echo 'You do not have permission to access this page.';
     exit;
 }

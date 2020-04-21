@@ -11,7 +11,7 @@ session_start();
 
 // Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     header("Location: login.php");
     exit;
     // Make sure an id has been specified.
@@ -32,7 +32,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
         echo 'Could not find the specified order.';
         exit;
     } else if (!$order->isOwnedByUser()) { // Make sure the user owns the order they try too look at.
-        http_response_code(401); // Unauthorized.
+        http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
         echo 'You do not have permission to access this order.';
         exit;
     }

@@ -7,6 +7,7 @@
 include_once 'config/Database.php';
 include_once 'models/Cart.php';
 include_once 'models/Item.php';
+require_once 'util/Response.php';
 
 session_set_cookie_params("Session", "/", null, true, true);
 session_name("MANGALOGIN");
@@ -14,7 +15,7 @@ session_start();
 
 // Make sure the user is logged in.
 if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     header("Location: login.php");
     exit;
 }

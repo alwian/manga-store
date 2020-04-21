@@ -9,7 +9,7 @@ session_start();
 
 // If the user is already logged in, take them to the homepage.
 if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
-    http_response_code(401); // Unauthorized.
+    http_response_code(Response::$UNAUTHORIZED); // Unauthorized.
     header("Location: index.php");
     exit;
 }
@@ -48,7 +48,7 @@ if ($form_submitted) {
         } else {
             $email_error = "Email or Password is incorrect.";
             $password_error = "Email or Password is incorrect.";
-            http_response_code(401);
+            http_response_code(Response::$UNAUTHORIZED);
         }
     }
 }
