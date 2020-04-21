@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
         } else {
-            http_response_code(404); // Not Found.
+            http_response_code(Response::$NOT_FOUND); // Not Found.
             echo 'The specified item could not be found.';
             exit;
         }

@@ -47,7 +47,7 @@ if ($item->exists()) { // Make sure the specified item exists.
         exit;
     }
 } else {
-    http_response_code(404); // Not Found.
+    http_response_code(Response::$NOT_FOUND); // Not Found.
     echo 'Item does not exist.';
     exit;
 }

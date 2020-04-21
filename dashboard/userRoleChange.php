@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
         } else {
-            http_response_code(404); // Not Found.
+            http_response_code(Response::$NOT_FOUND); // Not Found.
             echo 'The specified user does not exist';
             exit;
         }
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = new User($conn);
         $user->user_id = $_GET['id'];
         if (!$user->existsById()) { // Make sure the user exists.
-            http_response_code(404); // Not Found.
+            http_response_code(Response::$NOT_FOUND); // Not Found.
             echo 'Could not find the specified user.';
             exit;
         }

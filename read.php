@@ -49,7 +49,7 @@ if ($item->owned != True) {
 }
 
 if (!$item->exists()) { // Make sure the specified item exists.
-    http_response_code(404); // Not Found.
+    http_response_code(Response::$NOT_FOUND); // Not Found.
     echo 'Could not find the specified item.';
     exit;
 }

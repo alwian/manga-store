@@ -17,7 +17,7 @@ if (isset($_GET["id"]) && (!empty($_GET['id']) || $_GET['user_id'] == 0)) {
         $user->changeUserRole(); // Make them a consumer.
         header("Location: displayAllOrders.php");
     } else {
-        http_response_code(404); // Not Found.
+        http_response_code(Response::$NOT_FOUND); // Not Found.
         echo 'The specified user could not be found.';
         exit;
     }

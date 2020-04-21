@@ -28,7 +28,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     $order->user_id = $_SESSION['id'];
 
     if (!$order->exists()) { // Make sure the spe
-        http_response_code(404); // Not Found.
+        http_response_code(Response::$NOT_FOUND); // Not Found.
         echo 'Could not find the specified order.';
         exit;
     } else if (!$order->isOwnedByUser()) { // Make sure the user owns the order they try too look at.

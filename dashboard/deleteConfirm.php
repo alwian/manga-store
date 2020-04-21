@@ -38,7 +38,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) { // Make sure an ID was specifie
         header("Location: accountManage.php");
         exit;
     } else {
-        http_response_code(404); // Not Found.
+        http_response_code(Response::$NOT_FOUND); // Not Found.
         echo 'The specified user was not found.';
         exit;
     }
