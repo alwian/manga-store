@@ -61,7 +61,7 @@ class Wishlist
      */
     public function getItems()
     {
-        $query = "SELECT w.item_id, i.name FROM $this->table w, items i WHERE user_id = :user_id AND i.item_id = w.item_id";
+        $query = "SELECT w.item_id, i.name, i.price FROM $this->table w, items i WHERE user_id = :user_id AND i.item_id = w.item_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
 
