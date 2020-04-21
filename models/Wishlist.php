@@ -55,6 +55,21 @@ class Wishlist
         }
     }
 
+    public static function containsItem($conn, $user_id, $item_id) {
+        $query = "SELECT * FROM wishlist_items WHERE user_id = :user_id AND item_id = :item_id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(":user_id", $user_id);
+        $stmt->bindParam(":item_id", $item_id);
+
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() == 1;
+        } catch (PDOException $e) {
+            //echo $e->getMessage();
+            return null;
+        }
+    }
+
     /**
      * Retrieves all items in a given user's wishlist.
      * @return array|null The result of the query, When an error occurs with the database.

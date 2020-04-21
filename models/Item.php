@@ -264,7 +264,7 @@ class Item
         $this->item_id = $record['item_id'];
     }
 
-    public function displayCard()
+    public function displayCard($item_added = 0, $added_to_wishlist = false)
     {
         $content = <<<EOD
         <div class="card col-xl-2 col-lg-2 col-md-3 col-sm-4 col-">
@@ -285,10 +285,13 @@ EOD;
                             <button type=\"submit\" class=\"btn btn-primary\">View</button>
                         </form>";
 
-            $content .= "<form action=\"index.php\" method=\"post\">
-                            <input type=\"hidden\" name=\"id\" value=\"$this->item_id\"/>
-                            <button type=\"submit\" class=\"btn btn-primary\">Add to Wishlist</button>
+
+            if (!Wishlist::containsItem($this->conn, $_SESSION['id'], $this->item_id)) {
+                $content .= "<form action=\"index.php\" method=\"post\">
+                            <input type=\"hidden\" name=\"item_id\" value=\"$this->item_id\"/>
+                            <button type=\"submit\" name= \"add_to_wishlist_submit\" class=\"btn btn-primary\">Add to Wishlist</button>
                         </form>";
+            }
 
             if ($this->stock > 0) {
                 $content .= "<form action=\"cart.php\" method=\"post\">
@@ -296,6 +299,15 @@ EOD;
                                 <input type=\"hidden\" name=\"quantity\" value=\"1\"/>
                                 <button type=\"submit\" class=\"btn btn-primary\" style=\"left: 5rem;\">Buy Now</button>
                             </form>";
+            }
+
+            if ($added_to_wishlist && $this->item_id == $item_added) {
+                $content .= "
+                           <form>
+                           <input type='hidden' class='is-valid' />
+                            <div class='valid-feedback'>
+                                Item added to Wishlist!
+                            </div></form>";
             }
         }
 
