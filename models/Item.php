@@ -296,8 +296,7 @@ EOD;
             if ($this->stock > 0) {
                 $content .= "<form action=\"cart.php\" method=\"post\">
                                 <input type=\"hidden\" name=\"item_id\" value=\"$this->item_id\">
-                                <input type=\"hidden\" name=\"quantity\" value=\"1\"/>
-                                <button type=\"submit\" class=\"btn btn-primary\" style=\"left: 5rem;\">Buy Now</button>
+                                <button type=\"submit\" name='buy_now_submit' class=\"btn btn-primary\" style=\"left: 5rem;\">Buy Now</button>
                             </form>";
             }
 

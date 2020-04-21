@@ -72,7 +72,7 @@ class Cart
      */
     public function addItem()
     {
-        $query = "INSERT INTO $this->table (user_id, item_id, quantity) VALUES (:user_id, :item_id, :quantity) ON DUPLICATE KEY UPDATE quantity = quantity + 1";
+        $query = "INSERT INTO $this->table (user_id, item_id, quantity) VALUES (:user_id, :item_id, :quantity) ON DUPLICATE KEY UPDATE quantity = quantity + $this->quantity";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
         $stmt->bindParam(":item_id", $this->item_id);
