@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="index.php">Manga Store</a>
-        <form class="input-group-append col-md-8 col-sm-3 col-xs-3" action="search.php" method="POST">
+        <form class="input-group-append col-md-8 col-sm-3 col-xs-3" action="search.php" method="POST" style="margin-bottom:0;">
             <input class="col-" id="form-control" value="<?php if (isset($value)) {
                 echo htmlspecialchars($value);
             } ?>" name='search' type="text" placeholder="Search">
