@@ -36,7 +36,7 @@ $conn = $db->connect();
     <!-- Container to hold order information -->
     <div class="container col-1w" style="border: .25rem rgb(241, 241, 241) solid; border-radius: 2rem; padding-bottom: 1rem;">
         <br>
-        <h2 class="text-center" id="cart-header">Order History</h2><br><br>
+        <h2 class="text-center" id="cart-header">My Library</h2><br><br>
         <div class="container col-12 bg-dark" style="padding: 1rem; border-radius: 2rem;">
             <div class="items">
                 <?php
