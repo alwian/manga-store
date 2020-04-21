@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // If the page has been submitted.
 
                             // Try saving the new image.
                         } else if (!move_uploaded_file($_FILES["itemImage"]["tmp_name"], $target_file)) {
-                            http_response_code(500); // Server Error.
+                            http_response_code(Response::$INTERNAL_SERVER_ERROR); // Server Error.
                             $error = "Sorry, there was an error uploading your file.";
                             $upload_successful = false;
                         }

@@ -52,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             if ($item_id !== null) {
                                 header("Location: ../page.php?id=$item_id"); // Go to the item page.
                             } else {
-                                http_response_code(500); // Server error.
+                                http_response_code(Response::$INTERNAL_SERVER_ERROR); // Server error.
                                 unlink($target_file); // If creating the item failed, delete the uploaded image.
                                 $error = "There was an error adding the item.";
                             }
                         } else {
-                            http_response_code(500); //  Server error.
+                            http_response_code(Response::$INTERNAL_SERVER_ERROR); //  Server error.
                             $error = "Sorry, there was an error uploading your file.";
                         }
                     }

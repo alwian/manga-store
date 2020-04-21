@@ -89,7 +89,7 @@ if ($form_submitted) {
             $_SESSION['Logged'] = true;
             header("Location: index.php");
         } else {
-            http_response_code(500); // Server error.
+            http_response_code(Response::$INTERNAL_SERVER_ERROR); // Server error.
             $errorMsg = "Something went wrong on our end.";
         }
     }
