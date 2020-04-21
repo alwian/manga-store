@@ -186,7 +186,7 @@ if ($item->stock > 0) {
 $content .= "</form>";
 
 
-$already_in_wishlist = Wishlist::containsItem($conn, $_SESSION['id'], $_POST['item_id']);
+$already_in_wishlist = Wishlist::containsItem($conn, $_SESSION['id'], $item_id);
 if (!$already_in_wishlist) {
     $content .= "<form action='page.php' method='post'>
 <input type=\"hidden\" name=\"item_id\" value=\"{$item_id}\"/>
