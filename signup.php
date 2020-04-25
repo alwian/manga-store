@@ -156,7 +156,9 @@ if ($form_submitted) {
                         <input type="password" class="form-control <?php if ($form_submitted) echo $password_error != null ? 'is-invalid' : 'is-valid'?>" id="InputPassword" name="password"
                                placeholder="Password" value="<?php echo $user->password?>" required>
                         <meter max="4" id="password-strength-meter"></meter>
-                        <p id="password-strength-text"></p>
+                        <p id="password-strength-text" aria-describedby="strength-help"></p>
+                        <small id="strengthHelp" class="form-text text-muted">Password must contain 1 uppercase/lowercase letter, a symbol, and be 14 or more characters.
+                        </small>
                         <div class="invalid-feedback">
                             <?php echo $password_error?>
                         </div>
