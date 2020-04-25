@@ -32,16 +32,17 @@ if ($form_submitted) {
 }
 
 
+// User is adding to cart.
 if ($form_submitted && isset($_POST['add_cart_submit'])) {
     $item = new Item($conn);
     $item->item_id = $_POST['item_id'];
     if ($item->exists()) {
-        if (!isset($_POST['quantity']) || (empty($_POST['quantity']) && $_POST['quantity'] != 0)) {
+        if (!isset($_POST['quantity']) || (empty($_POST['quantity']) && $_POST['quantity'] != 0)) { // Check quantity is set.
             http_response_code(Response::$BAD_REQUEST);
             $quantity_error = "Required.";
         } else {
             $item->getItem();
-            if ($_POST['quantity'] <= 0) {
+            if ($_POST['quantity'] <= 0) { // Check quantity is > 0
                 http_response_code(Response::$BAD_REQUEST);
                 $quantity_error = "Quantity must be greater than 0.";
             } else {
@@ -49,16 +50,16 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
                 $cart->user_id = $_SESSION['id'];
                 $cart_items = $cart->getItems();
                 $quantity_in_cart = 0;
-                foreach ($cart_items as $cart_item) {
+                foreach ($cart_items as $cart_item) { // Get the current quantity of the item from the cart.
                     if ($cart_item['item_id'] == $_POST['item_id']) {
                         $quantity_in_cart = $cart_item['quantity'];
                         break;
                     }
                 }
-                if ($quantity_in_cart > 0 && $quantity_in_cart + $_POST['quantity'] > $item->stock) {
+                if ($quantity_in_cart > 0 && $quantity_in_cart + $_POST['quantity'] > $item->stock) { // No enough stock.
                     http_response_code(Response::$BAD_REQUEST);
                     $quantity_error = "Adding this many to the copies in your cart exceeds this item's stock.";
-                } else if ($_POST['quantity'] > $item->stock) {
+                } else if ($_POST['quantity'] > $item->stock) { // Not enough stock.
                     http_response_code(Response::$BAD_REQUEST);
                     $quantity_error = "There is not enough items in stock for your chosen quantity.";
                 }
@@ -66,6 +67,7 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
         }
     }
 
+    // If there is no error, add the item to the cart.
     if ($quantity_error == null) {
         $cart->item_id = $_POST['item_id'];
         $cart->quantity = $_POST['quantity'];
@@ -75,11 +77,11 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
             exit;
         }
     }
-} else if ($form_submitted && isset($_POST['add_wishlist_submit'])) {
+} else if ($form_submitted && isset($_POST['add_wishlist_submit'])) { // User is adding to wishlist.
     $wishlist = new Wishlist($conn);
     $wishlist->user_id = $_SESSION['id'];
     $wishlist->item_id = $_POST['item_id'];
-    $added_sucessfully = $wishlist->addItem();
+    $added_sucessfully = $wishlist->addItem(); // Add the item to their wishlist.
     if ($added_sucessfully == null) {
         http_response_code(Response::$CONFLICT);
         echo 'Could not add the item to your wishlist.';
@@ -88,7 +90,7 @@ if ($form_submitted && isset($_POST['add_cart_submit'])) {
 }
 $item_id = $form_submitted ? $_POST['item_id'] : $_GET['id'];
 
-if ($form_submitted && isset($_POST['commentSubmit'])) {
+if ($form_submitted && isset($_POST['commentSubmit'])) { // User is leaving at comment.
     if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
         header('Location: login.php');
         exit;
@@ -187,6 +189,7 @@ if ($item->stock > 0) {
 $content .= "</form>";
 
 
+// If item already in wishlist dont show add button.
 $already_in_wishlist = Wishlist::containsItem($conn, $_SESSION['id'], $item_id);
 if (!$already_in_wishlist) {
     $content .= "<form action='page.php' method='post'>

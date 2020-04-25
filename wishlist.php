@@ -58,7 +58,7 @@ require_once 'header.php'; //Load header at top of page
             </tr>
             <?php
             $wishlist_items = $wishlist->getItems();
-            //For every item in cart fetch the item details and print to the table
+            //For every item in wishlist fetch the item details and print to the table
             foreach ($wishlist_items as $current_item) {
                     echo "<tr>
                                     <td>{$current_item['item_id']}</td>

@@ -19,6 +19,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
 $db = new Database();
 $conn = $db->connect();
 
+// Check to see if the user is adding to wishlist and validate all required items.
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_wishlist_submit'])) {
     if (!isset($_POST['item_id']) || (empty($_POST['item_id']) && $_POST['item_id'] != 0)) {
         http_response_code(Response::$BAD_REQUEST);
@@ -26,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_wishlist_submit
         exit;
     }
 
+    // Add the item to the wishlist if not already in the wishlist.
     $wishlist = new Wishlist($conn);
     $wishlist->user_id = $_SESSION['id'];
     $wishlist->item_id = $_POST['item_id'];

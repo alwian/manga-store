@@ -47,14 +47,14 @@ if (count($cart->getItems()) == 0) {
 $form_submitted = $_SERVER["REQUEST_METHOD"] == "POST";
 // Check if the the form been submitted.
 if ($form_submitted) {
-    if (!isset($_POST['address']) || empty($_POST['address'])) {
+    if (!isset($_POST['address']) || empty($_POST['address'])) {  // Check address field.
         $shipping_address_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['shipping_address'] = $_POST['address'];
     }
 
-    if (!isset($_POST['country']) || empty($_POST['country'])) {
+    if (!isset($_POST['country']) || empty($_POST['country'])) { // Check country field.
         $country_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
@@ -64,28 +64,28 @@ if ($form_submitted) {
         }
     }
 
-    if (!isset($_POST['city']) || empty($_POST['city'])) {
+    if (!isset($_POST['city']) || empty($_POST['city'])) { // Check city field.
         $city_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['city'] = $_POST['city'];
     }
 
-    if (!isset($_POST['state']) || empty($_POST['state'])) {
+    if (!isset($_POST['state']) || empty($_POST['state'])) { // Check state field.
         $state_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['state'] = $_POST['state'];
     }
 
-    if (!isset($_POST['zip']) || empty($_POST['zip'])) {
+    if (!isset($_POST['zip']) || empty($_POST['zip'])) { // Check zip field.
         $zip_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $shipping_details['zip'] = $_POST['zip'];
     }
 
-    // Make sure all fields have been filled.
+    // Make sure all fields have been filled and no errors were found, if so process the order.
     if ($cart_error == null && $shipping_address_error == null && $country_error == null && $state_error == null && $city_error == null && $zip_error == null) {
         $order = new Order($conn);
         $order->user_id = $_SESSION["id"];
@@ -133,7 +133,7 @@ if ($form_submitted) {
                     <div id="country">
                         <label for="SelectCountry">Country</label>
                         <select class="form-control <?php if ($form_submitted) echo $country_error != null ? 'is-invalid' : 'is-valid'?>" id="SelectCountry" name="country" required>
-                            <?php
+                            <?php // Display the options for country.
                             foreach (array("Canada", "England", "United States") as $country) {
                                 if ($shipping_details['country'] == $country) {
                                     echo "<option selected>$country</option>";

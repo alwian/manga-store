@@ -14,7 +14,7 @@ if (isset($_SESSION['Logged']) && $_SESSION['Logged'] == true) {
     exit;
 }
 
-$verify_value = null;
+$verify_value = null; // Store verify value in case of form failure.
 
 $email_error = null;
 $password_error = null;
@@ -27,21 +27,21 @@ $user->ip = $_SERVER["REMOTE_ADDR"];
 $user->unlockAccount(); //Run deletion script, deletes attempts 10 minutes old
 
 if ($form_submitted) {
-    if (!isset($_POST['email']) || empty($_POST['email'])) {
+    if (!isset($_POST['email']) || empty($_POST['email'])) { // Check email is set.
         $email_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->email = $_POST['email'];
     }
 
-    if (!isset($_POST['password']) || empty($_POST['password'])) {
+    if (!isset($_POST['password']) || empty($_POST['password'])) { // Check password is set.
         $password_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->password = $_POST['password'];
     }
 
-    if ($email_error == null && $password_error == null) {
+    if ($email_error == null && $password_error == null) { // If no errors so far attempt login.
         if ($user->checkLogin()) {
             $user->getUser();
             $_SESSION['id'] = $user->user_id;

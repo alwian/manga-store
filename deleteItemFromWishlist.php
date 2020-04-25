@@ -24,9 +24,9 @@ $conn = $db->connect();
 
 //get item id from url
 $itemId = $_GET["id"];
-//create cart obj
+//create wishlist obj
 $wishlist = new Wishlist($conn);
 $wishlist->item_id = $itemId;
 $wishlist->user_id = $_SESSION['id'];
-$wishlist->deleteItem(); // Delete the item from the cart.
+$wishlist->deleteItem(); // Delete the item from the wishlist.
 header("Location: wishlist.php");

@@ -16,7 +16,7 @@ if (!isset($_SESSION['Logged']) || $_SESSION['Logged'] == false) {
     exit;
 }
 
-if (!isset($_SESSION['order_id']) || empty($_SESSION['order_id'])) {
+if (!isset($_SESSION['order_id']) || empty($_SESSION['order_id'])) { // Make sure an order has been placed.
     http_response_code(Response::$UNAUTHORIZED);
     header("Location: checkout.php");
     exit;

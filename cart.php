@@ -26,6 +26,7 @@ $conn = $db->connect();
 $cart = new Cart($conn);
 $cart->user_id = $_SESSION['id'];
 
+# If the but now button has been pressed previously, add the item to the cart.
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['buy_now_submit'])) {
     if (!isset($_POST['item_id']) || (empty($_POST['item_id']) && $_POST['item_id'] != 0)) {
         echo 'Item id is required.';

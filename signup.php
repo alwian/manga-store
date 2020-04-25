@@ -28,56 +28,58 @@ $user = new User($db->connect());
 
 // Check if the the form been submitted.
 if ($form_submitted) {
-    if (!isset($_POST['first_name']) || empty($_POST['first_name'])) {
+    if (!isset($_POST['first_name']) || empty($_POST['first_name'])) { // Check first name was entered.
         $first_name_error = "Required";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->first_name = $_POST['first_name'];
     }
 
-    if (!isset($_POST['last_name']) || empty($_POST['last_name'])) {
+    if (!isset($_POST['last_name']) || empty($_POST['last_name'])) { // Check last name was entered.
         $last_name_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->last_name = $_POST['last_name'];
     }
 
-    if (!isset($_POST['email']) || empty($_POST['email'])) {
+    if (!isset($_POST['email']) || empty($_POST['email'])) { // Check email was entered.
         $email_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->email = $_POST['email'];
-        if (!filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($user->email, FILTER_VALIDATE_EMAIL)) { // Check email is valid.
             $email_error = "Invalid email address provided.";
             http_response_code(Response::$BAD_REQUEST);
-        } else if ($user->existsByEmail()) {
+        } else if ($user->existsByEmail()) { // Check email is not taken.
             $email_error = "This email is already in use.";
             http_response_code(Response::$CONFLICT);
         }
 
     }
 
-    if (!isset($_POST['password']) || empty($_POST['password'])) {
+    if (!isset($_POST['password']) || empty($_POST['password'])) { // Check password was entered.
         $password_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $user->password = $_POST['password'];
+        // Check password has 14 charcters minimum, 1 uppercase and lowecase and symbol.
         if (!preg_match("\"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{14,})\"", $user->password)) {
             $password_error = "Must meet the strength requirement.";
             http_response_code(Response::$BAD_REQUEST);
         }
     }
 
-    if (!isset($_POST['verify']) || empty($_POST['verify'])) {
+    if (!isset($_POST['verify']) || empty($_POST['verify'])) { // Check verify password was entered.
         $verify_error = "Required.";
         http_response_code(Response::$BAD_REQUEST);
     } else {
         $verify_value = $_POST['verify'];
-        if ($verify_value != $user->password) {
+        if ($verify_value != $user->password) { // Check verify is the same as the given password.
             $verify_error = "Does not match the entered password.";
         }
     }
 
+    // If no errors, register the user.
     if ($first_name_error == null && $last_name_error == null && $email_error == null && $password_error == null && $verify_error == null) {
         $user->type = "consumer";
         // Create a new account
