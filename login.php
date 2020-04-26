@@ -52,7 +52,7 @@ if ($form_submitted) {
             $password_error = "Email or Password is incorrect.";
             if ($user->lockAccount()) { //login attempt script for counting unsuccessful attempts
                 echo "<div style='position: fixed; width: 60%; left:20%; top: 5rem; color:red; text-align: center;'>
-                        <h2>Maximum attempts reached. Please retry in 10 minutes.</h2>
+                        <h2>Maximum attempts reached. Please retry in 10 minutes from your last failed attempt.</h2>
                     </div>";
             }
             http_response_code(Response::$UNAUTHORIZED);
